@@ -35,8 +35,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
-EMAIL_SUBJECT_PREFIX = '[Oscar sandbox] '
+EMAIL_SUBJECT_PREFIX = '[Tautoko] '
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "@gmail.com"
+EMAIL_HOST_PASSWORD = ""
+# EMAIL_USE_SSL = True
+EMAIL_USE_TLS = True
 
 # Applicatio definition
 
@@ -166,7 +173,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'fr'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'UTC'
 
@@ -198,6 +205,7 @@ MEDIA_ROOT = location("public/media")
 MEDIA_URL = '/media/'
 
 STATIC_ROOT = location('public/static')
+print("MEDIA_ROOT : ", MEDIA_ROOT)
 STATIC_URL = '/static/'
 
 HAYSTACK_CONNECTIONS = {
@@ -218,3 +226,7 @@ OSCAR_ORDER_STATUS_PIPELINE = {
 
 # Oscars settings
 OSCAR_DEFAULT_CURRENCY = 'EUR'
+
+OSCAR_SHOP_NAME = 'Tautoko'
+
+OSCAR_FROM_EMAIL = 'geoffroy.blondel@gmail.com'
