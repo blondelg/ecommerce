@@ -33,6 +33,7 @@ SECRET_KEY = '95)+qd1%!g#_g@!2op+nipk^3eu&c2-$l*v6i3z49bjy9rucd2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ALLOWED_HOSTS = ['ec2-35-180-98-235.eu-west-3.compute.amazonaws.com']
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 EMAIL_SUBJECT_PREFIX = '[Tautoko] '
@@ -205,8 +206,10 @@ MEDIA_ROOT = location("public/media")
 MEDIA_URL = '/media/'
 
 STATIC_ROOT = location('public/static')
-print("MEDIA_ROOT : ", MEDIA_ROOT)
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+print("STATICFILES_DIRS : ", STATICFILES_DIRS)
+print("STATIC_ROOT : ", STATIC_ROOT)
 
 HAYSTACK_CONNECTIONS = {
     'default': {
