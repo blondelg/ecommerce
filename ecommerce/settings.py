@@ -22,6 +22,7 @@ location = lambda x: os.path.join(
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BLOG_DIR = os.path.join(BASE_DIR, "custom_apps/blog")
 
 
 # Quick-start development settings - unsuitable for production
@@ -49,16 +50,38 @@ EMAIL_USE_TLS = True
 # Applicatio definition
 
 INSTALLED_APPS = [
+
+    # Apps
+    'custom_apps.blog.home',
+    'custom_apps.blog.blog',
+
+
+    # Wagtail
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail.core',
+    'taggit',
+    'modelcluster',
+
+    # Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'django.contrib.sites',
     'django.contrib.flatpages',
 
+    # Oscar
     'oscar',
     'oscar.apps.analytics',
     'oscar.apps.checkout',
@@ -109,6 +132,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'oscar.apps.basket.middleware.BasketMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+
+    'wagtail.core.middleware.SiteMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -116,7 +142,11 @@ ROOT_URLCONF = 'ecommerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+        os.path.join(BLOG_DIR, 'templates'),
+        os.path.join(BLOG_DIR, 'templates/blog'),
+        os.path.join(BLOG_DIR, 'templates/home'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,6 +162,7 @@ TEMPLATES = [
         },
     },
 ]
+print("TEMPLATES : ", TEMPLATES)
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
@@ -208,8 +239,6 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = location('public/static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-print("STATICFILES_DIRS : ", STATICFILES_DIRS)
-print("STATIC_ROOT : ", STATIC_ROOT)
 
 HAYSTACK_CONNECTIONS = {
     'default': {
@@ -225,6 +254,9 @@ OSCAR_ORDER_STATUS_PIPELINE = {
     'Being processed': ('Processed', 'Cancelled',),
     'Cancelled': (),
 }
+
+# Blog settings
+WAGTAIL_SITE_NAME = 'blog tautoko'
 
 
 # Oscars settings
