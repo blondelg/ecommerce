@@ -51,11 +51,6 @@ EMAIL_USE_TLS = True
 
 INSTALLED_APPS = [
 
-    # Apps
-    'custom_apps.blog.home',
-    'custom_apps.blog.blog',
-
-
     # Wagtail
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -118,6 +113,11 @@ INSTALLED_APPS = [
     'treebeard',
     'sorl.thumbnail',
     'django_tables2',
+
+
+    # Apps
+    'custom_apps.blog.home',
+    'custom_apps.blog.blog',
 ]
 
 SITE_ID = 1
@@ -162,7 +162,6 @@ TEMPLATES = [
         },
     },
 ]
-print("TEMPLATES : ", TEMPLATES)
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
