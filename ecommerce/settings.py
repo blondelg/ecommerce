@@ -114,6 +114,8 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'django_tables2',
 
+    # for jupyter
+    'django_extensions',
 
     # Apps
     'custom_apps.blog.home',

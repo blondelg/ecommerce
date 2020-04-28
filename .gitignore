@@ -3,6 +3,10 @@ manage.py
 __init__.py
 ecommerce/public/
 **/migrations/*
+*.ipynd
+**/*.csv
+**/*.ipynd
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
