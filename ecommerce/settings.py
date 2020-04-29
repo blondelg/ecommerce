@@ -37,6 +37,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['ec2-35-180-98-235.eu-west-3.compute.amazonaws.com', 'localhost', '127.0.0.1']
 #ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 EMAIL_SUBJECT_PREFIX = '[Tautoko] '
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -93,11 +97,15 @@ INSTALLED_APPS = [
     'oscar.apps.search',
     'oscar.apps.voucher',
     'oscar.apps.wishlists',
-    'oscar.apps.dashboard',
+    #'oscar.apps.dashboard',
+    'forked_apps.dashboard.apps.DashboardConfig',
+
     'oscar.apps.dashboard.reports',
     'oscar.apps.dashboard.users',
     'oscar.apps.dashboard.orders',
-    'oscar.apps.dashboard.catalogue',
+    #'oscar.apps.dashboard.catalogue',
+    'forked_apps.dashboard.catalogue.apps.CatalogueDashboardConfig',
+
     'oscar.apps.dashboard.offers',
     'oscar.apps.dashboard.partners',
     'oscar.apps.dashboard.pages',
@@ -120,6 +128,9 @@ INSTALLED_APPS = [
     # Apps
     'custom_apps.blog.home',
     'custom_apps.blog.blog',
+
+    # debug
+    'debug_toolbar',
 ]
 
 SITE_ID = 1
@@ -137,6 +148,8 @@ MIDDLEWARE = [
 
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -145,6 +158,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
+        os.path.join(BASE_DIR, 'templates'),
         os.path.join(BLOG_DIR, 'templates'),
         os.path.join(BLOG_DIR, 'templates/blog'),
         os.path.join(BLOG_DIR, 'templates/home'),
@@ -247,14 +261,10 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-# order pipeline
-OSCAR_INITIAL_ORDER_STATUS = 'Pending'
-OSCAR_INITIAL_LINE_STATUS = 'Pending'
-OSCAR_ORDER_STATUS_PIPELINE = {
-    'Pending': ('Being processed', 'Cancelled',),
-    'Being processed': ('Processed', 'Cancelled',),
-    'Cancelled': (),
-}
+# in-house app settings
+CSV_MAX_SIZE = 1 # in Mo
+CSV_ROOT = location("public/csv")
+
 
 # Blog settings
 WAGTAIL_SITE_NAME = 'blog tautoko'
@@ -266,3 +276,11 @@ OSCAR_DEFAULT_CURRENCY = 'EUR'
 OSCAR_SHOP_NAME = 'Tautoko'
 
 OSCAR_FROM_EMAIL = 'geoffroy.blondel@gmail.com'
+# order pipeline
+OSCAR_INITIAL_ORDER_STATUS = 'Pending'
+OSCAR_INITIAL_LINE_STATUS = 'Pending'
+OSCAR_ORDER_STATUS_PIPELINE = {
+    'Pending': ('Being processed', 'Cancelled',),
+    'Being processed': ('Processed', 'Cancelled',),
+    'Cancelled': (),
+}

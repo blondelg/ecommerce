@@ -1,8 +1,9 @@
-from oscar.apps.catalogue.abstract_models import *
-from oscar.apps.partner.abstract_models import *
+from oscar.apps.catalogue.models import *
+from oscar.apps.partner.models import *
 from django.contrib.auth import authenticate
 from django import forms
 import csv
+import os
 
 
 class csv_uploader:
@@ -33,6 +34,17 @@ class csv_uploader:
                 self.raw_dict[nb] = dict(line)
                 nb += 1
 
+    def delete_file(self):
+
+        """ delete csv file at the end of the process """
+        os.remove(self.path)
+
+    def upload(self, upload_type):
+        if upload_type.upper() == "CATALOGUE":
+            self.upload_product()
+        if upload_type.upper() == "STOCK":
+            self.upload_stock()
+
     def upload_product(self):
 
         """ upload dict into product table """
@@ -54,8 +66,11 @@ class csv_uploader:
                 record = Product(**t_dict)
                 record.save()
 
-            except:
-                pass
+            except Exception as e:
+                print(e)
+
+            # remove file
+            self.delete_file()
 
     def upload_stock(self):
 
@@ -71,15 +86,16 @@ class csv_uploader:
             t_dict.pop('date_created', None)
             t_dict.pop('date_updated', None)
 
-            t_dict['is_discountable'] = False
-            t_dict['is_public'] = False
             t_dict['product_id'] = int(t_dict['product_id'])
             t_dict['partner_id'] = int(t_dict['partner_id'])
             t_dict['num_in_stock'] = int(t_dict['num_in_stock'])
 
             try:
-                record = Product(**t_dict)
+                record = StockRecord(**t_dict)
                 record.save()
 
-            except:
-                pass
+            except Exception as e:
+                print(e)
+
+            # remove file
+            self.delete_file()
