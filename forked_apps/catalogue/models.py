@@ -10,7 +10,7 @@ class Product(AbstractProduct):
             if self.stockrecords.values()[0]['num_allocated'] is None:
                 return self.stockrecords.values()[0]['num_in_stock']
             else:
-                return return self.stockrecords.values()[0]['num_in_stock'] - self.stockrecords.values()[0]['num_allocated']
+                return self.stockrecords.values()[0]['num_in_stock'] - self.stockrecords.values()[0]['num_allocated']
         except:
             return 0
 
