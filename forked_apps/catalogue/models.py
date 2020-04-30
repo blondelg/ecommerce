@@ -6,7 +6,10 @@ class Product(AbstractProduct):
 
     @property
     def stock_level(self):
-        return self.stockrecords.values()[0]['num_in_stock'] - self.stockrecords.values()[0]['num_allocated']
+        try:
+            return self.stockrecords.values()[0]['num_in_stock'] - self.stockrecords.values()[0]['num_allocated']
+        except:
+            return 0
 
 
 from oscar.apps.catalogue.models import *  # noqa isort:skip
