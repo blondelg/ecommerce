@@ -69,8 +69,8 @@ class csv_uploader:
             except Exception as e:
                 print(e)
 
-            # remove file
-            self.delete_file()
+        # remove file
+        self.delete_file()
 
     def upload_stock(self):
 
@@ -97,5 +97,5 @@ class csv_uploader:
             except Exception as e:
                 print(e)
 
-            # remove file
-            self.delete_file()
+        # remove file
+        self.delete_file()
