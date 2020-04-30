@@ -116,7 +116,7 @@ class ProductUploadCSVRedirectView(generic.RedirectView):
             return reverse('dashboard:catalogue-product-list')
         return reverse('dashboard:catalogue-product-list')
 
-        
+
 class ProductListView(SingleTableView):
 
     """
@@ -140,6 +140,7 @@ class ProductListView(SingleTableView):
         # Forked feature
         ctx['uploadtype_form'] = self.uploadtype_form_class()
         # End
+
         return ctx
 
     def get_description(self, form):
@@ -212,6 +213,7 @@ class ProductListView(SingleTableView):
 
         if data.get('title'):
             queryset = queryset.filter(title__icontains=data['title'])
+
 
         return queryset
 
