@@ -1,0 +1,16 @@
+{% extends 'oscar/dashboard/layout.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% load form_tags %}
+
+{% block extrahead %}
+    <link href="http://cdn.bokeh.org/bokeh/release/bokeh-2.0.2.min.css" rel=”stylesheet” type=”text/css”>
+    <link href="http://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.2.min.css" rel=”stylesheet” type=”text/css”>
+    <script src="http://cdn.bokeh.org/bokeh/release/bokeh-2.0.2.min.js"></script>
+    <script src="http://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.0.2.min.js"></script>
+{{ script | safe }}
+{% endblock %}
+
+{% block dashboard_content %}
+  {{ div | safe }}
+{% endblock dashboard_content %}

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import environ
 from oscar.defaults import *
+from django.utils.translation import gettext_lazy as _
 
 env = environ.Env()
 
@@ -101,7 +102,9 @@ INSTALLED_APPS = [
     #'oscar.apps.dashboard',
     'forked_apps.dashboard.apps.DashboardConfig',
 
-    'oscar.apps.dashboard.reports',
+    #'oscar.apps.dashboard.reports',
+    'forked_apps.dashboard.reports.apps.ReportsDashboardConfig',
+
     'oscar.apps.dashboard.users',
     'oscar.apps.dashboard.orders',
     #'oscar.apps.dashboard.catalogue',
@@ -129,6 +132,7 @@ INSTALLED_APPS = [
     # Apps
     'custom_apps.blog.home',
     'custom_apps.blog.blog',
+    'custom_apps.datavisu',
 
     # debug
     'debug_toolbar',
@@ -278,10 +282,36 @@ OSCAR_SHOP_NAME = 'Tautoko'
 
 OSCAR_FROM_EMAIL = 'geoffroy.blondel@gmail.com'
 # order pipeline
-OSCAR_INITIAL_ORDER_STATUS = 'Pending'
+
 OSCAR_INITIAL_LINE_STATUS = 'Pending'
+OSCAR_LINE_STATUS_PIPELINE = {
+    'Pending': ('Being processed', 'Cancelled',),
+    'Being processed': ('Processed', 'Cancelled',),
+    'Cancelled': (),
+}
+
+OSCAR_INITIAL_ORDER_STATUS = 'Pending'
 OSCAR_ORDER_STATUS_PIPELINE = {
     'Pending': ('Being processed', 'Cancelled',),
     'Being processed': ('Processed', 'Cancelled',),
     'Cancelled': (),
 }
+
+OSCAR_DASHBOARD_NAVIGATION = [
+{'label': 'Dashboard', 'icon': 'icon-th-list', 'url_name': 'dashboard:index'},
+{'label': 'Catalog', 'icon': 'icon-sitemap', 'children': [{'label': 'Products', 'url_name': 'dashboard:catalogue-product-list'},
+{'label': 'Product Types', 'url_name': 'dashboard:catalogue-class-list'}, {'label': 'Categories', 'url_name': 'dashboard:catalogue-category-list'},
+{'label': 'Ranges', 'url_name': 'dashboard:range-list'}, {'label': 'Low stock alerts', 'url_name': 'dashboard:stock-alert-list'},
+{'label': 'Options', 'url_name': 'dashboard:catalogue-option-list'}]},
+{'label': 'Fulfilment', 'icon': 'icon-shopping-cart', 'children': [{'label': 'Orders', 'url_name': 'dashboard:order-list'},
+{'label': 'Statistics', 'url_name': 'dashboard:order-stats'}, {'label': 'Partners', 'url_name': 'dashboard:partner-list'}]},
+{'label': 'Customers', 'icon': 'icon-group', 'children': [{'label': 'Customers', 'url_name': 'dashboard:users-index'},
+{'label': 'Stock alert requests', 'url_name': 'dashboard:user-alert-list'}]},
+{'label': 'Offers', 'icon': 'icon-bullhorn', 'children': [{'label': 'Offers', 'url_name': 'dashboard:offer-list'},
+{'label': 'Coupons', 'url_name': 'dashboard:voucher-list'},
+{'label': 'Voucher Sets', 'url_name': 'dashboard:voucher-set-list'}]},
+{'label': 'Content', 'icon': 'icon-folder-close', 'children': [{'label': 'Pages', 'url_name': 'dashboard:page-list'}, {'label': 'Email templates', 'url_name': 'dashboard:comms-list'},
+{'label': 'Reviews', 'url_name': 'dashboard:reviews-list'}]},
+{'label': 'Data', 'icon': 'icon-bar-chart', 'children': [
+{'label': 'Reports', 'url_name': 'dashboard:reports-index'},
+{'label': 'Visualisation', 'url_name': 'dashboard:datavisu'}]},]
