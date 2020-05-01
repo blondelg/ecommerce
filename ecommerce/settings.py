@@ -84,6 +84,8 @@ INSTALLED_APPS = [
     # Oscar
     'oscar',
     'oscar.apps.analytics',
+    #'forked_apps.analytics.apps.AnalyticsConfig',
+
     'oscar.apps.checkout',
     'oscar.apps.address',
     'oscar.apps.shipping',
