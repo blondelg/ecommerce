@@ -1,5 +1,4 @@
 # My paterns
-manage.py
 __init__.py
 ecommerce/public/
 **/migrations/*
