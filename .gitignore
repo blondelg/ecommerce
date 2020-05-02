@@ -1,7 +1,6 @@
 # My paterns
 __init__.py
 ecommerce/public/
-**/migrations/*
 *.ipynd
 **/*.csv
 **/*.ipynd
