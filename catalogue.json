@@ -1,0 +1,642 @@
+[
+{
+  "model": "catalogue.productclass",
+  "pk": 1,
+  "fields": {
+    "name": "V\u00eatements",
+    "slug": "vetements",
+    "requires_shipping": true,
+    "track_stock": true,
+    "options": []
+  }
+},
+{
+  "model": "catalogue.productclass",
+  "pk": 2,
+  "fields": {
+    "name": "Accessoires",
+    "slug": "accessoires",
+    "requires_shipping": true,
+    "track_stock": true,
+    "options": []
+  }
+},
+{
+  "model": "catalogue.productclass",
+  "pk": 3,
+  "fields": {
+    "name": "Chaussures",
+    "slug": "chaussures",
+    "requires_shipping": true,
+    "track_stock": true,
+    "options": []
+  }
+},
+{
+  "model": "catalogue.productclass",
+  "pk": 4,
+  "fields": {
+    "name": "Maroquinerie",
+    "slug": "maroquinerie",
+    "requires_shipping": true,
+    "track_stock": true,
+    "options": []
+  }
+},
+{
+  "model": "catalogue.productclass",
+  "pk": 5,
+  "fields": {
+    "name": "Maison",
+    "slug": "maison",
+    "requires_shipping": true,
+    "track_stock": true,
+    "options": []
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 1,
+  "fields": {
+    "path": "0001",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Sweat & Mailles",
+    "description": "",
+    "image": "",
+    "slug": "sweat-mailles"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 2,
+  "fields": {
+    "path": "0002",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Chemises & Polos",
+    "description": "",
+    "image": "",
+    "slug": "chemises-polos"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 3,
+  "fields": {
+    "path": "0003",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Pantalons",
+    "description": "",
+    "image": "",
+    "slug": "pantalons"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 4,
+  "fields": {
+    "path": "0004",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Vestes & Manteaux",
+    "description": "",
+    "image": "",
+    "slug": "vestes-manteaux"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 5,
+  "fields": {
+    "path": "0005",
+    "depth": 1,
+    "numchild": 2,
+    "name": "T-shirts",
+    "description": "",
+    "image": "",
+    "slug": "t-shirts"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 6,
+  "fields": {
+    "path": "0006",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Sous-v\u00eatements",
+    "description": "",
+    "image": "",
+    "slug": "sous-vetements"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 7,
+  "fields": {
+    "path": "0007",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Portefeuilles & Porte-cartes",
+    "description": "",
+    "image": "",
+    "slug": "portefeuilles-porte-cartes"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 8,
+  "fields": {
+    "path": "0008",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Sac \u00e0 dos",
+    "description": "",
+    "image": "",
+    "slug": "sac-a-dos"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 9,
+  "fields": {
+    "path": "0009",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Voyage",
+    "description": "",
+    "image": "",
+    "slug": "voyage"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 10,
+  "fields": {
+    "path": "000A",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Montres & Bijoux",
+    "description": "",
+    "image": "",
+    "slug": "montres-bijoux"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 11,
+  "fields": {
+    "path": "000B",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Ceinture & Cravatte",
+    "description": "",
+    "image": "",
+    "slug": "ceinture-cravatte"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 12,
+  "fields": {
+    "path": "000C",
+    "depth": 1,
+    "numchild": 2,
+    "name": "\u00c9charpe & Gants",
+    "description": "",
+    "image": "",
+    "slug": "echarpe-gants"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 13,
+  "fields": {
+    "path": "000D",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Skeakers",
+    "description": "",
+    "image": "",
+    "slug": "skeakers"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 14,
+  "fields": {
+    "path": "000E",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Ville",
+    "description": "",
+    "image": "",
+    "slug": "ville"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 15,
+  "fields": {
+    "path": "000F",
+    "depth": 1,
+    "numchild": 2,
+    "name": "Confort",
+    "description": "",
+    "image": "",
+    "slug": "confort"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 16,
+  "fields": {
+    "path": "00010002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Sweets",
+    "description": "",
+    "image": "",
+    "slug": "sweet"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 17,
+  "fields": {
+    "path": "00010001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Mailles",
+    "description": "",
+    "image": "",
+    "slug": "mailles"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 18,
+  "fields": {
+    "path": "00020002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Chemises",
+    "description": "",
+    "image": "",
+    "slug": "chemises"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 19,
+  "fields": {
+    "path": "00020001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Polos",
+    "description": "",
+    "image": "",
+    "slug": "polos"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 20,
+  "fields": {
+    "path": "00030002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Jeans",
+    "description": "",
+    "image": "",
+    "slug": "jeans"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 21,
+  "fields": {
+    "path": "00030001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Chinos",
+    "description": "",
+    "image": "",
+    "slug": "chinos"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 22,
+  "fields": {
+    "path": "00040002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Vestes",
+    "description": "",
+    "image": "",
+    "slug": "vestes"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 23,
+  "fields": {
+    "path": "00040001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Manteau",
+    "description": "",
+    "image": "",
+    "slug": "manteau"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 24,
+  "fields": {
+    "path": "00050002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "T-shirts unis",
+    "description": "",
+    "image": "",
+    "slug": "t-shirts-unis"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 25,
+  "fields": {
+    "path": "00050001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "T-shirt \u00e0 motifs",
+    "description": "",
+    "image": "",
+    "slug": "t-shirt-a-motifs"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 26,
+  "fields": {
+    "path": "00070001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Portefeuille",
+    "description": "",
+    "image": "",
+    "slug": "portefeuille"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 27,
+  "fields": {
+    "path": "00070002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Porte-cartes",
+    "description": "",
+    "image": "",
+    "slug": "porte-cartes"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 28,
+  "fields": {
+    "path": "00060002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Slips",
+    "description": "",
+    "image": "",
+    "slug": "slips"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 29,
+  "fields": {
+    "path": "00060001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Cal\u00e7ons",
+    "description": "",
+    "image": "",
+    "slug": "calcons"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 30,
+  "fields": {
+    "path": "00080002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Backpack",
+    "description": "",
+    "image": "",
+    "slug": "backpack"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 31,
+  "fields": {
+    "path": "00080001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Sac en toile",
+    "description": "",
+    "image": "",
+    "slug": "sac-en-toile"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 32,
+  "fields": {
+    "path": "00090002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Trousse de toilette",
+    "description": "",
+    "image": "",
+    "slug": "trousse-de-toilette"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 33,
+  "fields": {
+    "path": "00090001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Valise",
+    "description": "",
+    "image": "",
+    "slug": "valise"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 34,
+  "fields": {
+    "path": "000A0002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Montres",
+    "description": "",
+    "image": "",
+    "slug": "montres"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 35,
+  "fields": {
+    "path": "000A0001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Bijoux",
+    "description": "",
+    "image": "",
+    "slug": "bijoux"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 36,
+  "fields": {
+    "path": "000B0002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Ceinture",
+    "description": "",
+    "image": "",
+    "slug": "ceinture"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 37,
+  "fields": {
+    "path": "000B0001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Cravatte",
+    "description": "",
+    "image": "",
+    "slug": "cravatte"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 38,
+  "fields": {
+    "path": "000C0002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "\u00c9charpes",
+    "description": "",
+    "image": "",
+    "slug": "echarpes"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 39,
+  "fields": {
+    "path": "000C0001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Gants",
+    "description": "",
+    "image": "",
+    "slug": "gants"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 40,
+  "fields": {
+    "path": "000D0002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Vintages",
+    "description": "",
+    "image": "",
+    "slug": "vintages"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 41,
+  "fields": {
+    "path": "000D0001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Modernes",
+    "description": "",
+    "image": "",
+    "slug": "modernes"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 42,
+  "fields": {
+    "path": "000E0002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Derbies",
+    "description": "",
+    "image": "",
+    "slug": "derbies"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 43,
+  "fields": {
+    "path": "000E0001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Richelieux",
+    "description": "",
+    "image": "",
+    "slug": "richelieux"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 44,
+  "fields": {
+    "path": "000F0002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Chaussons",
+    "description": "",
+    "image": "",
+    "slug": "chaussons"
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 45,
+  "fields": {
+    "path": "000F0001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Tongs",
+    "description": "",
+    "image": "",
+    "slug": "tongs"
+  }
+}
+]
