@@ -10,19 +10,30 @@ from oscar.core.loading import get_model
 @user_passes_test(lambda u: u.is_superuser)
 def datavisu(request):
     from apps_fork.analytics.models import ProductView
-    X = [1, 2, 3, 4, 5]
-    Y = [1, 2, 3, 4, 5]
-    plot = figure(title = "test")
-    plot.line(X, Y, line_width = 2)
-    script, div = components(plot)
+    # X = [1, 2, 3, 4, 5]
+    # Y = [1, 2, 3, 4, 5]
+    # plot = figure(title = "test")
+    # plot.line(X, Y, line_width = 2)
+    # script, div = components(plot)
 
+    # Get data
     qs = ProductView.objects.all()
-
     df = qs.to_dataframe()
-    print(df)
+    df['date'] = pd.to_datetime(df['date_created'])
 
-    # Per day view
-    # Nb view on site
-    # nb new orders
+    df['nb'] = 1
+    df = df[['date', 'nb']]
+    df = df.groupby(['date']).agg(['sum'])
+    print(df.index.tolist())
+    print(df['nb']['sum'].tolist())
+
+    p = figure(x_axis_type="datetime", title="Total product view per day", plot_height=350, plot_width=800)
+    p.xgrid.grid_line_color=None
+    p.ygrid.grid_line_alpha=0.5
+    p.xaxis.axis_label = 'Date'
+    p.yaxis.axis_label = 'Nb product view'
+    p.line(df.index.tolist(), df['nb']['sum'].tolist(),line_width = 2)
+
+    script, div = components(p)
 
     return render(request, 'simple_dashboard.html', {'script': script, 'div': div})
