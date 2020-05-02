@@ -10,8 +10,8 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 
-if settings.DEBUG:
-    import debug_toolbar
+#if settings.DEBUG:
+import debug_toolbar
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),

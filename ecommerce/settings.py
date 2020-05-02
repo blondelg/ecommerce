@@ -83,14 +83,17 @@ INSTALLED_APPS = [
 
     # Oscar
     'oscar',
+
     'oscar.apps.analytics',
     #'forked_apps.analytics.apps.AnalyticsConfig',
 
     'oscar.apps.checkout',
     'oscar.apps.address',
     'oscar.apps.shipping',
-    #'oscar.apps.catalogue',
-    'forked_apps.catalogue.apps.CatalogueConfig',
+
+    'oscar.apps.catalogue',
+    #'forked_apps.catalogue.apps.CatalogueConfig',
+
     'oscar.apps.catalogue.reviews',
     'oscar.apps.partner',
     'oscar.apps.basket',
@@ -101,16 +104,18 @@ INSTALLED_APPS = [
     'oscar.apps.search',
     'oscar.apps.voucher',
     'oscar.apps.wishlists',
-    #'oscar.apps.dashboard',
-    'forked_apps.dashboard.apps.DashboardConfig',
 
-    #'oscar.apps.dashboard.reports',
-    'forked_apps.dashboard.reports.apps.ReportsDashboardConfig',
+    'oscar.apps.dashboard',
+    #'forked_apps.dashboard.apps.DashboardConfig',
+
+    'oscar.apps.dashboard.reports',
+    #'forked_apps.dashboard.reports.apps.ReportsDashboardConfig',
 
     'oscar.apps.dashboard.users',
     'oscar.apps.dashboard.orders',
-    #'oscar.apps.dashboard.catalogue',
-    'forked_apps.dashboard.catalogue.apps.CatalogueDashboardConfig',
+
+    'oscar.apps.dashboard.catalogue',
+    #'forked_apps.dashboard.catalogue.apps.CatalogueDashboardConfig',
 
     'oscar.apps.dashboard.offers',
     'oscar.apps.dashboard.partners',
@@ -132,8 +137,8 @@ INSTALLED_APPS = [
     'django_extensions',
 
     # Apps
-    'custom_apps.blog.home',
-    'custom_apps.blog.blog',
+    # 'custom_apps.blog.home',
+    # 'custom_apps.blog.blog',
     'custom_apps.datavisu',
 
     # debug
