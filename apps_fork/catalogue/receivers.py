@@ -5,8 +5,6 @@ from apps_fork.catalogue.signals import product_viewed
 from django.dispatch import receiver
 
 
-print("RECEIVER OK")
-
 
 @receiver(product_viewed)
 def product_view_callback(sender, **kwargs):
