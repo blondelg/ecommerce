@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import user_passes_test
+#from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render
 from bokeh.plotting import figure
 from bokeh.embed import components
@@ -7,7 +7,7 @@ from django.db import models
 from oscar.core.loading import get_model
 
 # Create your views here.
-@user_passes_test(lambda u: u.is_superuser)
+#@user_passes_test(lambda u: u.is_superuser)
 def datavisu(request):
     from apps_fork.analytics.models import ProductView
     # X = [1, 2, 3, 4, 5]
@@ -19,13 +19,11 @@ def datavisu(request):
     # Get data
     qs = ProductView.objects.all()
     df = qs.to_dataframe()
-    df['date'] = pd.to_datetime(df['date_created'])
 
+    df['date'] = df['date_created'].dt.normalize()
     df['nb'] = 1
     df = df[['date', 'nb']]
     df = df.groupby(['date']).agg(['sum'])
-    print(df.index.tolist())
-    print(df['nb']['sum'].tolist())
 
     p = figure(x_axis_type="datetime", title="Total product view per day", plot_height=350, plot_width=800)
     p.xgrid.grid_line_color=None

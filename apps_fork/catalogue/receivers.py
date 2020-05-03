@@ -5,7 +5,6 @@ from apps_fork.catalogue.signals import product_viewed
 from django.dispatch import receiver
 
 
-
 @receiver(product_viewed)
 def product_view_callback(sender, **kwargs):
     """ Monitore product views """

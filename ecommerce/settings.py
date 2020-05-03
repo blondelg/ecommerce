@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
+    #'apps_fork.wagtail.core.apps.WagtailCoreAppConfig',
     'taggit',
     'modelcluster',
 
