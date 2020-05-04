@@ -13,6 +13,12 @@ find ../venv/lib/python3.7/site-packages/oscar/ -path "*/migrations/*.pyc"  -del
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 find . -path "*/migrations/*.pyc"  -delete
 
+# make migrations
+python manage.py makemigrations
+python manage.py makemigrations analytics
+python manage.py makemigrations catalogue
+python manage.py migrate
+
 # load countries
 python manage.py oscar_populate_countries
 
