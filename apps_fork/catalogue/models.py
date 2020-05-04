@@ -1,8 +1,16 @@
 from django.db import models
 from oscar.apps.catalogue.abstract_models import AbstractProduct
+from django.utils.translation import gettext_lazy as _
 
 
 class Product(AbstractProduct):
+
+    partner = models.ForeignKey(
+        'partner.Partner',
+        on_delete=models.CASCADE,
+        default=1,
+        verbose_name=_("Partner"),
+        related_name='products')
 
     @property
     def stock_level(self):
