@@ -6,12 +6,17 @@ from oscar.apps.dashboard.catalogue.views import ProductDeleteView as CoreProduc
 from oscar.apps.partner.models import Partner
 from django.contrib.auth.models import User
 from apps_fork.dashboard.catalogue.tables import ProductTable
+from apps_fork.catalogue.models import Product
+
+from apps_fork.dashboard.catalogue.formsets import StockRecordFormSet
+
 
 def filter_products(queryset, user):
-    # Select partner attached to the user id
-    partner_id = Partner.objects.get(users=User.objects.get(id=user.pk)).pk
+
     if user.is_staff:
         return queryset
+    # Select partner attached o the user id
+    partner_id = Partner.objects.get(users=User.objects.get(id=user.pk)).pk
     return queryset.filter(partner_id=partner_id).distinct()
 
 class ProductListView(CoreProductListView):
@@ -20,7 +25,21 @@ class ProductListView(CoreProductListView):
     def filter_queryset(self, queryset):
         return filter_products(queryset, self.request.user)
 
+    def get_table(self, **kwargs):
+        if 'recently_edited' in self.request.GET:
+            kwargs.update(dict(orderable=False))
+
+        table = super().get_table(**kwargs)
+        table.caption = self.get_description(self.form)
+        # hide partned column if user is not is_staff
+        if not self.request.user.is_staff:
+            table.exclude = ('partner')
+        return table
+
 class ProductCreateUpdateView(CoreProductCreateUpdateView):
+
+    #stockrecord_formset = StockRecordFormSet
+
     def get_queryset(self):
         return filter_products(Product.objects.all(), self.request.user)
 
@@ -29,8 +48,10 @@ class ProductCreateUpdateView(CoreProductCreateUpdateView):
         kwargs['product_class'] = self.product_class
         kwargs['parent'] = self.parent
         # Add Partner that has added the product
-        kwargs['partner'] = Partner.objects.get(users = self.request.user)
-        print(self.request.user.pk)
+        try:
+            kwargs['partner'] = Partner.objects.get(users = self.request.user)
+        except:
+            pass
 
         return kwargs
 

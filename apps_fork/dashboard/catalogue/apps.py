@@ -7,6 +7,9 @@ class CatalogueDashboardConfig(apps.CatalogueDashboardConfig):
     name = 'apps_fork.dashboard.catalogue'
     apps.CatalogueDashboardConfig.permissions_map['catalogue-product-upload'] = (['is_staff'], ['partner.dashboard_access'])
     apps.CatalogueDashboardConfig._map['catalogue-product-upload'] = apps.CatalogueDashboardConfig.permissions_map['catalogue-product-upload']
+    apps.CatalogueDashboardConfig.permissions_map['catalogue-product-create-child'] = (['is_staff'], ['partner.dashboard_access'])
+    apps.CatalogueDashboardConfig._map['catalogue-product-create-child'] = apps.CatalogueDashboardConfig.permissions_map['catalogue-product-create-child']
+
 
     def ready(self):
         super().ready()

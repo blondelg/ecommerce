@@ -22,19 +22,20 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = [
-            'title', 'upc',  'description', 'is_public', 'is_discountable', 'structure']
-        widgets = {
-            'structure': forms.HiddenInput()
-        }
+        fields = ['title', 'upc',  'description', 'partner', 'is_public', 'is_discountable', 'structure']
+        widgets = {'structure': forms.HiddenInput()}
 
     def __init__(self, product_class, data=None, parent=None, partner=None, *args, **kwargs):
         self.set_initial(product_class, parent, kwargs)
         super().__init__(data, *args, **kwargs)
 
         # add partner to product instance
+        # if staff can choose partner
+        # if partner, cannot chose another partner
         if partner is not None:
             self.instance.partner = partner
+            del self.fields['partner']
+
 
         if parent:
             self.instance.parent = parent

@@ -1,0 +1,9 @@
+{% if record.is_parent %}
+    -
+{% else %}
+  {% if record.num_stockrecords > 0 %}
+    yes
+  {% else %}
+    -
+  {% endif %}
+{% endif %}

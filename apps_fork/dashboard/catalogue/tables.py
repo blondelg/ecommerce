@@ -14,10 +14,18 @@ Option = get_model('catalogue', 'Option')
 
 
 class ProductTable(DashboardTable):
+    partner = TemplateColumn(
+        verbose_name=_('Partner'),
+        template_name='oscar/dashboard/catalogue/product_row_partner.html',
+        order_by='partner')
     title = TemplateColumn(
         verbose_name=_('Title'),
         template_name='oscar/dashboard/catalogue/product_row_title.html',
         order_by='title', accessor=A('title'))
+    structure = TemplateColumn(
+        verbose_name=_('Product Structure'),
+        template_name='oscar/dashboard/catalogue/product_row_structure.html',
+        order_by='structure')
     image = TemplateColumn(
         verbose_name=_('Image'),
         template_name='oscar/dashboard/catalogue/product_row_image.html',
@@ -35,6 +43,10 @@ class ProductTable(DashboardTable):
     stock = TemplateColumn(
         verbose_name=_('Stock level'),
         template_name='oscar/dashboard/catalogue/product_row_stock.html')
+    stock_records = TemplateColumn(
+        verbose_name=_('Has stock record'),
+        template_name='oscar/dashboard/catalogue/product_row_has_stockrecords.html',
+        orderable=False)
     actions = TemplateColumn(
         verbose_name=_('Actions'),
         template_name='oscar/dashboard/catalogue/product_row_actions.html',
@@ -45,7 +57,7 @@ class ProductTable(DashboardTable):
     class Meta(DashboardTable.Meta):
         model = Product
         fields = ('upc', 'date_updated')
-        sequence = ('title', 'upc', 'image', 'product_class', #'variants',
+        sequence = ('partner', 'title', 'upc', 'image', 'product_class', #'variants',
                     #'stock_records', '...', 'date_updated', 'actions')
                     '...', 'date_updated', 'actions')
         order_by = '-date_updated'
