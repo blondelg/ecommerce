@@ -10,11 +10,6 @@ from oscar.core.loading import get_model
 #@user_passes_test(lambda u: u.is_superuser)
 def datavisu(request):
     from apps_fork.analytics.models import ProductView
-    # X = [1, 2, 3, 4, 5]
-    # Y = [1, 2, 3, 4, 5]
-    # plot = figure(title = "test")
-    # plot.line(X, Y, line_width = 2)
-    # script, div = components(plot)
 
     # Get data
     qs = ProductView.objects.all()

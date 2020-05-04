@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Setup venv
+virtualenv ../venv
+
+# install dependancies
+source ../venv/bin/activate
+pip install -r requirements.txt
+
+# Delete migrations
+find ../venv/lib/python3.7/site-packages/oscar/ -path "*/migrations/*.py" -not -name "__init__.py" -delete
+find ../venv/lib/python3.7/site-packages/oscar/ -path "*/migrations/*.pyc"  -delete
+find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+find . -path "*/migrations/*.pyc"  -delete
+
+# load countries
+python manage.py oscar_populate_countries
+
+# load shipping events
+sqlite3 db.sqlite3  "INSERT INTO order_shippingeventtype (name, code) VALUES ('expédié', 'liv01');"
+sqlite3 db.sqlite3  "INSERT INTO order_shippingeventtype (name, code) VALUES ('livré', 'liv02');"
+
+# load categories
+python manage.py loaddata catalogue.json 
