@@ -10,13 +10,16 @@ from apps_fork.catalogue.models import Product
 
 from apps_fork.dashboard.catalogue.formsets import StockRecordFormSet
 
+def get_partner_id(user_id):
+    """ get partner id from user_id """
+    return Partner.objects.get(users=User.objects.get(id=user_id)).pk
 
 def filter_products(queryset, user):
 
     if user.is_staff:
         return queryset
     # Select partner attached o the user id
-    partner_id = Partner.objects.get(users=User.objects.get(id=user.pk)).pk
+    partner_id = get_partner_id(user.pk)
     return queryset.filter(partner_id=partner_id).distinct()
 
 class ProductListView(CoreProductListView):

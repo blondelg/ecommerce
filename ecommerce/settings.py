@@ -97,10 +97,15 @@ INSTALLED_APPS = [
 
     'oscar.apps.catalogue.reviews',
     'oscar.apps.partner',
-    'oscar.apps.basket',
+
+    #'oscar.apps.basket',
+    'apps_fork.basket.apps.BasketConfig',
     'oscar.apps.payment',
     'oscar.apps.offer',
-    'oscar.apps.order',
+
+    #'oscar.apps.order',
+    'apps_fork.order.apps.OrderConfig',
+
     'oscar.apps.customer',
     'oscar.apps.search',
     'oscar.apps.voucher',
