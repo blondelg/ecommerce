@@ -1,7 +1,7 @@
-from oscar.apps.basket.models import Basket as CoreBasket
-from oscar.apps.basket.models import Line as CoreLine
+from oscar.apps.basket.abstract_models import AbstractBasket
+from oscar.apps.basket.abstract_models import AbstractLine
 
-class Basket(CoreBasket):
+class Basket(AbstractBasket):
 
     def partner_lines(self, partner_id): # TO UPDATE ############################################################
         """ return lines according to a given parner id """
@@ -28,7 +28,7 @@ class Basket(CoreBasket):
         return list(set(partners))
 
 
-class Line(CoreLine):
+class Line(AbstractLine):
 
     @property # TO UPDATE ##############################################################################
     def partner_id(self):
