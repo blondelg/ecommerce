@@ -1,6 +1,7 @@
 from django import forms
 from apps_fork.catalogue.models import Product
 from oscar.apps.dashboard.catalogue import forms as Coreforms
+from django.core import exceptions
 
 
 class ProductForm(forms.ModelForm):
