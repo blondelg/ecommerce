@@ -70,10 +70,10 @@
                                 {% if not parent %}
                                     <li><a href="#product_category" data-toggle="tab">{% trans 'Categories' %}</a></li>
                                 {% endif %}
-                                {% if product_class.has_attributes %}
+                                {% if parent %}
                                     <li><a href="#product_attributes" data-toggle="tab">{% trans 'Attributes' %}</a></li>
                                 {% endif %}
-                                {% if product.is_parent %}
+                                {% if not parent %}
                                     <li><a href="#product_images" data-toggle="tab">{% trans 'Images' %}</a></li>
                                 {% endif %}
                                 {% if not product.is_parent %}
