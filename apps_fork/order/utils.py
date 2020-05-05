@@ -1,4 +1,5 @@
 from oscar.apps.order.utils import OrderCreator as CoreOrderCreator
+from django.conf import settings
 
 class OrderCreator(CoreOrderCreator):
 
