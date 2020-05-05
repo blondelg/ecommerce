@@ -8,9 +8,11 @@
         </button>
         <ul class="dropdown-menu pull-right">
             <!-- Dev new feature -->
-            <li>
-                <a href="{% url 'dashboard:catalogue-product-create-child' parent_pk=record.id %}{% querystring %}">{% trans "Add Child" %}</a>
-            </li>
+            {% if not record.is_child %}
+                <li>
+                    <a href="{% url 'dashboard:catalogue-product-create-child' parent_pk=record.id %}{% querystring %}">{% trans "Add Child" %}</a>
+                </li>
+            {% endif %}
             <!-- end dev -->
             <li>
                 <a href="{% url 'dashboard:catalogue-product' pk=record.id %}{% querystring %}">{% trans "Edit" %}</a>

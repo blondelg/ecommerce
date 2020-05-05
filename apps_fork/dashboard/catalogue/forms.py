@@ -109,7 +109,7 @@ class ProductForm(forms.ModelForm):
         Deletes any fields not needed for child products. Override this if
         you want to e.g. keep the description field.
         """
-        for field_name in ['description', 'is_discountable']:
+        for field_name in ['description', 'is_discountable', 'title']:
             if field_name in self.fields:
                 del self.fields[field_name]
 
