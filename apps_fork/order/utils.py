@@ -31,19 +31,6 @@ class OrderCreator(CoreOrderCreator):
 
         with transaction.atomic():
 
-            # Ok - everything seems to be in order, let's place the order """""""""""""""""""""""""""TO UPDATE
-            if basket.is_multi_partner:
-                for partner_id in basket.partner_list:
-                    temp_order_number = str(order_number) + "P" + str(partner_id)
-                    order = self.create_order_model(
-                        user, basket, shipping_address, shipping_method, shipping_charge,
-                        billing_address, total, temp_order_number, status, request, **kwargs)
-                    for line in basket.partner_lines(partner_id): ## all lines per partner_id
-                        self.create_line_models(order, line)
-                        self.update_stock_records(line)
-
-            else:
-
             # Ok - everything seems to be in order, let's place the order
             if basket.is_multi_partner:
                 # set order as parent
