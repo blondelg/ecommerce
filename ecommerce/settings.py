@@ -118,7 +118,9 @@ INSTALLED_APPS = [
     'apps_fork.dashboard.reports.apps.ReportsDashboardConfig',
 
     'oscar.apps.dashboard.users',
-    'oscar.apps.dashboard.orders',
+
+    # 'oscar.apps.dashboard.orders',
+    'apps_fork.dashboard.orders.apps.OrdersDashboardConfig',
 
     #'oscar.apps.dashboard.catalogue',
     'apps_fork.dashboard.catalogue.apps.CatalogueDashboardConfig',
