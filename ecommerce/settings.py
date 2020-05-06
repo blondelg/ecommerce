@@ -88,7 +88,9 @@ INSTALLED_APPS = [
     #'oscar.apps.analytics',
     'apps_fork.analytics.apps.AnalyticsConfig',
 
-    'oscar.apps.checkout',
+    #'oscar.apps.checkout',
+    'apps_fork.checkout.apps.CheckoutConfig',
+
     'oscar.apps.address',
     'oscar.apps.shipping',
 

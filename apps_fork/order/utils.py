@@ -37,7 +37,7 @@ class OrderCreator(CoreOrderCreator):
                 kwargs['structure'] = 'parent'
                 order = self.create_order_model(
                     user, basket, shipping_address, shipping_method, shipping_charge,
-                    billing_address, total, order_number, status, request, **kwargs)
+                    billing_address, total['parent'], order_number, status, request, **kwargs)
 
                 order_parent_id = order.pk
 
@@ -53,7 +53,7 @@ class OrderCreator(CoreOrderCreator):
                     kwargs['partner_id'] = partner_id
                     child_order = self.create_order_model(
                         user, basket, shipping_address, shipping_method, shipping_charge,
-                        billing_address, total, t_order_number, status, request, **kwargs)
+                        billing_address, total[partner_id], t_order_number, status, request, **kwargs)
 
             else:
 
