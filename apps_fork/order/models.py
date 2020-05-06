@@ -16,7 +16,9 @@ class Order(AbstractOrder):
         (CHILD, _('Child order'))
     )
     structure = models.CharField(
-        _("Order structure"), max_length=10, choices=STRUCTURE_CHOICES,
+        _("Order structure"),
+        max_length=10,
+        choices=STRUCTURE_CHOICES,
         default=STANDALONE)
 
     parent = models.ForeignKey(
@@ -26,6 +28,23 @@ class Order(AbstractOrder):
         on_delete=models.CASCADE,
         related_name='children',
         verbose_name=_("Parent order"))
+
+    partner = models.ForeignKey(
+        'partner.Partner',
+        on_delete=models.SET_NULL,
+        null=True,
+        default=0,
+        db_constraint=False,
+        verbose_name=_("Partner"),
+        related_name='partner')
+
+    @property
+    def is_child(self):
+        if self.structure == 'child':
+            return True
+        else:
+            return False
+
 
 
 from oscar.apps.order.models import *  # noqa isort:skip
