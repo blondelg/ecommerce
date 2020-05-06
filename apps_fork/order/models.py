@@ -19,5 +19,13 @@ class Order(AbstractOrder):
         _("Order structure"), max_length=10, choices=STRUCTURE_CHOICES,
         default=STANDALONE)
 
+    parent = models.ForeignKey(
+        'self',
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name='children',
+        verbose_name=_("Parent order"))
+
 
 from oscar.apps.order.models import *  # noqa isort:skip
