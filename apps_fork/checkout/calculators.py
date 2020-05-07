@@ -14,7 +14,6 @@ class OrderTotalCalculator(object):
         self.request = request
 
     def calculate(self, basket, shipping_charge, **kwargs):
-
         if basket.is_multi_partner:
             return_dict = {}
             for partner_id in basket.partner_list:

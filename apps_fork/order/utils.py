@@ -58,6 +58,7 @@ class OrderCreator(CoreOrderCreator):
             else:
 
                 # if standalone order
+
                 order = self.create_order_model(
                     user, basket, shipping_address, shipping_method, shipping_charge,
                     billing_address, total, order_number, status, request, **kwargs)

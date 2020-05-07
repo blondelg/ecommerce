@@ -80,6 +80,12 @@ class Basket(AbstractBasket):
             return self._get_total('line_price_excl_tax_incl_discounts')
 
     @property
+    def total_excl_tax_all(self):
+        # return total for mix and non mix basket
+        return self._get_total('line_price_excl_tax_incl_discounts')
+
+
+    @property
     def total_incl_tax(self):
         # Return total price inclusive of tax and discounts per partner
         if self.is_multi_partner:
@@ -92,6 +98,11 @@ class Basket(AbstractBasket):
             return total
         else:
             return self._get_total('line_price_incl_tax_incl_discounts')
+
+    @property
+    def total_incl_tax_all(self):
+        # Return total for mix and non mix baskets
+        return self._get_total('line_price_incl_tax_incl_discounts')
 
 
 class Line(AbstractLine):
