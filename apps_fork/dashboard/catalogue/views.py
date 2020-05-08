@@ -3,7 +3,7 @@ from apps_custom.importer.forms import UploadTypeSelectForm
 from oscar.apps.dashboard.catalogue.views import ProductListView as CoreProductListView
 from oscar.apps.dashboard.catalogue.views import ProductCreateUpdateView as CoreProductCreateUpdateView
 from oscar.apps.dashboard.catalogue.views import ProductDeleteView as CoreProductDeleteView
-from oscar.apps.partner.models import Partner
+from apps_fork.partner.models import Partner
 from django.contrib.auth.models import User
 from apps_fork.dashboard.catalogue.tables import ProductTable
 from apps_fork.catalogue.models import Product

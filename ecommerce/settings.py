@@ -98,7 +98,9 @@ INSTALLED_APPS = [
     'apps_fork.catalogue.apps.CatalogueConfig',
 
     'oscar.apps.catalogue.reviews',
-    'oscar.apps.partner',
+
+    #'oscar.apps.partner',
+    'apps_fork.partner.apps.PartnerConfig',
 
     #'oscar.apps.basket',
     'apps_fork.basket.apps.BasketConfig',
@@ -333,3 +335,5 @@ OSCAR_DASHBOARD_NAVIGATION = [
 {'label': 'Data', 'icon': 'icon-bar-chart', 'children': [
 {'label': 'Reports', 'url_name': 'dashboard:reports-index'},
 {'label': 'Visualisation', 'url_name': 'dashboard:datavisu'}]},]
+
+OSCAR_DEFAULT_TAX_RATE = 0.196

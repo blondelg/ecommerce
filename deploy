@@ -18,6 +18,7 @@ python manage.py makemigrations analytics
 python manage.py makemigrations catalogue
 python manage.py makemigrations order
 python manage.py makemigrations basket
+python manage.py makemigrations partner
 python manage.py makemigrations
 python manage.py migrate
 
