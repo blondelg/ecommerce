@@ -456,7 +456,10 @@ class OrderDetailView(DetailView):
             self.request.user, self.kwargs['number'])
 
     def get_order_lines(self):
-        return self.object.lines.all()
+        if self.object.is_child:
+            return Order(id=self.object.parent_id).lines.filter(partner_id=self.object.partner_id)
+        else:
+            return self.object.lines.all()
 
     def post(self, request, *args, **kwargs):
         # For POST requests, we use a dynamic dispatch technique where a
