@@ -2,6 +2,24 @@ from django import forms
 from apps_fork.catalogue.models import Product
 from oscar.apps.dashboard.catalogue import forms as Coreforms
 from django.core import exceptions
+from oscar.apps.dashboard.catalogue.forms import StockRecordForm as CoreStockRecordForm
+from oscar.core.loading import get_model
+
+
+
+
+StockRecord = get_model('partner', 'StockRecord')
+
+
+class StockRecordForm(CoreStockRecordForm):
+    class Meta:
+        model = StockRecord
+        fields = [
+            'partner', 'partner_sku',
+            # 'price_currency', 'price_excl_tax', 'price_retail', 'cost_price',
+            'price_currency', 'price_retail', 'cost_price',
+            'num_in_stock', 'low_stock_threshold',
+        ]
 
 
 class ProductForm(forms.ModelForm):
