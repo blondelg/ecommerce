@@ -304,6 +304,7 @@ OSCAR_INITIAL_LINE_STATUS = 'Pending'
 OSCAR_LINE_STATUS_PIPELINE = {
     'Pending': ('Being processed', 'Cancelled',),
     'Being processed': ('Processed', 'Cancelled',),
+    'Processed': (),
     'Cancelled': (),
 }
 
