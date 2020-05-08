@@ -31,7 +31,7 @@ AttributeOption = get_model('catalogue', 'AttributeOption')
 
 
 BaseStockRecordFormSet = inlineformset_factory(
-    Product, StockRecord, form=StockRecordForm, extra=1)
+    Product, StockRecord, form=StockRecordForm, extra=1, max_num=1)
 
 
 class StockRecordFormSet(BaseStockRecordFormSet):
