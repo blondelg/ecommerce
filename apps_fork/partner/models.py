@@ -13,7 +13,6 @@ class StockRecord(AbstractStockRecord):
             self.price_excl_tax = self.price_retail / (1 + tax_rate)
         except Exception as e:
             self.price_excl_tax = self.price_retail
-            print(e)
 
         super(StockRecord, self).save(*args, **kwargs)
 
