@@ -114,6 +114,9 @@
                 <thead>
                     <tr>
                         <th></th>
+                        {% if is_staff %}
+                            <th>{% trans "Partner" %}</th>
+                        {% endif %}
                         <th>{% anchor 'number' _("Order number") %}</th>
                         <th>{% anchor 'total_incl_tax' _("Total inc tax") %}</th>
                         <th>{% trans "Number of items" %}</th>
@@ -129,6 +132,9 @@
                 {% for order in orders %}
                     <tr>
                         <td><input type="checkbox" name="selected_order" class="selected_order" value="{{ order.id }}"/></td>
+                        {% if is_staff%}
+                            <td>{{ order.partner }}</td>
+                        {% endif %}
                         <td><a href="{% url 'dashboard:order-detail' number=order.number %}">{{ order.number }}</a></td>
                         <td>{{ order.total_incl_tax|currency:order.currency }}</td>
                         <td>{{ order.num_items }}</td>
