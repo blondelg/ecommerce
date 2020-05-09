@@ -12,7 +12,7 @@ from oscar.core.loading import get_class
 
 
 TaxInclusiveFixedPrice = get_class('partner.prices', 'TaxInclusiveFixedPrice')
-
+print("totoTOTO")
 
 
 
@@ -78,11 +78,6 @@ class FixedRateTax(CoreFixedRateTax):
         return self.exponent
 
 
-class Tautoko(CoreUseFirstStockRecord, CoreStockRequired, FixedRateTax, CoreStructured):
-
-    rate = D(settings.OSCAR_DEFAULT_TAX_RATE)
-
-
 class UseFirstStockRecord(CoreUseFirstStockRecord):
     """
     Stockrecord selection mixin for use with the ``Structured`` base strategy.
@@ -97,3 +92,7 @@ class UseFirstStockRecord(CoreUseFirstStockRecord):
             return product.stockrecords  # TO UPDATE
         except IndexError:
             return None
+
+class Tautoko(UseFirstStockRecord, CoreStockRequired, FixedRateTax, CoreStructured):
+
+    rate = D(settings.OSCAR_DEFAULT_TAX_RATE)
