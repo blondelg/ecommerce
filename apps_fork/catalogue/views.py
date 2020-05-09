@@ -5,5 +5,5 @@ class ProductDetailView(CoreProductDetailView):
     view_signal = product_viewed
 
     def get_request(self):
-        """ return user if exists """
+        """ return request """
         return self.request

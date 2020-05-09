@@ -14,9 +14,9 @@ class Basket(AbstractBasket):
             for line in self.all_lines():
                 try:
                     total += getattr(line, property)
-                except ObjectDoesNotExist:
-                    # Handle situation where the product may have been deleted
-                    pass
+                # except ObjectDoesNotExist:
+                #     # Handle situation where the product may have been deleted
+                #     pass
                 except TypeError:
                     # Handle Unavailable products with no known price
                     info = self.get_stock_info(line.product, line.attributes.all())
@@ -41,11 +41,11 @@ class Basket(AbstractBasket):
             return total
 
 
-    def partner_lines(self, partner_id): # TO UPDATE ############################################################
+    def partner_lines(self, partner_id): 
         """ return lines according to a given parner id """
         return self.all_lines().filter(product__partner_id=partner_id)
 
-    @property # TO UPDATE #####################################################################
+    @property
     def is_multi_partner(self):
         # Return true if there is several partners on this order
         partners = {}
@@ -56,7 +56,7 @@ class Basket(AbstractBasket):
         else:
             return False
 
-    @property # TO UPDATE ######################################################################
+    @property
     def partner_list(self):
         # Return a list with partners ids
         partners = []
@@ -107,7 +107,7 @@ class Basket(AbstractBasket):
 
 class Line(AbstractLine):
 
-    @property # TO UPDATE ##############################################################################
+    @property
     def partner_id(self):
         return self.product.partner_id
 

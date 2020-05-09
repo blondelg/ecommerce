@@ -1,11 +1,10 @@
 # My paterns
-__init__.py
 ecommerce/public/
 *.ipynd
 **/*.csv
 **/*.ipynd
 RUN
-
+*/migrations/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
