@@ -1,0 +1,5 @@
+{% if record.is_child %}
+    {{ record.parent.product_class.name }}
+{% else %}
+    {{ record.product_class.name }}
+{% endif %}

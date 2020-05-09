@@ -30,10 +30,9 @@ class ProductTable(DashboardTable):
         verbose_name=_('Image'),
         template_name='oscar/dashboard/catalogue/product_row_image.html',
         orderable=False)
-    product_class = Column(
+    product_class = TemplateColumn(
         verbose_name=_('Product type'),
-        accessor=A('product_class'),
-        order_by='product_class__name')
+        template_name='oscar/dashboard/catalogue/product_row_product_class.html')
     # add product attributes
     attributes = TemplateColumn(
         verbose_name=_('Attributes'),
