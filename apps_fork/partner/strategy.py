@@ -51,7 +51,7 @@ class FixedRateTax(CoreFixedRateTax):
         exponent = self.get_exponent(stockrecord)
         tax = (stockrecord.price_excl_tax * rate).quantize(exponent, rounding=ROUND_UP)
 
-        return FixedPrice(
+        return TaxInclusiveFixedPrice(
             currency=stockrecord.price_currency,
             excl_tax=stockrecord.price_excl_tax,
             tax=tax)
