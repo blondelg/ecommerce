@@ -33,5 +33,12 @@ class Product(AbstractProduct):
         except:
             return 0
 
+    @property
+    def num_stockrecords(self):
+        if self.has_stockrecords:
+            return 1
+        else:
+            return 0
+
 
 from oscar.apps.catalogue.models import *  # noqa isort:skip
