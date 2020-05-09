@@ -25,5 +25,3 @@ Setup per partner view
 Add datavizualisation 
 ## Partner
 Only allow Incl tax prices on stock, ext tax prices are calculated automatically.
-
-## Partner
