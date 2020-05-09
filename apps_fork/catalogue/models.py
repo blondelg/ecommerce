@@ -13,12 +13,23 @@ class Product(AbstractProduct):
         related_name='products')
 
     @property
+    def has_stockrecords(self):
+        """
+        Test if this product has any stockrecords
+        """
+        try:
+            a=self.stockrecords.pk
+            return True
+        except:
+            return False
+
+    @property
     def stock_level(self):
         try:
-            if self.stockrecords.values()[0]['num_allocated'] is None:
-                return self.stockrecords.values()[0]['num_in_stock']
+            if self.stockrecords.num_allocated is None:
+                return self.stockrecords.num_in_stock
             else:
-                return self.stockrecords.values()[0]['num_in_stock'] - self.stockrecords.values()[0]['num_allocated']
+                return self.stockrecords.num_in_stock - self.stockrecords.num_allocated
         except:
             return 0
 

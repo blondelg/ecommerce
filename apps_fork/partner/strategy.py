@@ -7,10 +7,13 @@ from oscar.apps.partner.strategy import StockRequired as CoreStockRequired
 from oscar.apps.partner.strategy import FixedRateTax as CoreFixedRateTax
 from oscar.apps.partner.strategy import Structured as CoreStructured
 from oscar.apps.partner.strategy import FixedRateTax as CoreFixedRateTax
+from oscar.apps.partner.strategy import UseFirstStockRecord as CoreUseFirstStockRecord
 from oscar.core.loading import get_class
 
 
 TaxInclusiveFixedPrice = get_class('partner.prices', 'TaxInclusiveFixedPrice')
+
+
 
 
 class Selector(CoreSelector):
@@ -78,3 +81,19 @@ class FixedRateTax(CoreFixedRateTax):
 class Tautoko(CoreUseFirstStockRecord, CoreStockRequired, FixedRateTax, CoreStructured):
 
     rate = D(settings.OSCAR_DEFAULT_TAX_RATE)
+
+
+class UseFirstStockRecord(CoreUseFirstStockRecord):
+    """
+    Stockrecord selection mixin for use with the ``Structured`` base strategy.
+    This mixin picks the first (normally only) stockrecord to fulfil a product.
+
+    This is backwards compatible with Oscar<0.6 where only one stockrecord per
+    product was permitted.
+    """
+
+    def select_stockrecord(self, product):
+        try:
+            return product.stockrecords  # TO UPDATE
+        except IndexError:
+            return None

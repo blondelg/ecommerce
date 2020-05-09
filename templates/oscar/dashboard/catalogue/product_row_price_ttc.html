@@ -1,0 +1,5 @@
+{% if record.is_parent %}
+    -
+{% else %}
+    {{ record.stockrecords.price_retail }} {{ record.stockrecords.price_currency }}
+{% endif %}

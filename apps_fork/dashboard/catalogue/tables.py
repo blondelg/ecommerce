@@ -47,6 +47,14 @@ class ProductTable(DashboardTable):
         verbose_name=_('Has stock record'),
         template_name='oscar/dashboard/catalogue/product_row_has_stockrecords.html',
         orderable=False)
+    price_excl_tax = TemplateColumn(
+        verbose_name=_('HT Price'),
+        template_name='oscar/dashboard/catalogue/product_row_price_ht.html',
+        orderable=False)
+    price_incl_tax = TemplateColumn(
+        verbose_name=_('TTC Price'),
+        template_name='oscar/dashboard/catalogue/product_row_price_ttc.html',
+        orderable=False)
     actions = TemplateColumn(
         verbose_name=_('Actions'),
         template_name='oscar/dashboard/catalogue/product_row_actions.html',

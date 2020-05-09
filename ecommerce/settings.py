@@ -110,7 +110,9 @@ INSTALLED_APPS = [
     #'oscar.apps.order',
     'apps_fork.order.apps.OrderConfig',
 
-    'oscar.apps.customer',
+    #'oscar.apps.customer',
+    'apps_fork.customer.apps.CustomerConfig',
+    
     'oscar.apps.search',
     'oscar.apps.voucher',
     'oscar.apps.wishlists',

@@ -1,0 +1,6 @@
+{% load django_tables2 %}
+{% if record.is_child %}
+    <a href="{% url 'dashboard:catalogue-product' pk=record.pk %}{% querystring %}">{{ record.parent.title }}</a>
+{% else %}
+    <a href="{% url 'dashboard:catalogue-product' pk=record.pk %}{% querystring %}">{{ record.title }}</a>
+{% endif %}
