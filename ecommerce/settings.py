@@ -337,3 +337,4 @@ OSCAR_DASHBOARD_NAVIGATION = [
 {'label': 'Visualisation', 'url_name': 'dashboard:datavisu'}]},]
 
 OSCAR_DEFAULT_TAX_RATE = 0.196
+OSCAR_OFFERS_INCL_TAX = True
