@@ -12,7 +12,6 @@ from oscar.core.loading import get_class
 
 
 TaxInclusiveFixedPrice = get_class('partner.prices', 'TaxInclusiveFixedPrice')
-print("totoTOTO")
 
 
 
