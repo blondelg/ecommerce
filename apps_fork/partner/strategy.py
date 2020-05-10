@@ -12,7 +12,7 @@ from oscar.core.loading import get_class
 
 
 TaxInclusiveFixedPrice = get_class('partner.prices', 'TaxInclusiveFixedPrice')
-
+UnavailablePrice = get_class('partner.prices', 'Unavailable')
 
 
 class Selector(CoreSelector):
@@ -87,9 +87,9 @@ class UseFirstStockRecord(CoreUseFirstStockRecord):
     """
 
     def select_stockrecord(self, product):
-        try:
+        if product.has_stockrecords:
             return product.stockrecords  # TO UPDATE
-        except IndexError:
+        else:
             return None
 
 class Tautoko(UseFirstStockRecord, CoreStockRequired, FixedRateTax, CoreStructured):
