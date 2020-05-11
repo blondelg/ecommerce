@@ -112,7 +112,7 @@ INSTALLED_APPS = [
 
     #'oscar.apps.customer',
     'apps_fork.customer.apps.CustomerConfig',
-    
+
     'oscar.apps.search',
     'oscar.apps.voucher',
     'oscar.apps.wishlists',
@@ -320,23 +320,32 @@ OSCAR_ORDER_STATUS_PIPELINE = {
 }
 
 OSCAR_DASHBOARD_NAVIGATION = [
-{'label': 'Dashboard', 'icon': 'icon-th-list', 'url_name': 'dashboard:index'},
-{'label': 'Catalog', 'icon': 'icon-sitemap', 'children': [{'label': 'Products', 'url_name': 'dashboard:catalogue-product-list'},
-{'label': 'Product Types', 'url_name': 'dashboard:catalogue-class-list'}, {'label': 'Categories', 'url_name': 'dashboard:catalogue-category-list'},
-{'label': 'Ranges', 'url_name': 'dashboard:range-list'}, {'label': 'Low stock alerts', 'url_name': 'dashboard:stock-alert-list'},
-{'label': 'Options', 'url_name': 'dashboard:catalogue-option-list'}]},
-{'label': 'Fulfilment', 'icon': 'icon-shopping-cart', 'children': [{'label': 'Orders', 'url_name': 'dashboard:order-list'},
-{'label': 'Statistics', 'url_name': 'dashboard:order-stats'}, {'label': 'Partners', 'url_name': 'dashboard:partner-list'}]},
-{'label': 'Customers', 'icon': 'icon-group', 'children': [{'label': 'Customers', 'url_name': 'dashboard:users-index'},
-{'label': 'Stock alert requests', 'url_name': 'dashboard:user-alert-list'}]},
-{'label': 'Offers', 'icon': 'icon-bullhorn', 'children': [{'label': 'Offers', 'url_name': 'dashboard:offer-list'},
+{'label': 'Dashboard', 'icon': 'fas fa-chart-line', 'url_name': 'dashboard:index'},
+{'label': 'Products', 'icon': 'fas fa-store', 'url_name': 'dashboard:catalogue-product-list'},
+{'label': 'Orders', 'icon': 'fas fa-shopping-cart', 'url_name': 'dashboard:order-list'},
+{'label': 'Customers', 'icon': 'fas fa-users', 'url_name': 'dashboard:users-index'},
+{'label': 'Stock alert', 'icon': 'fas fa-exclamation-circle', 'url_name': 'dashboard:user-alert-list'},
+{'label': 'Reviews', 'icon': 'fas fa-thumbs-up', 'url_name': 'dashboard:reviews-list'},
+{'label': 'Blog Admin', 'icon': 'far fa-newspaper', 'url_name': 'dashboard:reviews-list'},
+{'label': 'Data',  'icon': 'fas fa-file-csv', 'url_name': 'dashboard:reports-index'},
+{'label': 'Analytics',  'icon': 'fas fa-chart-bar', 'url_name': 'dashboard:reports-index'},
+
+
+{'label': 'Settings', 'icon': 'fas fa-cogs', 'children': [
+{'label': 'Partners', 'url_name': 'dashboard:partner-list'},
+{'label': 'Product Types', 'url_name': 'dashboard:catalogue-class-list'},
+{'label': 'Product Categories', 'url_name': 'dashboard:catalogue-category-list'},
+{'label': 'Product Ranges', 'url_name': 'dashboard:range-list'},
+{'label': 'Low stock alerts', 'url_name': 'dashboard:stock-alert-list'},
+{'label': 'Product Options', 'url_name': 'dashboard:catalogue-option-list'},
+{'label': 'Offers', 'url_name': 'dashboard:offer-list'},
 {'label': 'Coupons', 'url_name': 'dashboard:voucher-list'},
-{'label': 'Voucher Sets', 'url_name': 'dashboard:voucher-set-list'}]},
-{'label': 'Content', 'icon': 'icon-folder-close', 'children': [{'label': 'Pages', 'url_name': 'dashboard:page-list'}, {'label': 'Email templates', 'url_name': 'dashboard:comms-list'},
-{'label': 'Reviews', 'url_name': 'dashboard:reviews-list'}]},
-{'label': 'Data', 'icon': 'icon-bar-chart', 'children': [
-{'label': 'Reports', 'url_name': 'dashboard:reports-index'},
-{'label': 'Visualisation', 'url_name': 'dashboard:datavisu'}]},]
+{'label': 'Voucher Sets', 'url_name': 'dashboard:voucher-set-list'},
+{'label': 'Pages', 'url_name': 'dashboard:page-list'},
+{'label': 'Email templates', 'url_name': 'dashboard:comms-list'},
+{'label': 'Visualisation', 'url_name': 'dashboard:datavisu'},
+{'label': 'Statistics', 'url_name': 'dashboard:order-stats'},
+]},]
 
 OSCAR_DEFAULT_TAX_RATE = 0.196
 OSCAR_OFFERS_INCL_TAX = True
