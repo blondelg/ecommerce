@@ -319,19 +319,23 @@ OSCAR_ORDER_STATUS_PIPELINE = {
     'Cancelled': (),
 }
 
+def partner_access(user, y, z, a):
+    #print(user.groups)
+    return True
+
 OSCAR_DASHBOARD_NAVIGATION = [
 {'label': 'Dashboard', 'icon': 'fas fa-chart-line', 'url_name': 'dashboard:index'},
 {'label': 'Products', 'icon': 'fas fa-store', 'url_name': 'dashboard:catalogue-product-list'},
 {'label': 'Orders', 'icon': 'fas fa-shopping-cart', 'url_name': 'dashboard:order-list'},
-{'label': 'Customers', 'icon': 'fas fa-users', 'url_name': 'dashboard:users-index'},
+{'label': 'Customers', 'icon': 'fas fa-users', 'url_name': 'dashboard:users-index', 'access_fn': partner_access},
 {'label': 'Stock alert', 'icon': 'fas fa-exclamation-circle', 'url_name': 'dashboard:user-alert-list'},
 {'label': 'Reviews', 'icon': 'fas fa-thumbs-up', 'url_name': 'dashboard:reviews-list'},
-{'label': 'Blog Admin', 'icon': 'far fa-newspaper', 'url_name': 'dashboard:reviews-list'},
+{'label': 'Blog Admin', 'icon': 'far fa-newspaper', 'url_name': 'wagtailadmin_home', 'access_fn': partner_access},
 {'label': 'Data',  'icon': 'fas fa-file-csv', 'url_name': 'dashboard:reports-index'},
-{'label': 'Analytics',  'icon': 'fas fa-chart-bar', 'url_name': 'dashboard:reports-index'},
+{'label': 'Analytics',  'icon': 'fas fa-chart-bar', 'staff': 'True', 'url_name': 'dashboard:reports-index'},
 
 
-{'label': 'Settings', 'icon': 'fas fa-cogs', 'children': [
+{'label': 'Settings', 'icon': 'fas fa-cogs', 'staff': 'True', 'children': [
 {'label': 'Partners', 'url_name': 'dashboard:partner-list'},
 {'label': 'Product Types', 'url_name': 'dashboard:catalogue-class-list'},
 {'label': 'Product Categories', 'url_name': 'dashboard:catalogue-category-list'},
@@ -351,3 +355,6 @@ OSCAR_DEFAULT_TAX_RATE = 0.196
 OSCAR_OFFERS_INCL_TAX = True
 
 OSCAR_GOOGLE_ANALYTICS_ID = ''
+
+#Additional configs loaded to link urls which are outside of the dashboard scope
+OSCAR_CONFIG_DASHBOARD = ['wagtail.admin']

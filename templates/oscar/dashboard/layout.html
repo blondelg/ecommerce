@@ -6,11 +6,14 @@
 {% load staticfiles %}
 
 {% block styles %}
-    {% if use_less %}
-        <link rel="stylesheet/less" type="text/css" href="{% static "oscar/less/dashboard.less" %}" />
-    {% else %}
-        <link rel="stylesheet" type="text/css" href="{% static "oscar/css/dashboard.css" %}" />
-    {% endif %}
+{% if use_less %}
+    <link rel="stylesheet/less" type="text/css" href="{% static "oscar/less/dashboard.less" %}" />
+{% else %}
+    <link rel="stylesheet" type="text/css" href="{% static "oscar/css/dashboard.css" %}" />
+{% endif %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static "oscar/css/dashboard_extra.css" %}" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
 {% endblock %}
 
 {% block extrastyles %}
@@ -19,8 +22,6 @@
     <link rel="stylesheet" href="{% static "oscar/css/select2-bootstrap.min.css" %}" />
     <link rel="stylesheet" href="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" %}" />
     <link rel="stylesheet" href="{% static "oscar/css/datetimepicker.css" %}" />
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 {% endblock %}
 
 {% block title %}
@@ -29,109 +30,103 @@
 
 {% block layout %}
     {% block navbar %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".nav-accounts">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <a class="navbar-brand" href="#">
+                    <img src="/static/oscar/img/ui/dashboard/logo_tautoko.png" alt="{{ homepage_url }}">
+                </a>
             </div>
-            <div class="collapse navbar-collapse nav-accounts">
-              <a class="navbar-brand" href="#">
-                <img src="/static/oscar/img/ui/dashboard/logo_tautoko.png" alt="{{ homepage_url }}">
-              </a>
-                <ul class="navbar-nav ml-md-auto">
-                    <!-- <li ><span>{% trans "Welcome" %} <em>{{ user.get_full_name|default:request.user.email }}</em></span></li>
-                    <li><a href="{{ homepage_url }}"><i class="icon-home"></i> {% trans "Return to site" %}</a></li>
-                    <li><a href="{% url 'customer:summary' %}"><i class="icon-user"></i> {% trans "Account" %}</a></li> -->
-                    <li class="nav-item"><h3><a class="text-light" href="{% url 'dashboard:logout' %}"><i class="icon-signout"></i> {% trans "Log out" %}</a></h3></li>
+            <ul class="list-unstyled components">
+            {% dashboard_navigation user as nav_items %}
+            {% for item in nav_items %}
+              <li class="active">
+              {% if item.is_heading %}
+                <a href="#{{ item.label }}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-secondary">
+                  <h4>
+                    <i class="{{ item.icon }}"></i>
+                    {{ item.label }}
+                  </h4>
+                </a>
+                {% else %}
+                <a href="{{ item.url }}" class="text-secondary">
+                  <h4>
+                    <i class="{{ item.icon }}"></i>
+                    {{ item.label }}
+                  </h4>
+                </a>
+                {% endif %}
+                {% if item.has_children %}
+                <ul class="collapse list-unstyled" id="{{ item.label }}">
+                  {% for subitem in item.children %}
+                  <li>
+                    <a href="{{ subitem.url }}" class="text-secondary">
+                      <h4>{{ subitem.label }}</h4>
+                    </a>
+                  </li>
+                {% endfor %}
                 </ul>
-            </div>
-        </div><!-- /navbar-inner -->
-    </nav><!-- /navbar -->
-    {% endblock navbar %}
-<div class="container-fluid">
-<div class="row">
-  <div class="col-sm-2" style="background-color: gray-light">
-    {% block dashboard_nav %}
-        {% dashboard_navigation user as nav_items %}
+              {% endif %}
 
-        <nav class=" bg-light sidebar">
-            <!-- <div class="container-fluid dashboard"> -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".nav-primary">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-
-                <!-- <div class="collapse navbar-collapse nav-primary"> -->
-                <div class="sidebar-sticky">
-                  <ul class="components nav flex-column">
-                    {% for item in nav_items %}
-                    <li class="dropdown">
-                        {% if item.is_heading %}
-                        <a href="#" class="text-secondary" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {% if item.icon %}<i class="{{ item.icon }}"></i>{% endif %}
-                            {{ item.label }} <b class="caret"></b>
-                        </a>
-                        {% else %}
-                        <a href="{{ item.url }}" class="text-secondary">
-                            {% if item.icon %}<i class="{{ item.icon }}"></i>{% endif %}
-                            {{ item.label }}
-                        </a>
-                        {% endif %}
-                        {% if item.has_children %}
-                        <ul class="dropdown-menu">
-                            {% for subitem in item.children %}
-                            <li>
-                                <a href="{{ subitem.url }}" class="text-secondary">
-                                {% if subitem.icon %}<i class="{{ subitem.icon }}"></i>{% endif %}
-                                {{ subitem.label }}
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                  </ul>
-
-                </div>
-            <!-- </div> -->
+              </li>
+            {% endfor %}
+            </ul>
         </nav>
-    {% endblock %}
-    </div>
 
-    <div class="col-sm-10">
+        <!-- Page Content  -->
+        <div id="content">
 
-        {% block breadcrumbs %}
-        <ul class="breadcrumb">
-            <li><a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a></li>
-        </ul>
-        {% endblock %}
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
 
-        <div class="content">
-            {% include 'oscar/dashboard/partials/alert_messages.html' %}
-            {% block header %}
-            <div class="page-header action">
-                <h1>{% block headertext %}{% endblock %}</h1>
-            </div>
-            {% endblock %}
-            <div class="page-content">
-                {% block content %}
-                    {% block dashboard_content %}{% endblock dashboard_content %}
-                {% endblock content %}
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-angle-double-left" id="open" style="display:inline-block"></i>
+                        <i class="fas fa-angle-double-right" id="closed" style="display:none"></i>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <li class="nav-item">
+                                  <h3>
+                                    <a class="text-light" href="{% url 'dashboard:logout' %}">
+                                      <i class="fas fa-sign-in-alt"></i> {% trans "Log out" %}
+                                    </a>
+                                  </h3>
+                                </li>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="container-fluid dashboard">
+                {% block breadcrumbs %}
+                <ul class="breadcrumb">
+                    <li><a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a></li>
+                </ul>
+                {% endblock %}
+                <div class="content">
+                    {% include 'oscar/dashboard/partials/alert_messages.html' %}
+                    {% block header %}
+                    <div class="page-header action">
+                        <h1>{% block headertext %}{% endblock %}</h1>
+                    </div>
+                    {% endblock %}
+                    <div class="page-content">
+                        {% block content %}
+                            {% block dashboard_content %}{% endblock dashboard_content %}
+                        {% endblock content %}
+                    </div>
+                </div>
             </div>
         </div>
-</div>
+    </div>
+    {% endblock %}
 {% endblock %}
-</div>
-</div>
-
 {% block cdn_scripts %}
   {{ block.super }}
   {% if use_less and debug %}
@@ -144,9 +139,9 @@
 {% block scripts %}
     <!-- Twitter Bootstrap -->
     <!-- <script src="{% static "oscar/js/bootstrap3/bootstrap.min.js" %}"></script> -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Oscar -->
     <script src="{% static "oscar/js/oscar/ui.js" %}"></script>
 {% endblock %}
@@ -165,6 +160,27 @@
     <script src="{% static "oscar/js/oscar/RelatedObjectLookups.js" %}"></script>
     <script src="{% static "oscar/js/tinymce/tinymce.min.js" %}"></script>
     <script src="{% static "oscar/js/tinymce/jquery.tinymce.min.js" %}"></script>
+
+    {# dashboard script #}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                if($('#sidebar').hasClass('active')){
+                  $('#open').hide();
+                  $('#closed').show();
+                }
+                else{
+                  $('#open').show();
+                  $('#closed').hide();
+                }
+            });
+        });
+        $('li > a').click(function() {
+          $('li').removeClass('active');
+          $(this).parent().addClass('active');
+          });
+    </script>
 {% endblock %}
 
 {% block onbodyload %}

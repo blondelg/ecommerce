@@ -57,7 +57,7 @@
                         <div class="table-header">
                             <h3>{% trans "Sections" %}</h3>
                         </div>
-                        <ul class="nav nav-list bs-docs-sidenav" id="product_update_tabs">
+                        <ul class="list-group" id="product_update_tabs">
                             {% comment %}
                                 The navigation below is filtered heavily on the product structure.
                                 This intentionally is the only place where filtering is done, as
@@ -66,24 +66,24 @@
                                 only one template block (instead of all affected) has to be altered.
                             {% endcomment %}
                             {% block tabs %}
-                                <li class="active"><a href="#product_details" data-toggle="tab">{% trans 'Product details' %}</a></li>
+                                <li class="list-group-item active"><a href="#product_details" data-toggle="tab">{% trans 'Product details' %}</a></li>
                                 {% if not parent %}
-                                    <li><a href="#product_category" data-toggle="tab">{% trans 'Categories' %}</a></li>
+                                    <li class="list-group-item"><a href="#product_category" data-toggle="tab">{% trans 'Categories' %}</a></li>
                                 {% endif %}
                                 {% if parent %}
-                                    <li><a href="#product_attributes" data-toggle="tab">{% trans 'Attributes' %}</a></li>
+                                    <li class="list-group-item"><a href="#product_attributes" data-toggle="tab">{% trans 'Attributes' %}</a></li>
                                 {% endif %}
                                 {% if not parent %}
-                                    <li><a href="#product_images" data-toggle="tab">{% trans 'Images' %}</a></li>
+                                    <li class="list-group-item"><a href="#product_images" data-toggle="tab">{% trans 'Images' %}</a></li>
                                 {% endif %}
                                 {% if not product.is_parent %}
-                                    <li><a href="#product_stock" data-toggle="tab">{% trans 'Stock and pricing' %}</a></li>
+                                    <li class="list-group-item"><a href="#product_stock" data-toggle="tab">{% trans 'Stock and pricing' %}</a></li>
                                 {% endif %}
                                 {% if user.is_staff and not parent %}
-                                    <li><a href="#child_products" data-toggle="tab">{% trans 'Variants' %}</a></li>
+                                    <li class="list-group-item"><a href="#child_products" data-toggle="tab">{% trans 'Variants' %}</a></li>
                                 {% endif %}
                                 {% if not parent %}
-                                    <li><a href="#product_recommended" data-toggle="tab">{% trans 'Upselling' %}</a></li>
+                                    <li class="list-group-item"><a href="#product_recommended" data-toggle="tab">{% trans 'Upselling' %}</a></li>
                                 {% endif %}
                             {% endblock tabs %}
                         </ul>

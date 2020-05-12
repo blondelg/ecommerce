@@ -13,12 +13,14 @@ from wagtail.documents import urls as wagtaildocs_urls
 #if settings.DEBUG:
 import debug_toolbar
 
+app_name = 'main_app'
+
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
     path('', include(apps.get_app_config('oscar').urls[0])),
 
-    re_path(r'^cms/', include(wagtailadmin_urls)),
+    re_path(r'^cms/', include(wagtailadmin_urls), name="cms"),
     re_path(r'^documents/', include(wagtaildocs_urls)),
 
     re_path(r'blog/', include(wagtail_urls)),
