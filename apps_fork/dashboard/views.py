@@ -41,7 +41,7 @@ class IndexView(CoreIndexView):
             orders = orders.filter(
                 lines__partner_id__in=partners_ids
             ).distinct()
-            orders_pending = orders.filter(
+            orders_pending = orders_pending.filter(
                 lines__partner_id__in=partners_ids
             ).distinct()
             alerts = alerts.filter(stockrecord__partner_id__in=partners_ids)
