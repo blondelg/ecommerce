@@ -4,6 +4,7 @@
 {% load dashboard_tags %}
 {% load i18n %}
 {% load staticfiles %}
+{% load filters %}
 
 {% block styles %}
 {% if use_less %}
@@ -34,8 +35,8 @@
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <a class="navbar-brand" href="#">
-                    <img src="/static/oscar/img/ui/dashboard/logo_tautoko.png" alt="{{ homepage_url }}">
+                <a class="navbar-brand" href="{{ homepage_url }}">
+                    <img src="/static/oscar/img/ui/dashboard/logo_tautoko.png" alt="">
                 </a>
             </div>
             <ul class="list-unstyled components">
@@ -47,6 +48,9 @@
                   <h4>
                     <i class="{{ item.icon }}"></i>
                     {{ item.label }}
+                    <span style="color:tomato; display:none" id='{{ item.label|remove_blank }}'>
+                      <i class="fas fa-circle float-right" id='{{ item.label|remove_blank }}' style="display=none"></i>
+                    </span>
                   </h4>
                 </a>
                 {% else %}
@@ -54,6 +58,9 @@
                   <h4>
                     <i class="{{ item.icon }}"></i>
                     {{ item.label }}
+                    <span style="color:tomato; display:none" id='{{ item.label|remove_blank }}' >
+                      <i class="fas fa-circle float-right" id='{{ item.label|remove_blank }}' style="display=none"></i>
+                    </span>
                   </h4>
                 </a>
                 {% endif %}
@@ -181,6 +188,28 @@
           $(this).parent().addClass('active');
           });
     </script>
+
+    {# Notifications script #}
+    <script>
+
+    window.onload = function() {
+      if ({{ total_open_stock_alerts }} > 0){
+        $('#Lowxstockxalerts').show();
+        console.log('low stock alerts');
+      } else {
+        $('#Lowxstockxalerts').hide();
+      }
+
+      if ({{ total_orders_pending }} > 0){
+        $('#Orders').show();
+        console.log('new orders');
+      } else {
+        $('#Orders').hide();
+      }
+
+    }
+    </script>
+
 {% endblock %}
 
 {% block onbodyload %}
