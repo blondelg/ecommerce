@@ -1,6 +1,26 @@
 from oscar.apps.dashboard.views import IndexView as CoreIndexView
-from django.utils.timezone import now
 from datetime import timedelta
+from decimal import Decimal as D
+from decimal import ROUND_UP
+
+from django.contrib import messages
+from django.db.models import Avg, Count, Sum
+from django.template.response import TemplateResponse
+from django.utils.timezone import now
+from django.views.generic import TemplateView
+
+from oscar.core.compat import get_user_model
+from oscar.core.loading import get_class, get_model
+
+RelatedFieldWidgetWrapper = get_class('dashboard.widgets', 'RelatedFieldWidgetWrapper')
+ConditionalOffer = get_model('offer', 'ConditionalOffer')
+Voucher = get_model('voucher', 'Voucher')
+Basket = get_model('basket', 'Basket')
+StockAlert = get_model('partner', 'StockAlert')
+Product = get_model('catalogue', 'Product')
+Order = get_model('order', 'Order')
+Line = get_model('order', 'Line')
+User = get_user_model()
 
 class IndexView(CoreIndexView):
 
