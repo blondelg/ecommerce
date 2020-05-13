@@ -1,5 +1,6 @@
 from oscar.apps.dashboard.views import IndexView as CoreIndexView
-
+from django.utils.timezone import now
+from datetime import timedelta
 
 class IndexView(CoreIndexView):
 
