@@ -9,6 +9,8 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+from apps_fork.dashboard import urls as stats_urls
+
 
 #if settings.DEBUG:
 import debug_toolbar
@@ -29,6 +31,8 @@ urlpatterns = [
 
     # Optional URL for including your own vanilla Django urls/views
     #re_path(r'', include('myapp.urls')),
+
+    path('dashboard_charts', include(stats_urls)),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's serving mechanism

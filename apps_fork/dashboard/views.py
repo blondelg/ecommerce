@@ -12,6 +12,8 @@ from django.views.generic import TemplateView
 from oscar.core.compat import get_user_model
 from oscar.core.loading import get_class, get_model
 
+from apps_fork.dashboard.stats import chart_ca_histo
+
 RelatedFieldWidgetWrapper = get_class('dashboard.widgets', 'RelatedFieldWidgetWrapper')
 ConditionalOffer = get_model('offer', 'ConditionalOffer')
 Voucher = get_model('voucher', 'Voucher')
@@ -26,6 +28,7 @@ class IndexView(CoreIndexView):
 
     def get_stats(self):
         datetime_24hrs_ago = now() - timedelta(hours=24)
+        datetime_7days_ago = now() - timedelta(days=7)
 
         orders = Order.objects.all()
         orders_pending = Order.objects.filter(status='Pending')
@@ -35,6 +38,7 @@ class IndexView(CoreIndexView):
         lines = Line.objects.filter()
         products = Product.objects.all()
 
+
         user = self.request.user
         if not user.is_staff:
             partners_ids = tuple(user.partners.values_list('id', flat=True))
@@ -42,7 +46,7 @@ class IndexView(CoreIndexView):
                 lines__partner_id__in=partners_ids
             ).distinct()
             orders_pending = orders_pending.filter(
-                lines__partner_id__in=partners_ids
+                partner_id__in=partners_ids
             ).distinct()
             alerts = alerts.filter(stockrecord__partner_id__in=partners_ids)
             baskets = baskets.filter(
@@ -53,6 +57,8 @@ class IndexView(CoreIndexView):
             ).distinct()
             lines = lines.filter(partner_id__in=partners_ids)
             products = products.filter(stockrecords__partner_id__in=partners_ids)
+
+
 
         orders_last_day = orders.filter(date_placed__gt=datetime_24hrs_ago)
 
@@ -75,6 +81,9 @@ class IndexView(CoreIndexView):
             'hourly_report_dict': self.get_hourly_report(orders),
             'total_customers_last_day': customers.filter(
                 date_joined__gt=datetime_24hrs_ago,
+            ).count(),
+            'total_customers_last_7_days': customers.filter(
+                date_joined__gt=datetime_7days_ago,
             ).count(),
 
             'total_open_baskets_last_day': baskets.filter(
@@ -104,3 +113,7 @@ class IndexView(CoreIndexView):
                 total_vouchers=self.get_active_vouchers().count(),
             )
         return stats
+
+## import from stats
+
+chart_ca_histo_json = chart_ca_histo.as_view()

@@ -157,6 +157,9 @@ INSTALLED_APPS = [
 
     # debug
     'debug_toolbar',
+
+    # chartjs
+    'chartjs',
 ]
 
 SITE_ID = 1
