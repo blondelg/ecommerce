@@ -13,6 +13,7 @@ from oscar.core.compat import get_user_model
 from oscar.core.loading import get_class, get_model
 
 from apps_fork.dashboard.stats import chart_ca_histo
+from apps_fork.dashboard.stats import chart_new_client_histo
 
 RelatedFieldWidgetWrapper = get_class('dashboard.widgets', 'RelatedFieldWidgetWrapper')
 ConditionalOffer = get_model('offer', 'ConditionalOffer')
@@ -117,3 +118,4 @@ class IndexView(CoreIndexView):
 ## import from stats
 
 chart_ca_histo_json = chart_ca_histo.as_view()
+chart_new_client_histo_json = chart_new_client_histo.as_view()

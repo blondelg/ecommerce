@@ -21,7 +21,7 @@
       <div class="w-100"></div>
       <h6 class="text-secondary">For the last 7 days</h6>
       <div class="w-100"></div>
-      <h1>{{ total_orders_pending }}</h1>
+      <h1><span class="count">{{ total_orders_pending }}</span></h1>
     </div>
   </div>
   <div class="col-sm-2 h-100 d-inline-block">
@@ -30,7 +30,7 @@
       <div class="w-100"></div>
       <h6 class="text-secondary">From start</h6>
       <div class="w-100"></div>
-      <h1>{{ total_orders }}</h1>
+      <h1><span class="count">{{ total_orders }}</span></h1>
     </div>
   </div>
   <div class="col-sm-2 h-100 d-inline-block">
@@ -39,7 +39,7 @@
       <div class="w-100"></div>
       <h6 class="text-secondary">Open stock alerts</h6>
       <div class="w-100"></div>
-      <h1>{{ total_open_stock_alerts }}</h1>
+      <h1><span class="count">{{ total_open_stock_alerts }}</span></h1>
     </div>
   </div>
   <div class="col-sm-2 h-100 d-inline-block">
@@ -48,7 +48,7 @@
       <div class="w-100"></div>
       <h6 class="text-secondary">For the last 7 days</h6>
       <div class="w-100"></div>
-      <h1>{{ total_customers_last_7_days }}</h1>
+      <h1><span class="count">{{ total_customers_last_7_days }}</span></h1>
     </div>
   </div>
   <div class="col-sm-2 h-100 d-inline-block">
@@ -57,7 +57,7 @@
       <div class="w-100"></div>
       <h6 class="text-secondary">From start</h6>
       <div class="w-100"></div>
-      <h1>{{ total_customers }}</h1>
+      <h1><span class="count">{{ total_customers }}</span></h1>
     </div>
   </div>
   <div class="col-sm-2 h-100 d-inline-block">
@@ -66,7 +66,7 @@
       <div class="w-100"></div>
       <h6 class="text-secondary">From start</h6>
       <div class="w-100"></div>
-      <h1>{{ total_products }}</h1>
+      <h1><span class="count">{{ total_products }}</span></h1>
     </div>
   </div>
 </div>
@@ -80,7 +80,7 @@
 
 
 
-<div class="content-block">
+<!-- <div class="content-block"> -->
 
     <div class="row">
         <!-- <aside class="col-md-3 order-graph-details">
@@ -91,16 +91,17 @@
         </aside> -->
         <div class="col-md-6">
             <div id="order_graph">
-
               <canvas id="weekly_ca"></canvas>
-
             </div>
-          <div class="col-md-6">
-            <canvas id="weekly_ca"></canvas>
           </div>
-        </div>
+          <div class="col-md-6">
+            <div id="order_graph">
+              <canvas id="weekly_client"></canvas>
+            </div>
+          </div>
+
     </div>
-</div>
+<!-- </div> -->
 
 
 <div class="row">
@@ -230,6 +231,28 @@
             type: 'line',
             data: data,
             options: {responsive: true,}
+        });
+    });
+
+    $.get('{% url "chart_new_client_histo_json" %}', function(data) {
+        var ctx = $("#weekly_client").get(0).getContext("2d");
+        new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {responsive: true,}
+        });
+    });
+
+
+    $('.count').each(function () {
+        $(this).prop('Counter',0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 1000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.ceil(now));
+            }
         });
     });
 </script>

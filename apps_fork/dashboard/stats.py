@@ -2,6 +2,7 @@ import pandas as pd
 from oscar.core.loading import get_model
 from django.utils import timezone
 from datetime import timedelta, date
+from django.db.models import Q
 
 from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
@@ -59,10 +60,11 @@ class chart_ca_histo(BaseLineChartView):
 
         return [[float(e) for e in values]]
 
+        
 
 class chart_new_client_histo(BaseLineChartView):
 
-    """ get CA sum per day to build a week chart """
+    """ get new client sum per day to build a week chart """
 
     def __init__(self, partner_id=None, start_date=None, end_date=None):
 
@@ -79,20 +81,26 @@ class chart_new_client_histo(BaseLineChartView):
             self.start_date = start_date
 
         if partner_id is None:
-            self.df = pd.DataFrame(list(Order.objects.filter(date_placed__gte=self.start_date)\
-                                   .filter(date_placed__lte=self.end_date).values()))
+            self.df = pd.DataFrame(list(Order.objects\
+                                        .filter(~Q(structure='child'))\
+                                        .filter(date_placed__gte=self.start_date)\
+                                        .filter(date_placed__lte=self.end_date).values()))
         else:
-            self.df = pd.DataFrame(list(Order.objects.filter(date_placed__gte=self.start_date)\
-                                   .filter(date_placed__lte=self.end_date)\
-                                   .filter(partner_id=partner_id).values()))
+            self.df = pd.DataFrame(list(Order.objects\
+                                        .filter(~Q(structure='parent'))\
+                                        .filter(date_placed__gte=self.start_date)\
+                                        .filter(date_placed__lte=self.end_date)\
+                                        .filter(partner_id=partner_id).values()))
 
         # transform date to 'YYYY-MM-DD'
-        self.df['str_date'] = self.df['date_placed'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        self.df['date'] = self.df['date_placed'].dt.date
 
         # remove columns
-        self.df = self.df[['str_date', 'total_incl_tax']]
-
-        self.df = self.df.groupby(['str_date'], as_index=False).sum()
+        self.df = self.df[['date', 'user_id']]
+        self.df = self.df.groupby(['user_id'], as_index=False).min()
+        self.df = self.df.groupby(['date'], as_index=False).count()
+        self.df['str_date'] = self.df['date'].apply(lambda x: x.strftime('%Y-%m-%d'))
+        self.df = self.df[['str_date', 'user_id']]
 
 
     def get_labels(self):
@@ -101,10 +109,10 @@ class chart_new_client_histo(BaseLineChartView):
 
     def get_providers(self):
         """  """
-        return ["Sales per day"]
+        return ["New clients per day"]
 
     def get_data(self):
         """Return 3 datasets to plot."""
-        values = self.df['total_incl_tax'].tolist()
+        values = self.df['user_id'].tolist()
 
         return [[float(e) for e in values]]
