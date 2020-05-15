@@ -101,6 +101,11 @@
           </div>
 
     </div>
+    <div class="row">
+      <div id="order_graph">
+        <canvas id="best_sellers"></canvas>
+      </div>
+    </div>
 <!-- </div> -->
 
 
@@ -230,7 +235,11 @@
         new Chart(ctx, {
             type: 'line',
             data: data,
-            options: {responsive: true,}
+            options: {
+              responsive: true,
+              title: {display: true, text: 'Chiffre d\'affaire par jour €'},
+              legend: {display: false}
+            }
         });
     });
 
@@ -239,7 +248,24 @@
         new Chart(ctx, {
             type: 'line',
             data: data,
-            options: {responsive: true,}
+            options: {
+              responsive: true,
+              title: {display: true, text: 'Nouveaux clients par jour'},
+              legend: {display: false},
+            }
+        });
+    });
+
+    $.get('{% url "chart_best_sellers_json" %}', function(data) {
+        var ctx = $("#best_sellers").get(0).getContext("2d");
+        new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+              responsive: true,
+              title: {display: true, text: 'Best sellers'},
+              legend: {display: false},
+            }
         });
     });
 
