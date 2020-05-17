@@ -92,7 +92,8 @@ INSTALLED_APPS = [
     'apps_fork.checkout.apps.CheckoutConfig',
 
     'oscar.apps.address',
-    'oscar.apps.shipping',
+    #'oscar.apps.shipping',
+    'apps_fork.shipping.apps.ShippingConfig',
 
     #'oscar.apps.catalogue',
     'apps_fork.catalogue.apps.CatalogueConfig',
