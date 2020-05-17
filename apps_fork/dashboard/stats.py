@@ -12,7 +12,7 @@ from chartjs.views.columns import BaseColumnsHighChartsView
 Order = get_model('order', 'Order')
 Line = get_model('order', 'Line')
 
-class chart_best_sellers(BaseColumnsHighChartsView):
+class chart_best_sellers(BaseLineChartView):
 
     """ bar chart that displays all sells per products """
 
@@ -31,19 +31,23 @@ class chart_best_sellers(BaseColumnsHighChartsView):
         self.df = self.df.groupby(['title'], as_index=False).sum()
 
         self.title = "toto en vacance"
-        self.yUnit = 1
+        self.yUnit = "cm"
 
     def get_labels(self):
         """Return product titles """
         return self.df['title'].tolist()
 
-    # def get_providers(self):
-    #     """  """
-    #     return ["Sales per day"]
+    def get_providers(self):
+        """  """
+        return ["Sales per day"]
 
     def get_data(self):
         """Return 3 datasets to plot."""
+        print(self.df['quantity'].tolist())
         return [self.df['quantity'].tolist()]
+
+
+
 
 
 

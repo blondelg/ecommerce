@@ -103,13 +103,13 @@
     </div>
     <div class="row">
       <div id="order_graph">
-        <canvas id="best_sellers"></canvas>
+        <canvas id="best_sellers" style="height:400px"></canvas>
       </div>
     </div>
 <!-- </div> -->
 
 
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-4">
         <table class="table table-striped table-bordered table-hover">
             <caption><i class="icon-shopping-cart icon-large"></i>{% trans "Orders - Last 24 Hours" %}</caption>
@@ -130,9 +130,9 @@
                 <td class="col-md-2" >{{ average_order_costs|currency }}</td>
             </tr>
         </table>
-    </div>
+    </div> -->
 
-    <div class="col-md-4">
+    <!-- <div class="col-md-4">
         <table class="table table-striped table-bordered table-hover">
             <caption>
                 <a href="{% url 'dashboard:order-list' %}" class="btn btn-default pull-right">
@@ -225,7 +225,7 @@
         </table>
         {% endif %}
     </div>
-</div>
+</div> -->
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
 <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
@@ -259,7 +259,7 @@
     $.get('{% url "chart_best_sellers_json" %}', function(data) {
         var ctx = $("#best_sellers").get(0).getContext("2d");
         new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: data,
             options: {
               responsive: true,
