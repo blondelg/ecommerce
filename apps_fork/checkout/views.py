@@ -19,5 +19,5 @@ class PaymentDetailsView(CorePaymentDetailsView):
         """
         submissions = self.build_submission()
         # delete setting added only for template for mix baskets
-        submissions.pop("order_total_mix", None)
+        #submissions.pop("order_total_mix", None)
         return self.submit(**submissions)
