@@ -139,7 +139,9 @@ INSTALLED_APPS = [
     'oscar.apps.dashboard.reviews',
     'oscar.apps.dashboard.vouchers',
     'oscar.apps.dashboard.communications',
-    'oscar.apps.dashboard.shipping',
+
+    #'oscar.apps.dashboard.shipping',
+    'apps_fork.dashboard.shipping',
 
     # 3rd-party apps that oscar depends on
     'widget_tweaks',
@@ -332,6 +334,7 @@ OSCAR_DASHBOARD_NAVIGATION = [
 {'label': 'Products', 'icon': 'fas fa-store', 'url_name': 'dashboard:catalogue-product-list'},
 {'label': 'Orders', 'icon': 'fas fa-shopping-cart', 'url_name': 'dashboard:order-list'},
 {'label': 'Customers', 'icon': 'fas fa-users', 'url_name': 'dashboard:users-index', 'access_fn': partner_access},
+{'label': 'Shipping', 'icon': 'fas fa-truck', 'url_name': 'dashboard:shipping-method-list', 'access_fn': partner_access},
 {'label': 'Low stock alerts', 'icon': 'fas fa-exclamation-circle', 'url_name': 'dashboard:stock-alert-list', 'access_fn': partner_access},
 {'label': 'Reviews', 'icon': 'fas fa-thumbs-up', 'url_name': 'dashboard:reviews-list', 'access_fn': partner_access},
 {'label': 'Blog Admin', 'icon': 'far fa-newspaper', 'url_name': 'wagtailadmin_home', 'access_fn': partner_access},

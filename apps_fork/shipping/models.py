@@ -72,7 +72,7 @@ class ShippingRule(models.Model):
         except:
             pass
 
-        super(StockRecord, self).save(*args, **kwargs)
+        super(ShippingRule, self).save(*args, **kwargs)
 
 
 
