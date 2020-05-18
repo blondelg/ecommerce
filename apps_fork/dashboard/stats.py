@@ -11,18 +11,27 @@ from chartjs.views.columns import BaseColumnsHighChartsView
 
 Order = get_model('order', 'Order')
 Line = get_model('order', 'Line')
+Partner = get_model('partner', 'Partner')
+
+def get_partner_id(user):
+    """ from a given user returns partner_id id exists """
+    try:
+        return Partner.objects.get(users=user).pk
+    except:
+        return None
+
 
 class chart_best_sellers(BaseLineChartView):
 
     """ bar chart that displays all sells per products """
 
-    def __init__(self, partner_id=None):
+    def retrieve_data(self):
 
-        """ get data from database """
-        if partner_id is None:
+        self.partner_id = get_partner_id(self.__dict__['request'].user)
+        if self.partner_id is None:
             self.df = pd.DataFrame(list(Line.objects.all().values()))
         else:
-            self.df = pd.DataFrame(list(Line.objects.filter(partner_id=partner_id).values()))
+            self.df = pd.DataFrame(list(Line.objects.filter(partner_id=self.partner_id).values()))
 
         # subset columns
         self.df = self.df[['title', 'quantity']]
@@ -35,19 +44,16 @@ class chart_best_sellers(BaseLineChartView):
 
     def get_labels(self):
         """Return product titles """
+        self.retrieve_data()
         return self.df['title'].tolist()
 
-    def get_providers(self):
-        """  """
-        return ["Sales per day"]
-
     def get_data(self):
-        """Return 3 datasets to plot."""
-        print(self.df['quantity'].tolist())
+        """ get data from database """
         return [self.df['quantity'].tolist()]
 
-
-
+    def get_providers(self):
+        """   """
+        return ["Total item sold"]
 
 
 
@@ -55,9 +61,9 @@ class chart_ca_histo(BaseLineChartView):
 
     """ get CA sum per day to build a week chart """
 
-    def __init__(self, partner_id=None, start_date=None, end_date=None):
+    def retrieve_data(self, start_date=None, end_date=None):
 
-        """ get settings if necessary """
+        self.partner_id = get_partner_id(self.__dict__['request'].user)
 
         if end_date is None:
             self.end_date = timezone.now()
@@ -69,13 +75,13 @@ class chart_ca_histo(BaseLineChartView):
         else:
             self.start_date = start_date
 
-        if partner_id is None:
+        if self.partner_id is None:
             self.df = pd.DataFrame(list(Order.objects.filter(date_placed__gte=self.start_date)\
                                    .filter(date_placed__lte=self.end_date).values()))
         else:
             self.df = pd.DataFrame(list(Order.objects.filter(date_placed__gte=self.start_date)\
                                    .filter(date_placed__lte=self.end_date)\
-                                   .filter(partner_id=partner_id).values()))
+                                   .filter(partner_id=self.partner_id).values()))
 
         core_df = pd.date_range(self.start_date, periods=7, freq='D').to_frame(name="date_placed", index=False)
         core_df['total_incl_tax'] = 0
@@ -86,7 +92,6 @@ class chart_ca_histo(BaseLineChartView):
 
         # remove columns
         self.df = self.df[['str_date', 'total_incl_tax']]
-
 
         self.df = self.df.groupby(['str_date'], as_index=False).sum()
 
@@ -102,6 +107,7 @@ class chart_ca_histo(BaseLineChartView):
 
     def get_labels(self):
         """Return dates as yyyy-mm-dd """
+        self.retrieve_data()
         return self.df['str_date'].tolist()
 
     def get_providers(self):
@@ -120,9 +126,9 @@ class chart_new_client_histo(BaseLineChartView):
 
     """ get new client sum per day to build a week chart """
 
-    def __init__(self, partner_id=None, start_date=None, end_date=None):
+    def retrieve_data(self, start_date=None, end_date=None):
 
-        """ get settings if necessary """
+        self.partner_id = get_partner_id(self.__dict__['request'].user)
 
         if end_date is None:
             self.end_date = timezone.now()
@@ -134,7 +140,7 @@ class chart_new_client_histo(BaseLineChartView):
         else:
             self.start_date = start_date
 
-        if partner_id is None:
+        if self.partner_id is None:
             self.df = pd.DataFrame(list(Order.objects\
                                         .filter(~Q(structure='child'))\
                                         .filter(date_placed__gte=self.start_date)\
@@ -144,7 +150,7 @@ class chart_new_client_histo(BaseLineChartView):
                                         .filter(~Q(structure='parent'))\
                                         .filter(date_placed__gte=self.start_date)\
                                         .filter(date_placed__lte=self.end_date)\
-                                        .filter(partner_id=partner_id).values()))
+                                        .filter(partner_id=self.partner_id).values()))
 
         # transform date to 'YYYY-MM-DD'
         self.df['date'] = self.df['date_placed'].dt.date
@@ -177,6 +183,7 @@ class chart_new_client_histo(BaseLineChartView):
 
     def get_labels(self):
         """Return dates as yyyy-mm-dd """
+        self.retrieve_data()
         return self.df['str_date'].tolist()
 
     def get_providers(self):
