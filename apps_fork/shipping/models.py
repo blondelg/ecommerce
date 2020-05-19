@@ -5,11 +5,11 @@ from django.conf import settings
 from decimal import Decimal as D
 
 class ShippingRule(models.Model):
+
     """
     this table aims at allowing each partner to define their own
     shipping rules
     """
-
 
     partner = models.ForeignKey(
         'partner.Partner',
