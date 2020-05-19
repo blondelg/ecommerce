@@ -1,0 +1,64 @@
+{% extends 'oscar/dashboard/layout.html' %}
+{% load i18n %}
+{% load currency_filters %}
+
+{% block title %}
+    {{ method.name }} | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li>
+            <a href="{% url 'dashboard:shipping-method-list' %}">{% trans "Shipping methods" %}</a>
+        </li>
+        <li class="active">{{ method.name }}</li>
+    </ul>
+{% endblock %}
+
+{% block headertext %}
+    {{ method.name }}
+{% endblock %}
+
+{% block dashboard_content %}
+    <div class="well">
+        <h2>{% trans "Shipping method" %}</h2>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>{% trans "Name" %}</th>
+                    <td>{{ method.name }}</td>
+                </tr>
+                <tr>
+                    <th>{% trans "Description" %}</th>
+                    <td>{{ method.description|safe|default:"-" }}</td>
+                </tr>
+                {% with countries=method.countries.all %}
+                    {% if countries %}
+                        <tr>
+                            <th>{% trans "Applies to countries" %}</th>
+                            <td>{{ countries|join:", " }}</td>
+                        </tr>
+                    {% endif %}
+                {% endwith %}
+                <tr>
+                    <th>{% trans "Charge" %}</th>
+                    <td>{{ method.charge_incl_tax }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>
+            <a id="edit_method" href="{% url 'dashboard:shipping-method-edit' pk=method.pk %}" class="btn btn-primary">
+                {% trans 'Edit shipping method' %}
+            </a>
+            <a id="delete_method" href="{% url 'dashboard:shipping-method-delete' pk=method.pk %}" class="btn btn-danger">
+                {% trans 'Delete shipping method' %}
+            </a>
+        </p>
+
+
+    </div>
+{% endblock %}

@@ -3,31 +3,40 @@ from django.contrib import messages
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import generic
+from django import forms
 
 from oscar.core.loading import get_class, get_model
 
 ShippingRuleForm = get_class('dashboard.shipping.forms', 'ShippingRuleForm')
 ShippingRule = get_model('shipping', 'ShippingRule')
+Partner = get_model('partner', 'Partner')
+
+def get_partner(user):
+    """ get partner id from user_id """
+    return Partner.objects.get(users=user)
 
 
 
 class ShippingRuleListView(generic.ListView):
     model = ShippingRule
-    template_name = "oscar/dashboard/shipping/shipping_based_list.html"
+    template_name = "oscar/dashboard/shipping/shipping_list.html"
     context_object_name = "methods"
 
 
 class ShippingRuleCreateView(generic.CreateView):
     model = ShippingRule
     form_class = ShippingRuleForm
-    template_name = "oscar/dashboard/shipping/shipping_based_form.html"
+    template_name = "oscar/dashboard/shipping/shipping_form.html"
+
+
 
     def get_form_kwargs(self):
         """Return the keyword arguments for instantiating the form."""
         kwargs = super().get_form_kwargs()
-        print(kwargs)
-        if hasattr(self, 'object'):
-            kwargs.update({'instance': self.object})
+
+        if not self.request.user.is_staff:
+            kwargs['initial']['partner'] = get_partner(self.request.user)
+
         return kwargs
 
     def get_success_url(self):
@@ -36,38 +45,9 @@ class ShippingRuleCreateView(generic.CreateView):
             'oscar/dashboard/shipping/messages/method_created.html',
             {'method': self.object})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-detail',
-                       kwargs={'pk': self.object.pk})
 
+        return reverse('dashboard:shipping-method-list')
 
-class ShippingRuleDetailView(generic.CreateView):
-    model = ShippingRule
-    form_class = ShippingRuleForm
-    template_name = "oscar/dashboard/shipping/weight_based_detail.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        self.method = shortcuts.get_object_or_404(
-            ShippingRule, pk=kwargs['pk'])
-        return super().dispatch(
-            request, *args, **kwargs)
-
-    def get_form_kwargs(self, **kwargs):
-        kwargs = super().get_form_kwargs(**kwargs)
-        # kwargs['method'] = self.method
-        return kwargs
-
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        # ctx['method'] = self.method
-        return ctx
-
-    def get_success_url(self):
-        msg = render_to_string(
-            'oscar/dashboard/shipping/messages/band_created.html',
-            {'band': self.object})
-        messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-detail',
-                       kwargs={'pk': self.method.pk})
 
 
 class ShippingRuleUpdateView(generic.UpdateView):
@@ -81,8 +61,7 @@ class ShippingRuleUpdateView(generic.UpdateView):
             'oscar/dashboard/shipping/messages/method_updated.html',
             {'method': self.object})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-detail',
-                       kwargs={'pk': self.object.pk})
+        return reverse('dashboard:shipping-method-list')
 
 
 class ShippingRuleDeleteView(generic.DeleteView):
@@ -104,7 +83,7 @@ class ShippingRuleDeleteView(generic.DeleteView):
             'oscar/dashboard/shipping/messages/band_deleted.html',
             {'band': self.object})
         messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-detail',
+        return reverse('dashboard:shipping-method-list',
                        kwargs={'pk': self.method.pk})
 
 

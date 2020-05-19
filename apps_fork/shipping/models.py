@@ -10,14 +10,6 @@ class ShippingRule(models.Model):
     shipping rules
     """
 
-    BASIC, THRESHOLD = 'basic', 'threshold'
-    STRUCTURE_CHOICES = (
-        (BASIC, _('Basic shipping choice')),
-        (THRESHOLD, _('Free shipping charge threshold'))
-    )
-    type = models.CharField(
-        _("Rule type"), max_length=10, choices=STRUCTURE_CHOICES,
-        default=BASIC)
 
     partner = models.ForeignKey(
         'partner.Partner',
@@ -44,7 +36,7 @@ class ShippingRule(models.Model):
         _("Free shipping threshold"),
         decimal_places=2,
         max_digits=12,
-        blank=True,
+        default=0,
         null=True)
 
     charge_currency = models.CharField(
