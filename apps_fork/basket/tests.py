@@ -63,11 +63,11 @@ class BasketTest(TestCase):
     def test_partner_lines(self):
         print("TEST TOPIC : is Basket method partner_lines returns only lines related to a partner")
         for line in self.basketMulti.partner_lines(1):
-            self.assertEqual(line.partner_id, 1)
+            self.assertEqual(line.partner, self.partner1)
 
     def test_partner_list(self):
         print("TEST TOPIC : is the Basket decorator partner_list returns the right list")
-        self.assertEqual(self.basketMulti.partner_list, [1, 2])
+        self.assertEqual(self.basketMulti.partner_list, [self.partner1, self.partner2])
 
 
 
@@ -78,8 +78,8 @@ class BasketTest(TestCase):
     def test_total_excl_tax_multi(self):
         print("TEST TOPIC : is the Basket decorator total_excl_tax returns total excl tax for a multi basket")
         result_dict = {
-        1:D(self.ht_1).quantize(D('0.01'), rounding=ROUND_HALF_UP),
-        2:D(self.ht_2).quantize(D('0.01'), rounding=ROUND_HALF_UP),
+        self.partner1:D(self.ht_1).quantize(D('0.01'), rounding=ROUND_HALF_UP),
+        self.partner2:D(self.ht_2).quantize(D('0.01'), rounding=ROUND_HALF_UP),
         'parent':self.basketMulti.total_excl_tax_all,
         }
         self.assertEqual(self.basketMulti.total_excl_tax, result_dict)
@@ -91,8 +91,8 @@ class BasketTest(TestCase):
     def test_total_incl_tax_multi(self):
         print("TEST TOPIC : is the Basket decorator total_incl_tax returns total excl tax for a multi basket")
         result_dict = {
-        1:D(self.ttc_1).quantize(D('0.01'), rounding=ROUND_HALF_UP),
-        2:D(self.ttc_2).quantize(D('0.01'), rounding=ROUND_HALF_UP),
+        self.partner1:D(self.ttc_1).quantize(D('0.01'), rounding=ROUND_HALF_UP),
+        self.partner2:D(self.ttc_2).quantize(D('0.01'), rounding=ROUND_HALF_UP),
         'parent':self.basketMulti.total_incl_tax_all,
         }
         self.assertEqual(self.basketMulti.total_incl_tax, result_dict)

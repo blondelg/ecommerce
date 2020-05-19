@@ -27,9 +27,9 @@
 
 {% block dashboard_content %}
     {% block create_product %}
-        <div class="table-header">
+        <!-- <div class="table-header">
             <h3><i class="icon-sitemap icon-large"></i> {% trans "Create new product" %}</h3>
-        </div>
+        </div> -->
         <div class="well">
             <form action="{% url 'dashboard:catalogue-product-create' %}" method="get" class="form-inline">
                 {% include "oscar/dashboard/partials/form_fields_inline.html" with form=productclass_form %}
@@ -39,9 +39,9 @@
     {% endblock %}
 
     {% block search_products %}
-        <div class="table-header">
+        <!-- <div class="table-header">
             <h3><i class="icon-search icon-large"></i>{% trans "Search Products" %}</h3>
-        </div>
+        </div> -->
         <div class="well">
             <form method="get" class="form-inline">
                 {% comment %}

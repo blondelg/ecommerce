@@ -70,12 +70,12 @@ class BasketTest(TestCase):
         price_object = {}
         shipping_charge = prices.Price(currency=settings.OSCAR_DEFAULT_CURRENCY, excl_tax=0, incl_tax=0)
 
-        price_object[1] = prices.Price(
+        price_object[self.partner1] = prices.Price(
             currency=settings.OSCAR_DEFAULT_CURRENCY,
             excl_tax=D(self.ht_1).quantize(D('0.01'), rounding=ROUND_HALF_UP),
             incl_tax=D(self.ttc_1).quantize(D('0.01'), rounding=ROUND_HALF_UP))
 
-        price_object[2] = prices.Price(
+        price_object[self.partner2] = prices.Price(
             currency=settings.OSCAR_DEFAULT_CURRENCY,
             excl_tax=D(self.ht_2).quantize(D('0.01'), rounding=ROUND_HALF_UP),
             incl_tax=D(self.ttc_2).quantize(D('0.01'), rounding=ROUND_HALF_UP))

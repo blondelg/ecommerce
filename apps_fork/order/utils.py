@@ -46,19 +46,19 @@ class OrderCreator(CoreOrderCreator):
                     self.update_stock_records(line)
 
                 # create child orders
-                for partner_id in basket.partner_list:
-                    t_order_number = str(order_number) + "P" + str(partner_id)
+                for partner in basket.partner_list:
+                    t_order_number = str(order_number) + "P" + str(partner.pk)
                     kwargs['structure'] = 'child'
                     kwargs['parent_id'] = order_parent_id
-                    kwargs['partner_id'] = partner_id
+                    kwargs['partner'] = partner
                     child_order = self.create_order_model(
                         user, basket, shipping_address, shipping_method, shipping_charge,
-                        billing_address, total[partner_id], t_order_number, status, request, **kwargs)
+                        billing_address, total[partner], t_order_number, status, request, **kwargs)
 
             else:
 
                 # if standalone order
-                kwargs['partner_id'] = basket.partner_list[0]
+                kwargs['partner'] = basket.partner_list[0]
                 order = self.create_order_model(
                     user, basket, shipping_address, shipping_method, shipping_charge,
                     billing_address, total, order_number, status, request, **kwargs)

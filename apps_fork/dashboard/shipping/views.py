@@ -73,28 +73,6 @@ class ShippingRuleUpdateView(generic.UpdateView):
         return reverse('dashboard:shipping-method-list')
 
 
-class ShippingRuleDeleteView(generic.DeleteView):
-    model = ShippingRule
-    template_name = "oscar/dashboard/shipping/weight_band_delete.html"
-    context_object_name = "band"
-
-    def dispatch(self, request, *args, **kwargs):
-        self.method = shortcuts.get_object_or_404(
-            WeightBased, pk=kwargs['method_pk'])
-        return super().dispatch(
-            request, *args, **kwargs)
-
-    def get_queryset(self):
-        return self.method.bands.all()
-
-    def get_success_url(self):
-        msg = render_to_string(
-            'oscar/dashboard/shipping/messages/band_deleted.html',
-            {'band': self.object})
-        messages.success(self.request, msg, extra_tags='safe noicon')
-        return reverse('dashboard:shipping-method-list',
-                       kwargs={'pk': self.method.pk})
-
 
 class ShippingRuleDeleteView(generic.DeleteView):
     model = ShippingRule

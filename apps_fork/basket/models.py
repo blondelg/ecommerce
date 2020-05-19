@@ -41,7 +41,7 @@ class Basket(AbstractBasket):
             return total
 
 
-    def partner_lines(self, partner_id): 
+    def partner_lines(self, partner_id):
         """ return lines according to a given parner id """
         return self.all_lines().filter(product__partner_id=partner_id)
 
@@ -50,7 +50,7 @@ class Basket(AbstractBasket):
         # Return true if there is several partners on this order
         partners = {}
         for line in self.all_lines():
-            partners[line.partner_id] = 1
+            partners[line.partner] = 1
         if len(partners.keys()) > 1:
             return True
         else:
@@ -61,7 +61,7 @@ class Basket(AbstractBasket):
         # Return a list with partners ids
         partners = []
         for line in self.all_lines():
-            partners.append(line.partner_id)
+            partners.append(line.partner)
 
         return list(set(partners))
 
@@ -70,8 +70,8 @@ class Basket(AbstractBasket):
         # Return total line price excluding tax per partner
         if self.is_multi_partner:
             total = {}
-            for partner_id in self.partner_list:
-                total[partner_id] = self._get_total('line_price_excl_tax_incl_discounts', partner_id)
+            for partner in self.partner_list:
+                total[partner] = self._get_total('line_price_excl_tax_incl_discounts', partner)
 
             total['parent'] = self._get_total('line_price_excl_tax_incl_discounts')
 
@@ -90,8 +90,8 @@ class Basket(AbstractBasket):
         # Return total price inclusive of tax and discounts per partner
         if self.is_multi_partner:
             total = {}
-            for partner_id in self.partner_list:
-                total[partner_id] = self._get_total('line_price_incl_tax_incl_discounts', partner_id)
+            for partner in self.partner_list:
+                total[partner] = self._get_total('line_price_incl_tax_incl_discounts', partner)
 
             total['parent'] = self._get_total('line_price_incl_tax_incl_discounts')
 
@@ -108,8 +108,8 @@ class Basket(AbstractBasket):
 class Line(AbstractLine):
 
     @property
-    def partner_id(self):
-        return self.product.partner_id
+    def partner(self):
+        return self.product.partner
 
 
 
