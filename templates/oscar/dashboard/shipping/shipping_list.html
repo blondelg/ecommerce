@@ -27,6 +27,9 @@
         {% if methods %}
             <thead>
                 <tr>
+                  {% if request.user.is_staff %}
+                    <th>{% trans "Partner" %}</th>
+                  {% endif %}
                     <th>{% trans "Name" %}</th>
                     <th>{% trans "Description" %}</th>
                     <th>{% trans "Charge" %}</th>
@@ -37,6 +40,9 @@
             <tbody>
                 {% for method in methods %}
                     <tr>
+                      {% if request.user.is_staff %}
+                        <th>{{ method.partner }}</th>
+                      {% endif %}
                         <td>{{ method.name }}</td>
                         <td>{{ method.description }}</td>
                         <td>{{ method.charge_incl_tax }}</td>

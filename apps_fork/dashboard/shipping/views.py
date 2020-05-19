@@ -22,6 +22,15 @@ class ShippingRuleListView(generic.ListView):
     template_name = "oscar/dashboard/shipping/shipping_list.html"
     context_object_name = "methods"
 
+    def get_queryset(self):
+
+        if self.request.user.is_staff:
+            return ShippingRule.objects.all()
+        else:
+            return ShippingRule.objects.filter(partner=get_partner(self.request.user))
+
+
+
 
 class ShippingRuleCreateView(generic.CreateView):
     model = ShippingRule
