@@ -16,11 +16,11 @@ class MainMethod(methods.FixedPrice):
 
         # check if partner sub-total incl tax
         # is greater than threshold
-        if basket.total_incl_tax[shipping_rule.partner] < shipping_rule.free_shipping_threshold:
+        if basket.total_incl_tax[shipping_rule.partner] > shipping_rule.free_shipping_threshold:
             self.charge_incl_tax = D('0.00')
         else:
             self.charge_incl_tax = shipping_rule.charge_incl_tax
-        
+
         self.charge_excl_tax = self.charge_incl_tax/(1 + rate)
         self.tax = (self.charge_excl_tax * rate).quantize(exponent, rounding=ROUND_UP)
 
