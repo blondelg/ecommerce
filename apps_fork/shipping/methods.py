@@ -6,13 +6,15 @@ from django.conf import settings
 
 class MainMethod(methods.FixedPrice):
     # code = 'standard'
-    # name = 'Standard shipping'
+
     # charge_incl_tax = D('5.00')
     exponent = D('0.00')
 
     def __init__(self, shipping_rule, basket):
         rate = D(settings.OSCAR_DEFAULT_TAX_RATE)
         exponent = D('0.00')
+        self.name = shipping_rule.name
+        self.description = shipping_rule.description
 
         # check if partner sub-total incl tax
         # is greater than threshold
@@ -34,6 +36,7 @@ class MainMethod(methods.FixedPrice):
     @property
     def is_tax_known(self):
         return True
+
 
 class Standard(methods.FixedPrice):
     code = 'standard'
