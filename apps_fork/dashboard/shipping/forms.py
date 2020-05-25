@@ -14,8 +14,7 @@ class ShippingRuleForm(forms.ModelForm):
         super(ShippingRuleForm, self).__init__(*args, **kwargs)
         print("DEBUG KWARGS")
         print(kwargs)
-        try:
-            assert kwargs['initial']['partner'] is None
-
-        except:
+        if 'partner' in kwargs['initial']:
             self.fields['partner'].widget = forms.HiddenInput()
+        else:
+            pass

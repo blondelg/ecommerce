@@ -9,7 +9,8 @@ from apps_fork.shipping.models import ShippingRule
 class Repository(repository.Repository):
 
     def get_shipping_methods(self, basket, **kwargs):
-        methods = []
+        # methods = []
+        methods = {}
 
         # loop on partners contened within the basket
         for partner in basket.partner_list:
@@ -18,9 +19,14 @@ class Repository(repository.Repository):
             # loop within partner rules
             for rule in ShippingRule.objects.filter(partner=partner):
 
-                methods.append(MainMethod(rule, basket))
+                rule_set.append(rule)
+
+            # methods.append(MainMethod(rule, basket))
+            methods[partner] = rule_set
 
         return methods
+
+
 
     def get_default_shipping_method(self, basket, shipping_addr=None,
                                     **kwargs):
