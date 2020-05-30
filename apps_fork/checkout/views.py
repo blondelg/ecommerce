@@ -74,8 +74,6 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
         # Save shipping methods as instance var as we need them both here
         # and when setting the context vars.
         self._methods = self.get_available_shipping_methods()
-        print("DEBUG")
-        print(self._methods)
         if len(self._methods) == 0:
             # No shipping methods available for given address
             messages.warning(request, _(

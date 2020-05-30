@@ -29,28 +29,32 @@
       <div class="row">
           <h3>{{ partner }}</h3>
       </div>
+      {{ form }}
 
           <form method="post">
 
           {% for method in method_list %}
           <div class="row">
-          <div class="col-sm-2">
-            <p>{{ method.name }}</p>
-          </div>
-          <div class="col-sm-8">
-            <p>{{ method.description }}</p>
-          </div>
-          <div class="col-sm-1">
-            <p>{{ method.charge_incl_tax }}</p>
-          </div>
-          <div class="col-sm-1">
-            <input type="radio" name="radAnswer" />
-          </div>
+              <div class="col-sm-2">
+                <p>{{ method.name }}</p>
+              </div>
+              <div class="col-sm-8">
+                <p>{{ method.description }}</p>
+              </div>
+              <div class="col-sm-1">
+                <p>{{ method.charge_incl_tax }}</p>
+              </div>
+              <div class="col-sm-1">
+                {% csrf_token %}
+                <input type="radio" name="{{ partner }}_form" />
+              </div>
           </div>
           {% endfor %}
           </form>
 
       {% endfor %}
+      <button type="submit" class="btn btn-primary btn-large ship-address" data-loading-text="{% trans 'Saving...' %}">{% trans "Ship to this address" %}</button>
+
     </div>
 
 
