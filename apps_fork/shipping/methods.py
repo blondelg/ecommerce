@@ -37,50 +37,16 @@ class MainMethod(methods.FixedPrice):
     def is_tax_known(self):
         return True
 
+class Free(methods.FixedPrice):
+    """
+    This shipping method specifies that shipping is free.
+    """
+    # code = 'free-shipping'
+    # name = _('Free shipping')
 
-class Standard(methods.FixedPrice):
-    code = 'standard'
-    name = 'Standard shipping'
-    charge_incl_tax = D('5.00')
-    exponent = D('0.00')
-
-    def __init__(self, charge_excl_tax=None, charge_incl_tax=None):
-        rate = D(settings.OSCAR_DEFAULT_TAX_RATE)
-        exponent = D('0.00')
-        if charge_incl_tax is not None:
-            self.charge_incl_tax = charge_incl_tax
-
-        self.charge_excl_tax = self.charge_incl_tax/(1 + rate)
-        self.tax = (self.charge_excl_tax * rate).quantize(exponent, rounding=ROUND_UP)
-
-
-    def calculate(self, basket):
+    def calculate(self,basket):
+        # If the charge is free then tax must be free (musn't it?) and so we
+        # immediately set the tax to zero
         return prices.Price(
             currency=basket.currency,
-            excl_tax=self.charge_excl_tax,
-            incl_tax=self.charge_incl_tax)
-
-    @property
-    def is_tax_known(self):
-        return True
-
-class Express(methods.FixedPrice):
-    code = 'express'
-    name = 'Express shipping'
-    charge_excl_tax = D('10.00')
-
-    def __init__(self, charge_excl_tax=None, charge_incl_tax=None):
-        if charge_excl_tax is not None:
-            self.charge_excl_tax = charge_excl_tax
-        if charge_incl_tax is not None:
-            self.charge_incl_tax = charge_incl_tax
-
-    def calculate(self, basket):
-        return prices.Price(
-            currency=basket.currency,
-            excl_tax=self.charge_excl_tax,
-            incl_tax=self.charge_incl_tax)
-
-    @property
-    def is_tax_known(self):
-        return True
+            excl_tax=D('0.00'), tax=D('0.00'))

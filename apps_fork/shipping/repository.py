@@ -1,5 +1,5 @@
 from oscar.apps.shipping import repository
-from apps_fork.shipping.methods import MainMethod
+from apps_fork.shipping.methods import MainMethod, Free
 from apps_fork.shipping.models import ShippingRule
 
 # class Repository(repository.Repository):
@@ -38,3 +38,9 @@ class Repository(repository.Repository):
 
         # Assume first returned method is default
         return shipping_methods[list(shipping_methods.keys())[0]][0]
+
+    def get_free_shipping_method(self, basket, **kwargs):
+        """
+        for basket, return free shipping method
+        """
+        return Free()

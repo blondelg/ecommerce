@@ -152,24 +152,28 @@ class chart_new_client_histo(BaseLineChartView):
                                         .filter(date_placed__lte=self.end_date)\
                                         .filter(partner_id=self.partner_id).values()))
 
+
+        #add missing dates
+        core_df = pd.date_range(self.start_date, periods=7, freq='D').to_frame(name="date_placed", index=False)
+        core_df['date_placed'] = core_df['date_placed'].dt.date
+        core_df['user_id'] = 0
+        self.df = pd.concat([self.df, core_df])
+
         # transform date to 'YYYY-MM-DD'
-        self.df['date'] = self.df['date_placed'].dt.date
+        self.df['date'] = self.df['date_placed']
 
         # remove columns
         self.df = self.df[['date', 'user_id']]
         self.df = self.df.groupby(['user_id'], as_index=False).min()
         self.df = self.df.groupby(['date'], as_index=False).count()
 
-        #add missing dates
-        core_df = pd.date_range(self.start_date, periods=7, freq='D').to_frame(name="date", index=False)
-        core_df['date'] = core_df['date'].dt.date
-        core_df['user_id'] = 0
-        self.df = pd.concat([self.df, core_df])
+
         self.df = self.df.groupby(['date'], as_index=False).sum()
 
         # convert date to str
         self.df['str_date'] = self.df['date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         self.df = self.df[['str_date', 'user_id']]
+
 
     def get_dataset_options(self, index, color):
         opt = {

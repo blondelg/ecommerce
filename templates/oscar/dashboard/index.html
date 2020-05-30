@@ -73,22 +73,7 @@
 {% endblock %}
 
 {% block dashboard_content %}
-
-<!-- <div class="table-header">
-    <i class="icon-signal icon-large"></i>{% trans "Your Store Statistics" %}
-</div> -->
-
-
-
-<!-- <div class="content-block"> -->
-
     <div class="row">
-        <!-- <aside class="col-md-3 order-graph-details">
-            <label><span><i class="icon-shopping-cart"></i>{{ total_orders_last_day }}</span>{% trans "Total Orders" %}</label>
-            <label><span><i class="icon-hand-right"></i>{{ total_customers_last_day }}</span>{% trans "New Customers" %}</label>
-            <label><span><i class="icon-group"></i>{{ total_customers }}</span>{% trans "Total Customers" %}</label>
-            <label><span><i class="icon-briefcase"></i>{{ total_products }}</span>{% trans "Total Products" %}</label>
-        </aside> -->
         <div class="col-md-6">
             <div id="order_graph">
               <canvas id="weekly_ca"></canvas>
@@ -99,7 +84,6 @@
               <canvas id="weekly_client"></canvas>
             </div>
           </div>
-
     </div>
     <div class="row">
       <div id="order_graph">
