@@ -74,17 +74,15 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
         # Save shipping methods as instance var as we need them both here
         # and when setting the context vars.
         self._methods = self.get_available_shipping_methods()
+        print("DEBUG")
+        print(self._methods)
         if len(self._methods) == 0:
             # No shipping methods available for given address
             messages.warning(request, _(
                 "Shipping is unavailable for your chosen address - please "
                 "choose another"))
             return redirect('checkout:shipping-address')
-        elif len(self._methods) == 1:
-            # Only one shipping method - set this and redirect onto the next
-            # step
-            self.checkout_session.use_shipping_method(self._methods[0].code)
-            return self.get_success_response()
+
 
         # Must be more than one available shipping method, we present them to
         # the user to make a choice.

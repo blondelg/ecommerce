@@ -19,22 +19,39 @@
 {% block payment_method %}{% endblock %}
 
 {% block shipping_method %}
-    <div class="basket-title">
-        <div class="row">
-            <h4 class="col-sm-8">{% trans "Method" %}</h4>
-            <h4 class="col-sm-3">{% trans "Cost" %}</h4>
-        </div>
-    </div>
+
+
+
     <!-- loop over partner -->
     <!-- loop over methods with a radio checkboxform -->
-    {% for partner, method_list in methods.items %}
-        <p>{{ partner }}</p>
-        {% for method in method_list %}
+    <div class="container">
+      {% for partner, method_list in methods.items %}
+      <div class="row">
+          <h3>{{ partner }}</h3>
+      </div>
 
-            <p>{{ method }}</p>
+          <form method="post">
 
-        {% endfor %}
-    {% endfor %}
+          {% for method in method_list %}
+          <div class="row">
+          <div class="col-sm-2">
+            <p>{{ method.name }}</p>
+          </div>
+          <div class="col-sm-8">
+            <p>{{ method.description }}</p>
+          </div>
+          <div class="col-sm-1">
+            <p>{{ method.charge_incl_tax }}</p>
+          </div>
+          <div class="col-sm-1">
+            <input type="radio" name="radAnswer" />
+          </div>
+          </div>
+          {% endfor %}
+          </form>
+
+      {% endfor %}
+    </div>
 
 
 {% endblock shipping_method %}
