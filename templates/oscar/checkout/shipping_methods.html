@@ -25,13 +25,11 @@
     <!-- loop over partner -->
     <!-- loop over methods with a radio checkboxform -->
     <div class="container">
+      <form method="post" action="{% url 'checkout:shipping-method' %}">
       {% for partner, method_list in methods.items %}
       <div class="row">
           <h3>{{ partner }}</h3>
       </div>
-      {{ form }}
-
-          <form method="post">
 
           {% for method in method_list %}
           <div class="row">
@@ -46,14 +44,16 @@
               </div>
               <div class="col-sm-1">
                 {% csrf_token %}
-                <input type="radio" name="{{ partner }}_form" />
+                  <input type="hidden" value="{{ method.partner }}">
+                  <input type="hidden" value="{{ method.name }}">
+                  <input type="radio" name="{{ method.partner }}_shipping">
               </div>
           </div>
           {% endfor %}
-          </form>
 
       {% endfor %}
-      <button type="submit" class="btn btn-primary btn-large ship-address" data-loading-text="{% trans 'Saving...' %}">{% trans "Ship to this address" %}</button>
+      <button type="submit" class="btn btn-primary btn-large ship-address" data-loading-text="{% trans 'Saving...' %}">{% trans "Validate shipping method" %}</button>
+      </form>
 
     </div>
 

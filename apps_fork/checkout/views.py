@@ -3,6 +3,8 @@ from django.views import generic
 from oscar.core.loading import get_class
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
+from django.template.response import TemplateResponse
+from django.http import HttpResponseRedirect
 
 
 CheckoutSessionMixin = get_class('checkout.session', 'CheckoutSessionMixin')
@@ -31,7 +33,7 @@ class PaymentDetailsView(CorePaymentDetailsView):
         return self.submit(**submissions)
 
 
-class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
+class ShippingMethodView(CheckoutSessionMixin, generic.View):
     """
     View for allowing a user to choose a shipping method.
 
@@ -51,8 +53,14 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
     success_url = reverse_lazy('checkout:payment-method')
 
     def post(self, request, *args, **kwargs):
-        self._methods = self.get_available_shipping_methods()
-        return super().post(request, *args, **kwargs)
+        # self._methods = self.get_available_shipping_methods()
+        print("DEBUG")
+        print(request.POST)
+        print(dir(request))
+        self.checkout_session.use_shipping_method("a")
+        return self.get_success_response()
+        # return super().get_success_url()
+        # return HttpResponseRedirect(self.success_url)
 
     def get(self, request, *args, **kwargs):
         # These pre-conditions can't easily be factored out into the normal
@@ -74,6 +82,7 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
         # Save shipping methods as instance var as we need them both here
         # and when setting the context vars.
         self._methods = self.get_available_shipping_methods()
+
         if len(self._methods) == 0:
             # No shipping methods available for given address
             messages.warning(request, _(
@@ -84,17 +93,22 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
 
         # Must be more than one available shipping method, we present them to
         # the user to make a choice.
-        return super().get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        kwargs = super().get_context_data(**kwargs)
-        kwargs['methods'] = self._methods
-        return kwargs
+        # return super().get(request, *args, **kwargs)
+        return TemplateResponse(request, self.template_name, {'methods': self._methods})
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['methods'] = self._methods
-        return kwargs
+    # def get_context_data(self, **kwargs):
+    #     kwargs = super().get_context_data(**kwargs)
+    #     kwargs['methods'] = self._methods
+    #     print("DEBUG")
+    #     print(self._methods)
+    #
+    #     return kwargs
+
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs['methods'] = self._methods
+    #     return kwargs
 
     def get_available_shipping_methods(self):
         """
@@ -109,16 +123,16 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
             shipping_addr=self.get_shipping_address(self.request.basket),
             request=self.request)
 
-    def form_valid(self, form):
-        # Save the code for the chosen shipping method in the session
-        # and continue to the next step.
-        self.checkout_session.use_shipping_method(form.cleaned_data['method_code'])
-        return self.get_success_response()
-
-    def form_invalid(self, form):
-        messages.error(self.request, _("Your submitted shipping method is not"
-                                       " permitted"))
-        return super().form_invalid(form)
+    # def form_valid(self, form):
+    #     # Save the code for the chosen shipping method in the session
+    #     # and continue to the next step.
+    #     self.checkout_session.use_shipping_method(form.cleaned_data['method_code'])
+    #     return self.get_success_response()
+    #
+    # def form_invalid(self, form):
+    #     messages.error(self.request, _("Your submitted shipping method is not"
+    #                                    " permitted"))
+    #     return super().form_invalid(form)
 
     def get_success_response(self):
-        return redirect(self.get_success_url())
+        return redirect(self.success_url)
