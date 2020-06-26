@@ -5,16 +5,20 @@ from django import forms
 
 class ShippingMethodForm(CoreShippingMethodForm):
 
-    method_partner = forms.CharField(label='partner', max_length=100)
-    method_name = forms.CharField(label='method name', max_length=100)
-    method_is_selected = forms.BooleanField(required=False)
-    # 
-    # def __init__(self, *args, **kwargs):
-    #
-    #
-    #     # methods = kwargs.pop('methods', [])
-    #     # methods = list(methods.values())[0]
-    #     super().__init__(*args, **kwargs)
-    #     # self.fields['method_name'].choices = ((m.name, m.name) for m in methods)
-    #     self.fields['method_partner'].widget = forms.HiddenInput()
-    #     self.fields['method_name'].widget = forms.HiddenInput()
+
+    def __init__(self, *args, **kwargs):
+
+        extra = kwargs.pop('extra')
+        super(ShippingMethodForm, self).__init__(*args, **kwargs)
+        self.fields['method_code'].required = False
+
+        i=0
+        for partner, method_list in extra.items():
+            self.fields[f'method_partner_name_{i}'] = forms.CharField(label='partner name', max_length=100, required = False)
+            self.fields[f'method_partner_id_{i}'] = forms.IntegerField(label='partner_id', initial = int(partner.id))
+            CHOICES = [(m.id, ", ".join([m.name, m.description,  str(m.charge_incl_tax) + " €"])) for m in method_list]
+            self.fields[f'selected_method_{partner.id}'] = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES, label = "radio", required = True)
+            i += 1
+
+    def clean(self):
+        return "toto"

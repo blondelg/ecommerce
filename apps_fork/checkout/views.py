@@ -33,7 +33,7 @@ class PaymentDetailsView(CorePaymentDetailsView):
         return self.submit(**submissions)
 
 
-class ShippingMethodView(CheckoutSessionMixin, generic.View):
+class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
     """
     View for allowing a user to choose a shipping method.
 
@@ -47,20 +47,26 @@ class ShippingMethodView(CheckoutSessionMixin, generic.View):
     """
     template_name = 'oscar/checkout/shipping_methods.html'
     form_class = ShippingMethodForm
+
     pre_conditions = ['check_basket_is_not_empty',
                       'check_basket_is_valid',
                       'check_user_email_is_captured']
     success_url = reverse_lazy('checkout:payment-method')
 
     def post(self, request, *args, **kwargs):
-        # self._methods = self.get_available_shipping_methods()
-        print("DEBUG")
-        print(request.POST)
-        print(dir(request))
-        self.checkout_session.use_shipping_method("a")
-        return self.get_success_response()
+
+        form = self.form_class(request.GET, extra = self.get_available_shipping_methods())
+        print("VALID : ", form.is_valid())
+        print("errors : ", form.errors)
+        print(form)
+        if form.is_valid():
+            print(form.clean())
+
+        self.checkout_session.use_shipping_method("main-method")
+
+        #return self.get_success_response()
         # return super().get_success_url()
-        # return HttpResponseRedirect(self.success_url)
+        return HttpResponseRedirect(self.success_url)
 
     def get(self, request, *args, **kwargs):
         # These pre-conditions can't easily be factored out into the normal
@@ -83,6 +89,7 @@ class ShippingMethodView(CheckoutSessionMixin, generic.View):
         # and when setting the context vars.
         self._methods = self.get_available_shipping_methods()
 
+
         if len(self._methods) == 0:
             # No shipping methods available for given address
             messages.warning(request, _(
@@ -93,22 +100,20 @@ class ShippingMethodView(CheckoutSessionMixin, generic.View):
 
         # Must be more than one available shipping method, we present them to
         # the user to make a choice.
+        form = self.form_class(initial = self.initial(), extra = self.get_available_shipping_methods())
 
         # return super().get(request, *args, **kwargs)
-        return TemplateResponse(request, self.template_name, {'methods': self._methods})
+        return TemplateResponse(request, self.template_name, {'methods': self._methods, 'form': form})
 
-    # def get_context_data(self, **kwargs):
-    #     kwargs = super().get_context_data(**kwargs)
-    #     kwargs['methods'] = self._methods
-    #     print("DEBUG")
-    #     print(self._methods)
-    #
-    #     return kwargs
-
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs['methods'] = self._methods
-    #     return kwargs
+    def initial(self):
+        # return initial data for shipping form
+        data = {}
+        i=0
+        for partner, method_list in self.get_available_shipping_methods().items():
+            data[f'method_partner_name_{i}'] = partner.name
+            data[f'method_partner_id_{i}'] = partner.id
+            i += 1
+        return data
 
     def get_available_shipping_methods(self):
         """
@@ -123,16 +128,6 @@ class ShippingMethodView(CheckoutSessionMixin, generic.View):
             shipping_addr=self.get_shipping_address(self.request.basket),
             request=self.request)
 
-    # def form_valid(self, form):
-    #     # Save the code for the chosen shipping method in the session
-    #     # and continue to the next step.
-    #     self.checkout_session.use_shipping_method(form.cleaned_data['method_code'])
-    #     return self.get_success_response()
-    #
-    # def form_invalid(self, form):
-    #     messages.error(self.request, _("Your submitted shipping method is not"
-    #                                    " permitted"))
-    #     return super().form_invalid(form)
 
     def get_success_response(self):
         return redirect(self.success_url)

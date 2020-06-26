@@ -3,11 +3,11 @@ from oscar.core import prices
 from decimal import Decimal as D
 from decimal import *
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 class MainMethod(methods.FixedPrice):
-    # code = 'standard'
-
-    # charge_incl_tax = D('5.00')
+    code = 'main-method'
+    name = _('Main Method')
     exponent = D('0.00')
 
     def __init__(self, shipping_rule, basket):

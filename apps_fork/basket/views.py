@@ -3,11 +3,14 @@ from extra_views import ModelFormSetView
 from django.contrib import messages
 from oscar.core import ajax
 from oscar.core.utils import redirect_to_referrer, safe_referrer
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 OrderTotalCalculator = get_class('checkout.calculators', 'OrderTotalCalculator')
 BasketVoucherForm = get_class('basket.forms', 'BasketVoucherForm')
 Repository = get_class('shipping.repository', 'Repository')
 Applicator = get_class('offer.applicator', 'Applicator')
+BasketMessageGenerator = get_class('basket.utils', 'BasketMessageGenerator')
 
 
 class BasketView(ModelFormSetView):

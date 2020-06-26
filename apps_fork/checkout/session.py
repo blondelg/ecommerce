@@ -1,5 +1,9 @@
 from oscar.apps.checkout.session import CheckoutSessionMixin as CoreCheckoutSessionMixin
 from decimal import Decimal as D
+from oscar.core.loading import get_class
+
+
+Repository = get_class('shipping.repository', 'Repository')
 
 
 class CheckoutSessionMixin(CoreCheckoutSessionMixin):
@@ -92,3 +96,24 @@ class CheckoutSessionMixin(CoreCheckoutSessionMixin):
                 raise exceptions.PassedSkipCondition(
                     url=reverse('checkout:preview')
                 )
+
+    def get_shipping_method(self, basket, shipping_address=None, **kwargs):
+        """
+        Return the selected shipping method instance from this checkout session
+
+        The shipping address is passed as we need to check that the method
+        stored in the session is still valid for the shipping address.
+        """
+        code = self.checkout_session.shipping_method_code(basket)
+
+
+        methods = Repository().get_shipping_methods(
+            basket=basket, user=self.request.user,
+            shipping_addr=shipping_address, request=self.request)
+
+        # print(methods)
+
+        #
+        # for partner, method_list in methods.items():
+        #     if method.code == code:
+        #         return method
