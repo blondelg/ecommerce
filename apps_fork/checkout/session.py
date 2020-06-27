@@ -106,6 +106,8 @@ class CheckoutSessionMixin(CoreCheckoutSessionMixin):
         stored in the session is still valid for the shipping address.
         """
         code_list = self.checkout_session.shipping_method_code(basket)
+        if code_list is None:
+            return
 
         methods = Repository().get_shipping_methods_list(
             basket=basket, user=self.request.user,

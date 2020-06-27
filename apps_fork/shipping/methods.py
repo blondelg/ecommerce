@@ -24,20 +24,30 @@ class MultiMethod(methods.FixedPrice):
         self.charge_excl_tax['total'] = D('0.00')
         self.tax['total'] = D('0.00')
 
-        for partner in selected_method.keys():
-            if basket.total_incl_tax[partner] > selected_method[partner].free_shipping_threshold:
-                self.charge_incl_tax[partner] = D('0.00')
-                self.charge_excl_tax[partner] = D('0.00')
-                self.tax[partner] = D('0.00')
-            else:
-                self.charge_incl_tax[partner] = selected_method[partner].charge_incl_tax
-                self.charge_excl_tax[partner] = self.charge_incl_tax[partner]/(1 + rate)
-                self.tax[partner] = (self.charge_excl_tax[partner] * rate).quantize(exponent, rounding=ROUND_UP)
+        if basket.is_multi_partner:
+            for partner in selected_method.keys():
+                if basket.total_incl_tax[partner] > selected_method[partner].free_shipping_threshold:
+                    self.charge_incl_tax[partner] = D('0.00')
+                    self.charge_excl_tax[partner] = D('0.00')
+                    self.tax[partner] = D('0.00')
+                else:
+                    self.charge_incl_tax[partner] = selected_method[partner].charge_incl_tax
+                    self.charge_excl_tax[partner] = self.charge_incl_tax[partner]/(1 + rate)
+                    self.tax[partner] = (self.charge_excl_tax[partner] * rate).quantize(exponent, rounding=ROUND_UP)
 
-                # update totals
-                self.charge_incl_tax['total'] += self.charge_incl_tax[partner]
-                self.charge_excl_tax['total'] += self.charge_excl_tax[partner]
-                self.tax['total'] += self.tax[partner]
+                    # update totals
+                    self.charge_incl_tax['total'] += self.charge_incl_tax[partner]
+                    self.charge_excl_tax['total'] += self.charge_excl_tax[partner]
+                    self.tax['total'] += self.tax[partner]
+        else:
+            if basket.total_incl_tax > selected_method[basket.partner_list[0]].free_shipping_threshold:
+                self.charge_incl_tax['total'] = D('0.00')
+                self.charge_excl_tax['total'] = D('0.00')
+                self.tax['total'] = D('0.00')
+            else:
+                self.charge_incl_tax['total'] = selected_method[basket.partner_list[0]].charge_incl_tax
+                self.charge_excl_tax['total'] = self.charge_incl_tax['total']/(1 + rate)
+                self.tax['total'] = (self.charge_excl_tax['total'] * rate).quantize(exponent, rounding=ROUND_UP)
 
 
     def calculate(self, basket, partner):
