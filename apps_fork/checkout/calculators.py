@@ -13,13 +13,15 @@ class OrderTotalCalculator(object):
         # always changes the order total.
         self.request = request
 
-    def calculate(self, basket, shipping_charge, **kwargs):
+    def calculate(self, basket, shipping_method, **kwargs):
         if basket.is_multi_partner:
             return_dict = {}
             for partner_id in basket.partner_list:
-                excl_tax = basket.total_excl_tax[partner_id] + shipping_charge.excl_tax
-                if basket.is_tax_known and shipping_charge.is_tax_known:
-                    incl_tax = basket.total_incl_tax[partner_id] + shipping_charge.incl_tax
+                # t_partner = partner.objects.filter(id=partner_id)
+                print(shipping_method)
+                excl_tax = basket.total_excl_tax[partner_id] + shipping_method.sub_method[partner_id].charge_excl_tax
+                if basket.is_tax_known and shipping_method.is_tax_known:
+                    incl_tax = basket.total_incl_tax[partner_id] + shipping_method.sub_method[partner_id].charge_incl_tax
                 else:
                     incl_tax = None
                 return_dict[partner_id] = prices.Price(
@@ -27,9 +29,9 @@ class OrderTotalCalculator(object):
                     excl_tax=excl_tax, incl_tax=incl_tax)
 
             # calculate for parent
-            excl_tax = basket.total_excl_tax['parent'] + shipping_charge.excl_tax
-            if basket.is_tax_known and shipping_charge.is_tax_known:
-                incl_tax = basket.total_incl_tax['parent'] + shipping_charge.incl_tax
+            excl_tax = basket.total_excl_tax['parent'] + shipping_method.charge_excl_tax
+            if basket.is_tax_known and shipping_method.is_tax_known:
+                incl_tax = basket.total_incl_tax['parent'] + shipping_method.charge_incl_tax
             else:
                 incl_tax = None
             return_dict['parent'] = prices.Price(
@@ -39,9 +41,9 @@ class OrderTotalCalculator(object):
             return return_dict
 
         else:
-            excl_tax = basket.total_excl_tax + shipping_charge.excl_tax
-            if basket.is_tax_known and shipping_charge.is_tax_known:
-                incl_tax = basket.total_incl_tax + shipping_charge.incl_tax
+            excl_tax = basket.total_excl_tax + shipping_method.charge_excl_tax
+            if basket.is_tax_known and shipping_method.is_tax_known:
+                incl_tax = basket.total_incl_tax + shipping_method.charge_incl_tax
             else:
                 incl_tax = None
             return prices.Price(

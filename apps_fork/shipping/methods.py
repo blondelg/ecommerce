@@ -7,79 +7,42 @@ from django.utils.translation import gettext_lazy as _
 
 class MultiMethod(methods.FixedPrice):
 
+    """ shipping method which can hold multi shipping methods, one fo each partner """
+
     name = _('Multi Method')
     exponent = D('0.00')
+    sub_method = {}
 
     def __init__(self, selected_method, basket):
         rate = D(settings.OSCAR_DEFAULT_TAX_RATE)
         exponent = D('0.00')
 
-        # declare variables as dict
-        self.charge_incl_tax = {}
-        self.charge_excl_tax = {}
-        self.tax = {}
-
-        # init totals
-        self.charge_incl_tax['total'] = D('0.00')
-        self.charge_excl_tax['total'] = D('0.00')
-        self.tax['total'] = D('0.00')
-
         if basket.is_multi_partner:
-            for partner in selected_method.keys():
-                if basket.total_incl_tax[partner] > selected_method[partner].free_shipping_threshold:
-                    self.charge_incl_tax[partner] = D('0.00')
-                    self.charge_excl_tax[partner] = D('0.00')
-                    self.tax[partner] = D('0.00')
-                else:
-                    self.charge_incl_tax[partner] = selected_method[partner].charge_incl_tax
-                    self.charge_excl_tax[partner] = self.charge_incl_tax[partner]/(1 + rate)
-                    self.tax[partner] = (self.charge_excl_tax[partner] * rate).quantize(exponent, rounding=ROUND_UP)
 
-                    # update totals
-                    self.charge_incl_tax['total'] += self.charge_incl_tax[partner]
-                    self.charge_excl_tax['total'] += self.charge_excl_tax[partner]
-                    self.tax['total'] += self.tax[partner]
+            self.charge_incl_tax = 0
+            self.charge_excl_tax = 0
+
+            # add all shipping methods for every partner
+            for partner in selected_method.keys():
+                self.sub_method[partner] = MainMethod(selected_method[partner], basket)
+
+                self.charge_incl_tax += self.sub_method[partner].calculate(basket).incl_tax
+                self.charge_excl_tax += self.sub_method[partner].calculate(basket).excl_tax
+
+            # do the global shipping setup
+            if basket.total_incl_tax['parent'] > selected_method[basket.partner_list[0]].free_shipping_threshold:
+                self.charge_incl_tax = D('0.00')
+                self.charge_excl_tax = D('0.00')
+
+
+        # if there is only one partner for the order
         else:
             if basket.total_incl_tax > selected_method[basket.partner_list[0]].free_shipping_threshold:
-                self.charge_incl_tax['total'] = D('0.00')
-                self.charge_excl_tax['total'] = D('0.00')
-                self.tax['total'] = D('0.00')
+                self.charge_incl_tax = D('0.00')
+                self.charge_excl_tax = D('0.00')
             else:
-                self.charge_incl_tax['total'] = selected_method[basket.partner_list[0]].charge_incl_tax
-                self.charge_excl_tax['total'] = self.charge_incl_tax['total']/(1 + rate)
-                self.tax['total'] = (self.charge_excl_tax['total'] * rate).quantize(exponent, rounding=ROUND_UP)
-
-
-    def calculate(self, basket, partner):
-        return prices.Price(
-            currency=basket.currency,
-            excl_tax=self.charge_excl_tax[partner],
-            incl_tax=self.charge_incl_tax[partner])
-
-    @property
-    def is_tax_known(self):
-        return True
-
-class MainMethod(methods.FixedPrice):
-    code = 'main-method'
-    name = _('Main Method')
-    exponent = D('0.00')
-
-    def __init__(self, shipping_rule_list, basket):
-        rate = D(settings.OSCAR_DEFAULT_TAX_RATE)
-        exponent = D('0.00')
-        self.name = shipping_rule.name
-        self.description = shipping_rule.description
-
-        # check if partner sub-total incl tax
-        # is greater than threshold
-        if basket.total_incl_tax[shipping_rule.partner] > shipping_rule.free_shipping_threshold:
-            self.charge_incl_tax = D('0.00')
-        else:
-            self.charge_incl_tax = shipping_rule.charge_incl_tax
-
-        self.charge_excl_tax = self.charge_incl_tax/(1 + rate)
-        self.tax = (self.charge_excl_tax * rate).quantize(exponent, rounding=ROUND_UP)
+                self.charge_incl_tax = selected_method[basket.partner_list[0]].charge_incl_tax
+                self.charge_excl_tax = self.charge_incl_tax/(1 + rate)
 
 
     def calculate(self, basket):
@@ -92,12 +55,46 @@ class MainMethod(methods.FixedPrice):
     def is_tax_known(self):
         return True
 
+
+class MainMethod(methods.FixedPrice):
+
+    """ simple methode includes within multi method """
+
+    name = ''
+    exponent = D('0.00')
+
+    def __init__(self, method, basket):
+        rate = D(settings.OSCAR_DEFAULT_TAX_RATE)
+        exponent = D('0.00')
+        self.name = method.name
+        self.description = method.description
+
+        # check if partner sub-total incl tax
+        # is greater than threshold
+        if basket.total_incl_tax[method.partner] > method.free_shipping_threshold:
+            self.charge_incl_tax = D('0.00')
+        else:
+            self.charge_incl_tax = method.charge_incl_tax
+
+        self.charge_excl_tax = self.charge_incl_tax/(1 + rate)
+
+    def calculate(self, basket):
+        return prices.Price(
+            currency=basket.currency,
+            excl_tax=self.charge_excl_tax,
+            incl_tax=self.charge_incl_tax)
+
+    @property
+    def is_tax_known(self):
+        return True
+
+
 class Free(methods.FixedPrice):
     """
     This shipping method specifies that shipping is free.
     """
-    # code = 'free-shipping'
-    # name = _('Free shipping')
+    code = 'free-shipping'
+    name = _('Free shipping')
 
     def calculate(self,basket):
         # If the charge is free then tax must be free (musn't it?) and so we

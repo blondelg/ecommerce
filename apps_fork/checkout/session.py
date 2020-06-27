@@ -1,7 +1,7 @@
 from oscar.apps.checkout.session import CheckoutSessionMixin as CoreCheckoutSessionMixin
 from decimal import Decimal as D
 from oscar.core.loading import get_class
-from apps_fork.shipping.methods import MultiMethod
+from apps_fork.shipping.methods import MultiMethod, Free
 
 
 Repository = get_class('shipping.repository', 'Repository')
@@ -27,9 +27,9 @@ class CheckoutSessionMixin(CoreCheckoutSessionMixin):
         if not shipping_method:
             total = shipping_charge = None
         else:
-            shipping_charge = shipping_method.calculate(basket, 'total')
+            shipping_charge = shipping_method.calculate(basket)
 
-            total = self.get_order_totals(basket, shipping_charge=shipping_charge, **kwargs)
+            total = self.get_order_totals(basket, shipping_method, **kwargs)
 
         submission = {
             'user': self.request.user,
@@ -75,17 +75,14 @@ class CheckoutSessionMixin(CoreCheckoutSessionMixin):
         shipping_method = self.get_shipping_method(
             request.basket, shipping_address)
         if shipping_method:
-            shipping_charge = shipping_method.calculate(request.basket, 'total')
+            total = self.get_order_totals(request.basket, shipping_method)
         else:
             # It's unusual to get here as a shipping method should be set by
             # the time this skip-condition is called. In the absence of any
             # other evidence, we assume the shipping charge is zero.
-            shipping_charge = prices.Price(
-                currency=request.basket.currency, excl_tax=D('0.00'),
-                tax=D('0.00')
-            )
+            total = self.get_order_totals(request.basket, Free())
 
-        total = self.get_order_totals(request.basket, shipping_charge)
+        # total = self.get_order_totals(request.basket, shipping_charge)
 
         if request.basket.is_multi_partner:
             if total['parent'].excl_tax == D('0.00'):
