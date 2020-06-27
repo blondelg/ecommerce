@@ -55,14 +55,14 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
 
     def post(self, request, *args, **kwargs):
 
-        form = self.form_class(request.GET, extra = self.get_available_shipping_methods())
-        print("VALID : ", form.is_valid())
-        print("errors : ", form.errors)
-        print(form)
-        if form.is_valid():
-            print(form.clean())
+        # concatenate data for form from POST request and from methods
+        data_form = {}
+        data_form.update(self.initial())
+        data_form.update(request.POST.dict())
 
-        self.checkout_session.use_shipping_method("main-method")
+        form = self.form_class(data_form, extra = self.get_available_shipping_methods())
+        if form.is_valid():
+            self.checkout_session.use_shipping_method(form.clean())
 
         #return self.get_success_response()
         # return super().get_success_url()
@@ -101,7 +101,6 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
         # Must be more than one available shipping method, we present them to
         # the user to make a choice.
         form = self.form_class(initial = self.initial(), extra = self.get_available_shipping_methods())
-
         # return super().get(request, *args, **kwargs)
         return TemplateResponse(request, self.template_name, {'methods': self._methods, 'form': form})
 
@@ -114,6 +113,7 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
             data[f'method_partner_id_{i}'] = partner.id
             i += 1
         return data
+
 
     def get_available_shipping_methods(self):
         """

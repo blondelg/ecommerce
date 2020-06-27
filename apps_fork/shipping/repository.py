@@ -1,5 +1,5 @@
 from oscar.apps.shipping import repository
-from apps_fork.shipping.methods import MainMethod, Free
+from apps_fork.shipping.methods import MultiMethod, MainMethod, Free
 from apps_fork.shipping.models import ShippingRule
 
 # class Repository(repository.Repository):
@@ -20,6 +20,20 @@ class Repository(repository.Repository):
                 rule_set.append(rule)
 
             methods[partner] = rule_set
+
+        return methods
+
+    def get_shipping_methods_list(self, basket, **kwargs):
+        """ returns a list of all shipping methods"""
+
+        methods = []
+
+        # loop on partners contened within the basket
+        for partner in basket.partner_list:
+
+            # loop within partner rules
+            for rule in ShippingRule.objects.filter(partner=partner):
+                methods.append(rule)
 
         return methods
 

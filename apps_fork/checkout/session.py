@@ -1,6 +1,7 @@
 from oscar.apps.checkout.session import CheckoutSessionMixin as CoreCheckoutSessionMixin
 from decimal import Decimal as D
 from oscar.core.loading import get_class
+from apps_fork.shipping.methods import MultiMethod
 
 
 Repository = get_class('shipping.repository', 'Repository')
@@ -26,7 +27,7 @@ class CheckoutSessionMixin(CoreCheckoutSessionMixin):
         if not shipping_method:
             total = shipping_charge = None
         else:
-            shipping_charge = shipping_method.calculate(basket)
+            shipping_charge = shipping_method.calculate(basket, 'total')
 
             total = self.get_order_totals(basket, shipping_charge=shipping_charge, **kwargs)
 
@@ -74,7 +75,7 @@ class CheckoutSessionMixin(CoreCheckoutSessionMixin):
         shipping_method = self.get_shipping_method(
             request.basket, shipping_address)
         if shipping_method:
-            shipping_charge = shipping_method.calculate(request.basket)
+            shipping_charge = shipping_method.calculate(request.basket, 'total')
         else:
             # It's unusual to get here as a shipping method should be set by
             # the time this skip-condition is called. In the absence of any
@@ -104,16 +105,17 @@ class CheckoutSessionMixin(CoreCheckoutSessionMixin):
         The shipping address is passed as we need to check that the method
         stored in the session is still valid for the shipping address.
         """
-        code = self.checkout_session.shipping_method_code(basket)
+        code_list = self.checkout_session.shipping_method_code(basket)
 
-
-        methods = Repository().get_shipping_methods(
+        methods = Repository().get_shipping_methods_list(
             basket=basket, user=self.request.user,
             shipping_addr=shipping_address, request=self.request)
 
-        # print(methods)
 
-        #
-        # for partner, method_list in methods.items():
-        #     if method.code == code:
-        #         return method
+        method_dict = {}
+        for m in methods:
+            if m.id in code_list:
+                method_dict[m.partner] = m
+
+        method_instance = MultiMethod(method_dict, basket)
+        return method_instance

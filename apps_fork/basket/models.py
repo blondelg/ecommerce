@@ -1,6 +1,9 @@
 from decimal import Decimal as D
 from oscar.apps.basket.abstract_models import AbstractBasket
 from oscar.apps.basket.abstract_models import AbstractLine
+from oscar.core.loading import get_model
+
+partner = get_model('partner', 'Partner')
 
 class Basket(AbstractBasket):
 
@@ -64,6 +67,12 @@ class Basket(AbstractBasket):
             partners.append(line.partner)
 
         return list(set(partners))
+
+    @property
+    def partners(self):
+        # Return a list with partners
+        return [partner.objects.filter(id=p_id) for p_id in self.partner_list()]
+
 
     @property
     def total_excl_tax(self):

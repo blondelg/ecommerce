@@ -5,14 +5,15 @@ class CheckoutSessionData(CoreCheckoutSessionData):
 
 
     def shipping_method_code(self, basket):
-        """
-        Return the shipping method code
-        """
+        """ generate a list of method codes, each code is the db method id """
+        code_list = []
+        for key, value in self._get('shipping', 'method_dict').items():
+            if 'selected_method' in key:
+                code_list.append(int(value))
+        return code_list
 
-        return self._get('shipping', 'method_code')
-
-    def use_shipping_method(self, code):
+    def use_shipping_method(self, method):
         """
         Set shipping method code to session
         """
-        self._set('shipping', 'method_code', code)
+        self._set('shipping', 'method_dict', method)

@@ -8,6 +8,7 @@ class ShippingMethodForm(CoreShippingMethodForm):
 
     def __init__(self, *args, **kwargs):
 
+        # get data used to build dynamics fields
         extra = kwargs.pop('extra')
         super(ShippingMethodForm, self).__init__(*args, **kwargs)
         self.fields['method_code'].required = False
@@ -21,4 +22,4 @@ class ShippingMethodForm(CoreShippingMethodForm):
             i += 1
 
     def clean(self):
-        return "toto"
+        return super().clean()
