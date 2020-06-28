@@ -47,6 +47,8 @@ class OrderCreator(CoreOrderCreator):
 
                 # create child orders
                 for partner in basket.partner_list:
+                    print("DEBUG PARTNER")
+                    print(partner)
                     t_order_number = str(order_number) + "P" + str(partner.pk)
                     t_shipping_charge = shipping_method.sub_method[partner].calculate(basket)
                     kwargs['structure'] = 'child'
@@ -55,6 +57,11 @@ class OrderCreator(CoreOrderCreator):
                     child_order = self.create_order_model(
                         user, basket, shipping_address, shipping_method.sub_method[partner], t_shipping_charge,
                         billing_address, total[partner], t_order_number, status, request, **kwargs)
+
+                    # Create lines for child orders
+                    for line in basket.partner_lines(partner):
+                        self.create_line_models(child_order, line)
+                        # self.update_stock_records(line)
 
             else:
 

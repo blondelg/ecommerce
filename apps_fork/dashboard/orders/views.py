@@ -456,10 +456,11 @@ class OrderDetailView(DetailView):
             self.request.user, self.kwargs['number'])
 
     def get_order_lines(self):
-        if self.object.is_child:
-            return Order(id=self.object.parent_id).lines.filter(partner_id=self.object.partner_id)
-        else:
-            return self.object.lines.all()
+        # if self.object.is_child:
+        #     return Order(id=self.object.parent_id).lines.filter(partner_id=self.object.partner_id)
+        # else:
+        #     return self.object.lines.all()
+        return self.object.lines.all()
 
     def post(self, request, *args, **kwargs):
         # For POST requests, we use a dynamic dispatch technique where a
@@ -753,6 +754,7 @@ class LineDetailView(DetailView):
         order = get_order_for_user_or_404(self.request.user,
                                           self.kwargs['number'])
         try:
+            print("DEBUG : ", self.kwargs['line_id'])
             return order.lines.get(pk=self.kwargs['line_id'])
         except self.model.DoesNotExist:
             raise Http404()
@@ -760,6 +762,8 @@ class LineDetailView(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['order'] = self.object.order
+        for k, v in ctx.items():
+            print(k, v)
         return ctx
 
 
