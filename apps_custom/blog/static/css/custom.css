@@ -1,0 +1,16 @@
+.btn-tag {
+	padding: 1% 1%;
+	font-size: 45%;
+}
+
+pre code {
+	color: white;
+}
+
+p img {
+	max-width: 100%;
+	height:auto;
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+}

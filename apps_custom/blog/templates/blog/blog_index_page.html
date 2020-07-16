@@ -1,0 +1,86 @@
+{% extends "base_blog.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-blogindexpage{% endblock %}
+
+{% block content %}
+<!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Marketplace</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/">Les assos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/">Les partenaires</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/">Les projets</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<!-- Page Header -->
+{% image page.image max-1000x500 as tmp_photo %}
+<header class="masthead" style="background-image: url('{{ tmp_photo.url }}')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="site-heading">
+          <h1>Le Blog de Tautoko</h1>
+          <span class="subheading">Présentation des partenaires et projets.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+    <div class="intro">{{ page.intro|richtext }}</div>
+
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <!-- <h2>{{ page.title }}</h2> -->
+          {% for post in blogpages %}
+          {% with post=post.specific %}
+          <div class="post-preview">
+            <a href="{% pageurl post %}">
+              <h5 class="">{{ post.title }}</h5>
+              <!-- TAGS -->
+              {% if post.tags.all.count %}
+                  <!-- <div class="tags"> -->
+                  <div>
+                      {% for tag in post.tags.all %}
+                          <a href="{% slugurl 'tags' %}?tag={{ tag }}"><button type="button" class="btn btn-secondary btn-tag">{{ tag }}</button></a>
+                      {% endfor %}
+                  </div>
+              {% endif %}
+              <h7 class="post-subtitle">{{ post.intro }}</h7>
+            </a>
+            <p class="post-meta">Posté le {{ post.date }}</p>
+          </div>
+          {% endwith %}
+          {% endfor %}
+          <hr>
+
+        </div>
+      </div>
+    </div>
+
+
+
+{% endblock %}
