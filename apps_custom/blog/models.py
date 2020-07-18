@@ -1,17 +1,21 @@
 from django.db import models
+from django.db import connection
 from django import forms
+from django.utils.text import slugify
 
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag as TaggitTag
 
 from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField
+from wagtail.core.fields import RichTextField,StreamField
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from wagtail.snippets.models import register_snippet
+
+import datetime
 
 
 class BlogIndexPage(Page):
@@ -60,8 +64,8 @@ class BlogPage(Page):
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
-    categories = ParentalManyToManyField('blog.BlogPageCategory', blank=True)
-    icon = models.ForeignKey(
+    category = models.ForeignKey('blog.BlogPageCategory', on_delete=models.SET_NULL, null=True)
+    couverture = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
 
@@ -79,12 +83,10 @@ class BlogPage(Page):
 
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel([
-            FieldPanel('date'),
-            FieldPanel('tags'),
-            FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
-            ImageChooserPanel('icon'),
-        ], heading="Article information"),
+        FieldPanel('date'),
+        FieldPanel('tags'),
+        FieldPanel('category'),
+        ImageChooserPanel('couverture'),
         FieldPanel('intro'),
         FieldPanel('body', classname="full"),
         InlinePanel('gallery_images', label="Gallery images"),
@@ -135,4 +137,106 @@ class BlogPageCategory(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = 'blog categories'
+        verbose_name = 'Catégorie'
+        verbose_name_plural = 'Catégories'
+
+
+class BlogAsso(BlogPage):
+
+    name = models.CharField(
+        verbose_name=('Nom de l\'association'),
+        max_length=255,
+    )
+
+    # hide category from panels
+    content_panels = [FieldPanel('name')]
+    content_panels += [e for e in BlogPage.content_panels if 'title' not in str(e.field_type)]
+    content_panels = [e for e in content_panels if 'category' not in str(e.field_type)]
+
+
+    def __init__(self, *args, **kwargs):
+        super(BlogAsso, self).__init__(*args, **kwargs)
+        self.category = BlogPageCategory.objects.get(name='Association')
+        self.date = datetime.date.today()
+
+    def save(self, *args, **kwargs):
+        self.title = self.name
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+
+    class Meta:
+        verbose_name = "Page de présentation d'une association"
+
+
+class BlogPartner(BlogPage):
+
+    name = models.CharField(
+        verbose_name=('Nom du partenaire'),
+        max_length=255,
+    )
+
+    # hide category from panels
+    content_panels = [FieldPanel('name')]
+    content_panels += [e for e in BlogPage.content_panels if 'title' not in str(e.field_type)]
+    content_panels = [e for e in content_panels if 'category' not in str(e.field_type)]
+
+    def __init__(self, *args, **kwargs):
+        super(BlogPartner, self).__init__(*args, **kwargs)
+        self.category = BlogPageCategory.objects.get(name='Partenaire')
+        self.date = datetime.date.today()
+        
+    def save(self, *args, **kwargs):
+        self.title = self.name
+        super().save(*args, **kwargs)
+	
+    class Meta:
+        verbose_name = "Page de présentation d'un partenaire"
+
+
+class BlogProjet(BlogPage):
+
+    name = models.CharField(
+        verbose_name=('Nom du projet'),
+        max_length=255,
+    )
+    # add project funding target
+    target = models.DecimalField(max_digits=2, decimal_places=2, default=0)
+    # add asso
+    asso = models.ForeignKey('blog.BlogAsso', on_delete=models.SET_NULL, null=True)
+
+    # hide category from panels
+    content_panels = [FieldPanel('name')]
+    content_panels += [e for e in BlogPage.content_panels if 'title' not in str(e.field_type)]
+    content_panels = [e for e in content_panels if 'category' not in str(e.field_type)]
+    content_panels += [FieldPanel('target'), FieldPanel('asso')]
+
+    def __init__(self, *args, **kwargs):
+        super(BlogProjet, self).__init__(*args, **kwargs)
+        self.category = BlogPageCategory.objects.get(name='Projet')
+        self.date = datetime.date.today()
+	
+    class Meta:
+        verbose_name = "Page de présentation d'un projet"
+
+
+
+# Creating main categories
+if 'blog_blogpagecategory' in connection.introspection.table_names():
+	if BlogPageCategory.objects.filter(name = 'Association').count() == 0:
+	    category = BlogPageCategory(name='Association')
+	    category.save()
+
+	if BlogPageCategory.objects.filter(name = 'Partenaire').count() == 0:
+	    category = BlogPageCategory(name='Partenaire')
+	    category.save()
+
+	if BlogPageCategory.objects.filter(name = 'Projet').count() == 0:
+	    category = BlogPageCategory(name='Projet')
+	    category.save()
+
+
+
+    
+
+
