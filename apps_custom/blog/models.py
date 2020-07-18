@@ -143,55 +143,94 @@ class BlogPageCategory(models.Model):
 
 class BlogAsso(BlogPage):
 
+	# additionnal fields
+	site = models.URLField(max_length = 200, blank=True, null=True)
+	twitter = models.URLField(max_length = 200, blank=True, null=True)
+	facebook = models.URLField(max_length = 200, blank=True,  null=True)
+	instagram = models.URLField(max_length = 200, blank=True, null=True)
+	youtube = models.URLField(max_length = 200, blank=True, null=True)
+
     # hide category from panels
-    content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
+	content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
+	content_panels += [
+		MultiFieldPanel(
+		    [
+		        FieldPanel('site'),
+		        FieldPanel('twitter'),
+		        FieldPanel('facebook'),
+				FieldPanel('instagram'),
+				FieldPanel('youtube'),
+		    ],
+		    heading="Visibilité"
+		),
+	]
 
 
-    def __init__(self, *args, **kwargs):
-        super(BlogAsso, self).__init__(*args, **kwargs)
-        self.category = BlogPageCategory.objects.get(name='Association')
-        self.date = datetime.date.today()
-        self._meta.get_field('title').verbose_name = 'Nom de l\'association'
+
+	def __init__(self, *args, **kwargs):
+		super(BlogAsso, self).__init__(*args, **kwargs)
+		self.category = BlogPageCategory.objects.get(name='Association')
+		self.date = datetime.date.today()
+		self._meta.get_field('title').verbose_name = 'Nom de l\'association'
 
 
-    class Meta:
-        verbose_name = "Association - Page de présentation"
+	class Meta:
+		verbose_name = "Association - Page de présentation"
 
 
 class BlogPartner(BlogPage):
 
-    # hide category from panels
-    content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
+	# additionnal fields
+	site = models.URLField(max_length = 200, blank=True, null=True)
+	twitter = models.URLField(max_length = 200, blank=True, null=True)
+	facebook = models.URLField(max_length = 200, blank=True,  null=True)
+	instagram = models.URLField(max_length = 200, blank=True, null=True)
+	youtube = models.URLField(max_length = 200, blank=True, null=True)
 
-    def __init__(self, *args, **kwargs):
-        super(BlogPartner, self).__init__(*args, **kwargs)
-        self.category = BlogPageCategory.objects.get(name='Partenaire')
-        self.date = datetime.date.today()
-        self._meta.get_field('title').verbose_name = 'Nom du partenaire'
-	
-    class Meta:
-        verbose_name = "Partenaire - Page de présentation"
+    # hide category from panels
+	content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
+	content_panels += [
+		MultiFieldPanel(
+		    [
+		        FieldPanel('site'),
+		        FieldPanel('twitter'),
+		        FieldPanel('facebook'),
+				FieldPanel('instagram'),
+				FieldPanel('youtube'),
+		    ],
+		    heading="Visibilité"
+		),
+	]
+
+	def __init__(self, *args, **kwargs):
+		super(BlogPartner, self).__init__(*args, **kwargs)
+		self.category = BlogPageCategory.objects.get(name='Partenaire')
+		self.date = datetime.date.today()
+		self._meta.get_field('title').verbose_name = 'Nom du partenaire'
+
+	class Meta:
+		verbose_name = "Partenaire - Page de présentation"
 
 
 class BlogProjet(BlogPage):
 
-    # add project funding target
-    target = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Objectif de financement €')
-    # add asso
-    asso = models.ForeignKey('blog.BlogAsso', on_delete=models.SET_NULL, null=True)
+	# add project funding target
+	target = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Objectif de financement €')
+	# add asso
+	asso = models.ForeignKey('blog.BlogAsso', on_delete=models.SET_NULL, null=True)
 
-    # hide category from panels
-    content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
-    content_panels += [FieldPanel('target'), FieldPanel('asso')]
+	# hide category from panels
+	content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
+	content_panels += [FieldPanel('target'), FieldPanel('asso')]
 
-    def __init__(self, *args, **kwargs):
-        super(BlogProjet, self).__init__(*args, **kwargs)
-        self.category = BlogPageCategory.objects.get(name='Projet')
-        self.date = datetime.date.today()
-        self._meta.get_field('title').verbose_name = 'Nom du projet'
+	def __init__(self, *args, **kwargs):
+		super(BlogProjet, self).__init__(*args, **kwargs)
+		self.category = BlogPageCategory.objects.get(name='Projet')
+		self.date = datetime.date.today()
+		self._meta.get_field('title').verbose_name = 'Nom du projet'
 	
-    class Meta:
-        verbose_name = "Projet - Page de présentation"
+	class Meta:
+		verbose_name = "Projet - Page de présentation"
 
 
 
