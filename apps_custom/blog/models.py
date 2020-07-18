@@ -143,81 +143,55 @@ class BlogPageCategory(models.Model):
 
 class BlogAsso(BlogPage):
 
-    name = models.CharField(
-        verbose_name=('Nom de l\'association'),
-        max_length=255,
-    )
-
     # hide category from panels
-    content_panels = [FieldPanel('name')]
-    content_panels += [e for e in BlogPage.content_panels if 'title' not in str(e.field_type)]
-    content_panels = [e for e in content_panels if 'category' not in str(e.field_type)]
+    content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
 
 
     def __init__(self, *args, **kwargs):
         super(BlogAsso, self).__init__(*args, **kwargs)
         self.category = BlogPageCategory.objects.get(name='Association')
         self.date = datetime.date.today()
-
-    def save(self, *args, **kwargs):
-        self.title = self.name
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
+        self._meta.get_field('title').verbose_name = 'Nom de l\'association'
 
 
     class Meta:
-        verbose_name = "Page de présentation d'une association"
+        verbose_name = "Association - Page de présentation"
 
 
 class BlogPartner(BlogPage):
 
-    name = models.CharField(
-        verbose_name=('Nom du partenaire'),
-        max_length=255,
-    )
-
     # hide category from panels
-    content_panels = [FieldPanel('name')]
-    content_panels += [e for e in BlogPage.content_panels if 'title' not in str(e.field_type)]
-    content_panels = [e for e in content_panels if 'category' not in str(e.field_type)]
+    content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
 
     def __init__(self, *args, **kwargs):
         super(BlogPartner, self).__init__(*args, **kwargs)
         self.category = BlogPageCategory.objects.get(name='Partenaire')
         self.date = datetime.date.today()
-        
-    def save(self, *args, **kwargs):
-        self.title = self.name
-        super().save(*args, **kwargs)
+        self._meta.get_field('title').verbose_name = 'Nom du partenaire'
 	
     class Meta:
-        verbose_name = "Page de présentation d'un partenaire"
+        verbose_name = "Partenaire - Page de présentation"
 
 
 class BlogProjet(BlogPage):
 
-    name = models.CharField(
-        verbose_name=('Nom du projet'),
-        max_length=255,
-    )
     # add project funding target
-    target = models.DecimalField(max_digits=2, decimal_places=2, default=0)
+    target = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Objectif de financement €')
     # add asso
     asso = models.ForeignKey('blog.BlogAsso', on_delete=models.SET_NULL, null=True)
 
     # hide category from panels
-    content_panels = [FieldPanel('name')]
-    content_panels += [e for e in BlogPage.content_panels if 'title' not in str(e.field_type)]
-    content_panels = [e for e in content_panels if 'category' not in str(e.field_type)]
+    content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
     content_panels += [FieldPanel('target'), FieldPanel('asso')]
 
     def __init__(self, *args, **kwargs):
         super(BlogProjet, self).__init__(*args, **kwargs)
         self.category = BlogPageCategory.objects.get(name='Projet')
         self.date = datetime.date.today()
+        self._meta.get_field('title').verbose_name = 'Nom du projet'
 	
     class Meta:
-        verbose_name = "Page de présentation d'un projet"
+        verbose_name = "Projet - Page de présentation"
 
 
 
