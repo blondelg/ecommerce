@@ -6,6 +6,11 @@ from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.http import HttpResponseRedirect
 
+from apps_custom.blog.models import BlogProjet
+
+from django.conf import settings
+from decimal import Decimal
+
 
 CheckoutSessionMixin = get_class('checkout.session', 'CheckoutSessionMixin')
 ShippingMethodForm = get_class('checkout.forms', 'ShippingMethodForm')
@@ -51,7 +56,7 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
     pre_conditions = ['check_basket_is_not_empty',
                       'check_basket_is_valid',
                       'check_user_email_is_captured']
-    success_url = reverse_lazy('checkout:payment-method')
+    success_url = reverse_lazy('checkout:project-choice')
 
     def post(self, request, *args, **kwargs):
 
@@ -131,3 +136,30 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
 
     def get_success_response(self):
         return redirect(self.success_url)
+        
+        
+class ProjectChoiceView(CheckoutSessionMixin, generic.ListView):
+    """
+    view that allows customer to pick a project he wish to fund during checkout
+    """
+    model = BlogProjet
+    template_name = 'oscar/checkout/project_choice.html'
+    pre_conditions = ['check_basket_is_not_empty',
+                  'check_basket_is_valid',
+                  'check_user_email_is_captured']
+    success_url = reverse_lazy('checkout:payment-method')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['donation'] = self.get_donation_amount(context)
+        return context
+        
+    def get_donation_amount(self, context):
+        # Calculates amount that will be given to the project
+        rate = settings.TAUTOKO_RATE_OF_DONATION
+        return round(context['order_total'].incl_tax * Decimal(rate), 2)
+
+    
+    
+    
+    

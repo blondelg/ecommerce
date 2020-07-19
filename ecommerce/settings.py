@@ -360,3 +360,6 @@ OSCAR_GOOGLE_ANALYTICS_ID = ''
 
 #Additional configs loaded to link urls which are outside of the dashboard scope
 OSCAR_CONFIG_DASHBOARD = ['wagtail.admin']
+
+# Rate of donation as per cent of revenues
+TAUTOKO_RATE_OF_DONATION = 0.05

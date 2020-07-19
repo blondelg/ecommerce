@@ -19,34 +19,37 @@ import datetime
 
 
 class BlogIndexPage(Page):
-	intro = RichTextField(blank=True)
-	image = models.ForeignKey(
-	'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
-	)
-	image_credit = models.CharField(max_length=250, null=True, blank=True)
+    intro = RichTextField(blank=True)
+    image = models.ForeignKey(
+    'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+    )
+    image_credit = models.CharField(max_length=250, null=True, blank=True)
 
 
-	content_panels = Page.content_panels + [
-	ImageChooserPanel('image'),
-	FieldPanel('image_credit'),
-	]
+    content_panels = Page.content_panels + [
+    ImageChooserPanel('image'),
+    FieldPanel('image_credit'),
+    ]
 
-	def get_context(self, request):
-		# Update context to include only published posts, ordered by reverse-chron
-		context = super().get_context(request)
-		blogpages = self.get_children().live().exclude(title='Tag').order_by('-first_published_at')
+    def get_context(self, request):
+        # Update context to include only published posts, ordered by reverse-chron
+        context = super().get_context(request)
+        blogpages = self.get_children().live().exclude(title='Tag').order_by('-first_published_at')
 
 
-		context['blogpages'] = blogpages
-		return context
+        context['blogpages'] = blogpages
+        return context
 
-	def get_tag(self):
-		# Get weighted tag list
-		pass
+    def get_tag(self):
+        # Get weighted tag list
+        pass
 
-	def __init__(self, *args, **kwargs):
-		super(BlogIndexPage, self).__init__(*args, **kwargs)
-		self._meta.get_field('title').verbose_name = 'Titre de l\'index'
+    def __init__(self, *args, **kwargs):
+        super(BlogIndexPage, self).__init__(*args, **kwargs)
+        self._meta.get_field('title').verbose_name = 'Titre de l\'index'
+
+    class Meta:
+        verbose_name = 'Blog - Page d\'accueil'
 
 
 class BlogPageTag(TaggedItemBase):

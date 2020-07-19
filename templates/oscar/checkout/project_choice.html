@@ -1,0 +1,37 @@
+{% extends "oscar/checkout/checkout.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Payment details" %} | {{ block.super }}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'oscar/checkout/nav.html' with step=3 %}
+{% endblock %}
+
+{% block checkout_title %}{% trans "Choose a project you would like to support" %}{% endblock %}
+
+{% block order_contents %}{% endblock %}
+{% block shipping_address %}{% endblock %}
+{% block shipping_method %}{% endblock %}
+{% block payment_method %}{% endblock %}
+
+{% block project_choice %}
+<p>Sur un total de {{ order_total.incl_tax }} € d'achats hors livraison, <b>{{ donation }} € seront reversé au projet de votre choix.</b><p>
+{% for projet in blogprojet_list %}
+<div class="card mb-3">
+  <a href="{{ projet.url }}">
+  <img src="{{ projet.couverture.file.url }}" class="card-img-top" alt="...">
+  </a>
+  <div class="card-body">
+    <h5 class="card-title">{{projet}}</h5>
+    <p class="card-text">{{ projet.intro }}</p>
+    <a href="{% url 'checkout:preview' %}?pid={{projet.pk}}" class="btn btn-primary">Choisir ce projet</a>
+    <p class="card-text"><small class="text-muted">Un projet proposé par <a href="{{ projet.asso.url }}">{{projet.asso}}</a></small></p>
+  </div>
+</div>
+
+{% endfor %}
+{% endblock project_choice %}
+
+
