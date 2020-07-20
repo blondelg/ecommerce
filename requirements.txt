@@ -85,7 +85,7 @@ traitlets==4.3.3
 typing-extensions==3.7.4.2
 Unidecode==1.1.1
 urllib3==1.25.9
-wagtail==2.8.2
+wagtail==2.9.3
 wcwidth==0.1.9
 webencodings==0.5.1
 widgetsnbextension==3.5.1
