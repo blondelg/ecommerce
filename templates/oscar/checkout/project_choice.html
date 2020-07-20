@@ -21,12 +21,14 @@
 {% for projet in blogprojet_list %}
 <div class="card mb-3">
   <a href="{{ projet.url }}">
-  <img src="{{ projet.couverture.file.url }}" class="card-img-top" alt="...">
+  <div>
+  <img src="{{ projet.couverture.file.url }}" class="img-responsive" alt="Responsive image" alt="...">
+  </div>
   </a>
   <div class="card-body">
     <h5 class="card-title">{{projet}}</h5>
     <p class="card-text">{{ projet.intro }}</p>
-    <a href="{% url 'checkout:preview' %}?pid={{projet.pk}}" class="btn btn-primary">Choisir ce projet</a>
+    <a href="{% url 'checkout:payment-details' %}?pid={{projet.pk}}" class="btn btn-primary">Choisir ce projet</a>
     <p class="card-text"><small class="text-muted">Un projet proposé par <a href="{{ projet.asso.url }}">{{projet.asso}}</a></small></p>
   </div>
 </div>

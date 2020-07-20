@@ -28,5 +28,5 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(set_default_categories),
-        migrations.RunPython(drop_welcome_page),
+        #migrations.RunPython(drop_welcome_page),
     ]

@@ -27,8 +27,7 @@ class BlogIndexPage(Page):
 
 
     content_panels = Page.content_panels + [
-    ImageChooserPanel('image'),
-    FieldPanel('image_credit'),
+        ImageChooserPanel('image'),
     ]
 
     def get_context(self, request):
@@ -49,7 +48,26 @@ class BlogIndexPage(Page):
         self._meta.get_field('title').verbose_name = 'Titre de l\'index'
 
     class Meta:
-        verbose_name = 'Blog - Page d\'accueil'
+        verbose_name = 'Blog - Index'
+        
+        
+class BlogIndexCategoryPage(BlogIndexPage):
+
+    category = models.ForeignKey('blog.BlogPageCategory', on_delete=models.SET_NULL, null=True)
+    
+    content_panels = BlogIndexPage.content_panels + [
+        FieldPanel('category'),
+    ]
+    
+    def get_context(self, request):
+        # Update context to include only published posts, by category ordered by reverse-chron
+        context = super().get_context(request)
+        blogpages = BlogPage.objects.filter(category=self.category).order_by('-first_published_at')
+        context['blogpages'] = blogpages
+        return context
+        
+    class Meta:
+        verbose_name = 'Blog - Index par catégorie'
 
 
 class BlogPageTag(TaggedItemBase):
@@ -120,7 +138,6 @@ class BlogPageGalleryImage(Orderable):
     ]
 
 class BlogTagIndexPage(Page):
-
 
     def get_context(self, request):
 
