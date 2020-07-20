@@ -4,7 +4,6 @@ ecommerce/public/
 **/*.csv
 **/*.ipynd
 RUN
-**/migrations/
 media/*
 
 # Byte-compiled / optimized / DLL files

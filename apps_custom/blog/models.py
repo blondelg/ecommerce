@@ -246,23 +246,3 @@ class BlogProjet(BlogPage):
 		verbose_name = "Projet - Page de présentation"
 
 
-
-# Creating main categories
-if 'blog_blogpagecategory' in connection.introspection.table_names():
-	if BlogPageCategory.objects.filter(name = 'Association').count() == 0:
-	    category = BlogPageCategory(name='Association')
-	    category.save()
-
-	if BlogPageCategory.objects.filter(name = 'Partenaire').count() == 0:
-	    category = BlogPageCategory(name='Partenaire')
-	    category.save()
-
-	if BlogPageCategory.objects.filter(name = 'Projet').count() == 0:
-	    category = BlogPageCategory(name='Projet')
-	    category.save()
-
-
-
-    
-
-
