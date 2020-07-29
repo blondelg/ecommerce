@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
+    'wagtail.contrib.modeladmin',
     
     'taggit',
     'modelcluster',
@@ -134,6 +135,9 @@ INSTALLED_APPS = [
 
     #'oscar.apps.dashboard.shipping',
     'apps_fork.dashboard.shipping',
+    
+    # Not a fork of existing app but make sense to have it in dashboard
+    'apps_fork.dashboard.donation.apps.DonationDashboardConfig',
 
     # 3rd-party apps that oscar depends on
     'widget_tweaks',
@@ -325,6 +329,7 @@ OSCAR_DASHBOARD_NAVIGATION = [
 {'label': 'Dashboard', 'icon': 'fas fa-chart-line', 'url_name': 'dashboard:index'},
 {'label': 'Products', 'icon': 'fas fa-store', 'url_name': 'dashboard:catalogue-product-list'},
 {'label': 'Orders', 'icon': 'fas fa-shopping-cart', 'url_name': 'dashboard:order-list'},
+{'label': 'Donations', 'icon': 'fas fa-donate', 'url_name': 'dashboard:donation-list'},
 {'label': 'Customers', 'icon': 'fas fa-users', 'url_name': 'dashboard:users-index', 'access_fn': partner_access},
 {'label': 'Shipping', 'icon': 'fas fa-truck', 'url_name': 'dashboard:shipping-method-list', 'access_fn': partner_access},
 {'label': 'Low stock alerts', 'icon': 'fas fa-exclamation-circle', 'url_name': 'dashboard:stock-alert-list', 'access_fn': partner_access},

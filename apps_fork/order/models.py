@@ -61,6 +61,7 @@ class Donation(models.Model):
     asso_name = models.CharField(max_length=250, null=True, blank=True)
     order = models.ForeignKey('order.Order', null=False, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField(auto_now_add=True, blank=True)
 
         
     def save(self, *args, **kwargs):
