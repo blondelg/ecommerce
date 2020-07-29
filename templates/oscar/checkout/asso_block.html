@@ -1,0 +1,63 @@
+
+{% load currency_filters %}
+{% load image_tags %}
+{% load i18n %}
+{% load purchase_info_tags %}
+{% load staticfiles %}
+
+
+<div class="sub-header">
+    {% block order_contents_actions %}
+        <a href="{% url 'basket:summary' %}" class="pull-right">
+            {% trans "Edit order contents" %}
+        </a>
+    {% endblock %}
+
+    <h2>{% trans "Order contents" %}</h2>
+</div>
+
+
+<div class="basket-title">
+    <div class="row">
+        <p class="col-sm-9 h4">{% trans "Item" %}</p>
+        <p class="col-sm-1 h4 align-center">{% trans "Quantity" %}</p>
+        <p class="col-sm-2 h4 align-right">{% trans "Total" %}</p>
+    </div>
+</div>
+{% for line in basket.all_lines %}
+    {% purchase_info_for_line request line as session %}
+    <div class="basket-items">
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="image_container">
+                    {% with image=line.product.primary_image %}
+                        {% oscar_thumbnail image.original "100x100" upscale=False as thumb %}
+                        <a href="{{ form.instance.product.get_absolute_url }}">
+                            <img class="thumbnail" src="{{ thumb.url }}" alt="{{ product.get_title }}">
+                        </a>
+                    {% endwith %}
+                </div>
+            </div>
+            <div class="col-sm-7">
+                <h3><a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a></h3>
+                <span class="availability {{ session.availability.code }}">{{ session.availability.message }}</span>
+            </div>
+            <div class="col-sm-1 align-center">
+                {{ line.quantity }}
+            </div>
+            <div class="col-sm-2 align-right">
+                <p class="price_color">
+                    {% if not show_tax_separately and line.is_tax_known %}
+                        {{ line.line_price_incl_tax|currency:basket.currency }}
+                    {% else %}
+                        {{ line.line_price_excl_tax|currency:basket.currency }}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+
+
+

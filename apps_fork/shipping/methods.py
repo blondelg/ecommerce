@@ -19,37 +19,37 @@ class MultiMethod(methods.FixedPrice):
 
         if basket.is_multi_partner:
 
-            self.charge_incl_tax = 0
-            self.charge_excl_tax = 0
+            self.incl_tax = D('0.00')
+            self.excl_tax = D('0.00')
 
             # add all shipping methods for every partner
             for partner in selected_method.keys():
                 self.sub_method[partner] = MainMethod(selected_method[partner], basket)
 
-                self.charge_incl_tax += self.sub_method[partner].calculate(basket).incl_tax
-                self.charge_excl_tax += self.sub_method[partner].calculate(basket).excl_tax
+                self.incl_tax += self.sub_method[partner].calculate(basket).incl_tax
+                self.excl_tax += self.sub_method[partner].calculate(basket).excl_tax
 
             # do the global shipping setup
             if basket.total_incl_tax['parent'] > selected_method[basket.partner_list[0]].free_shipping_threshold:
-                self.charge_incl_tax = D('0.00')
-                self.charge_excl_tax = D('0.00')
+                self.incl_tax = D('0.00')
+                self.excl_tax = D('0.00')
 
 
         # if there is only one partner for the order
         else:
             if basket.total_incl_tax > selected_method[basket.partner_list[0]].free_shipping_threshold:
-                self.charge_incl_tax = D('0.00')
-                self.charge_excl_tax = D('0.00')
+                self.incl_tax = D('0.00')
+                self.excl_tax = D('0.00')
             else:
-                self.charge_incl_tax = selected_method[basket.partner_list[0]].charge_incl_tax
-                self.charge_excl_tax = self.charge_incl_tax/(1 + rate)
+                self.incl_tax = selected_method[basket.partner_list[0]].charge_incl_tax
+                self.excl_tax = self.charge_incl_tax/(1 + rate)
 
 
     def calculate(self, basket):
         return prices.Price(
             currency=basket.currency,
-            excl_tax=self.charge_excl_tax,
-            incl_tax=self.charge_incl_tax)
+            excl_tax=self.excl_tax,
+            incl_tax=self.incl_tax)
 
     @property
     def is_tax_known(self):

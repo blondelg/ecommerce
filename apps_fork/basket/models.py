@@ -1,12 +1,16 @@
 from decimal import Decimal as D
+from django.db import models
 from oscar.apps.basket.abstract_models import AbstractBasket
 from oscar.apps.basket.abstract_models import AbstractLine
 from oscar.core.loading import get_model
 
 partner = get_model('partner', 'Partner')
+projet = get_model('blog', 'BlogProjet')
 
 class Basket(AbstractBasket):
 
+    project = models.ForeignKey(projet, on_delete=models.SET_NULL, null=True)
+    
     def _get_total(self, property, partner_id=None):
         """
         For executing a named method on each line of the basket
@@ -47,6 +51,11 @@ class Basket(AbstractBasket):
     def partner_lines(self, partner_id):
         """ return lines according to a given parner id """
         return self.all_lines().filter(product__partner_id=partner_id)
+        
+    def set_project(self, project_id):
+        """ Set a project from project id """
+        self.project = projet.objects.get(pk=project_id)
+        self.save()
 
     @property
     def is_multi_partner(self):

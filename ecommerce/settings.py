@@ -146,10 +146,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     # Apps
-    # 'custom_apps.blog.home',
-    # 'custom_apps.blog.blog',
     'apps_custom.datavisu',
-    'apps_custom.asso',
     'apps_custom.blog',
 
     # debug

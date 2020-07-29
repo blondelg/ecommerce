@@ -1,0 +1,16 @@
+{% load currency_filters %}
+{% load image_tags %}
+{% load i18n %}
+{% load purchase_info_tags %}
+{% load staticfiles %}
+
+
+
+<div class="col-sm-6">
+    <div class="sub-header">
+        <h2>{% trans 'Totals' %}</h2>
+    </div>
+    {% include 'oscar/basket/partials/basket_totals.html' %}
+</div>
+
+

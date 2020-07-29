@@ -47,8 +47,6 @@ class OrderCreator(CoreOrderCreator):
 
                 # create child orders
                 for partner in basket.partner_list:
-                    print("DEBUG PARTNER")
-                    print(partner)
                     t_order_number = str(order_number) + "P" + str(partner.pk)
                     t_shipping_charge = shipping_method.sub_method[partner].calculate(basket)
                     kwargs['structure'] = 'child'

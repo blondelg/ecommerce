@@ -1,0 +1,61 @@
+{% load currency_filters %}
+{% load image_tags %}
+{% load i18n %}
+{% load purchase_info_tags %}
+{% load staticfiles %}
+
+
+<div class="col-sm-6">
+    <div class="sub-header">
+        <h2>{% trans "Shipping" %}</h2>
+    </div>
+    {% if shipping_address %}
+        <div class="well well-info">
+            {% block shipping_address_actions %}
+                <a href="{% url 'checkout:shipping-address' %}" class="pull-right">
+                    {% trans "Change" %}
+                </a>
+            {% endblock %}
+            <h3>{% trans "Address" %}</h3>
+            <address>
+                {% for field in shipping_address.active_address_fields %}
+                    {{ field }}<br/>
+                {% endfor %}
+            </address>
+
+            {% if shipping_address.phone_number %}
+                <h4>{% trans "Contact" %}</h4>
+                <p>
+                    {% trans "Phone" %}: {{ shipping_address.phone_number }}
+                    {% if guest_email %}
+                        <br/>{% trans "Email" %}: {{ guest_email }}
+                    {% endif %}
+                </p>
+            {% endif %}
+
+            {% if shipping_address.notes %}
+                <h4>{% trans "Instructions" %}</h4>
+                <p>{{ shipping_address.notes|linebreaks }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if shipping_method %}
+        <div class="well well-info">
+            {% block shipping_method_actions %}
+                <a href="{% url 'checkout:shipping-method' %}" class="pull-right">
+                    {% trans "Change" %}
+                </a>
+            {% endblock %}
+            <h3>{% trans "Shipping method" %}</h3>
+            <p>{{ shipping_method.name }}
+                {% if shipping_method.description %}
+                    - {{ shipping_method.description|safe }}
+                {% endif %}
+            </p>
+
+        </div>
+    {% endif %}
+</div>
+
+

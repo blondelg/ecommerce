@@ -16,7 +16,30 @@
 {% block shipping_method %}{% endblock %}
 {% block payment_method %}{% endblock %}
 
+
+
 {% block payment_details %}
+
+    <div class="row">
+    
+        {% block shipping_block %}
+            {% include 'oscar/checkout/shipping_block.html' %}
+        {% endblock shipping_block %}
+        
+        {% block total_block %}
+            {% include 'oscar/checkout/total_block.html' %}
+        {% endblock total_block %}
+        
+    </div>
+    
+    <div class="row">
+    
+        {% block order_block %}
+            {% include 'oscar/checkout/order_block.html' %}
+        {% endblock order_block %}
+        
+    </div>
+
     {% block payment_details_content %}
         <p>{% trans "This page needs implementing within your project.  You may want to use one of Oscar's payment gateway libraries:" %}</p>
         <ul>
@@ -27,4 +50,5 @@
         </ul>
         <a id="view_preview" href="{% url 'checkout:preview' %}" class="btn btn-primary btn-lg">{% trans "Continue" %}</a>
     {% endblock payment_details_content %}
+
 {% endblock payment_details %}
