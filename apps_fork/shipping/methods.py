@@ -4,12 +4,14 @@ from decimal import Decimal as D
 from decimal import *
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
 
 class MultiMethod(methods.FixedPrice):
 
     """ shipping method which can hold multi shipping methods, one fo each partner """
 
-    name = _('Multi Method')
+    name = ''
+    code = ''
     exponent = D('0.00')
     sub_method = {}
 
@@ -28,12 +30,15 @@ class MultiMethod(methods.FixedPrice):
 
                 self.incl_tax += self.sub_method[partner].calculate(basket).incl_tax
                 self.excl_tax += self.sub_method[partner].calculate(basket).excl_tax
+                
+                # setup name and code
+                self.sub_method[partner].name = self.sub_method[partner].name
+                self.sub_method[partner].code = slugify(partner.name + "-" + self.sub_method[partner].name)
 
             # do the global shipping setup
             if basket.total_incl_tax['parent'] > selected_method[basket.partner_list[0]].free_shipping_threshold:
                 self.incl_tax = D('0.00')
                 self.excl_tax = D('0.00')
-
 
         # if there is only one partner for the order
         else:
@@ -42,7 +47,11 @@ class MultiMethod(methods.FixedPrice):
                 self.excl_tax = D('0.00')
             else:
                 self.incl_tax = selected_method[basket.partner_list[0]].charge_incl_tax
-                self.excl_tax = self.charge_incl_tax/(1 + rate)
+                self.excl_tax = self.incl_tax/(1 + rate)
+                
+            # setup name and code
+            self.name = selected_method[basket.partner_list[0]].name
+            self.code = slugify(selected_method[basket.partner_list[0]].partner.name + "-" + selected_method[basket.partner_list[0]].name)
 
 
     def calculate(self, basket):

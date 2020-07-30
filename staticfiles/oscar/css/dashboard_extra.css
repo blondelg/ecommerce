@@ -183,5 +183,9 @@ a.article:hover {
 }
 
 /*Set table's caption on top of it*/
-
 caption {caption-side: top;}
+
+/**/
+.well {width: 100%;}
+
+.form-inline label {justify-content: left;}
