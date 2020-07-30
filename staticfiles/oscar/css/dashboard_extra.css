@@ -181,3 +181,7 @@ a.article:hover {
         display: none;
     }
 }
+
+/*Set table's caption on top of it*/
+
+caption {caption-side: top;}
