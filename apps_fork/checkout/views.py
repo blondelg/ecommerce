@@ -330,16 +330,25 @@ class ProjectChoiceView(CheckoutSessionMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['donation'] = self.get_donation_amount(context)
+        # store order total in a single variable
+        if context['basket'].is_multi_partner:
+            context['total_free_shipping'] = self.get_total_free_of_shipping(context)
+        
         return context
         
     def get_donation_amount(self, context):
         # Calculates amount that will be given to the project
         rate = settings.TAUTOKO_RATE_OF_DONATION
 
+        return round(self.get_total_free_of_shipping(context) * Decimal(rate), 2)
+
+
+            
+    def get_total_free_of_shipping(self, context):
         if context['basket'].is_multi_partner:
-            return round(context['order_total']['parent'].incl_tax * Decimal(rate), 2)
+            return context['order_total']['parent'].incl_tax - context['shipping_charge'].incl_tax
         else:
-            return round(context['order_total'].incl_tax * Decimal(rate), 2)
+            return context['order_total'].incl_tax - context['shipping_charge'].incl_tax
 
     
     

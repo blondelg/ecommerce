@@ -17,7 +17,7 @@
 {% block payment_method %}{% endblock %}
 
 {% block project_choice %}
-<p>Sur un total de {{ order_total.incl_tax }} € d'achats hors livraison, <b>{{ donation }} € seront reversé au projet de votre choix.</b><p>
+<p>Sur un total de {{ total_free_shipping }} € d'achats hors livraison, <b>{{ donation }} € seront reversé au projet de votre choix.</b><p>
 {% for projet in blogprojet_list %}
 <div class="card mb-3">
   <a href="{{ projet.url }}">

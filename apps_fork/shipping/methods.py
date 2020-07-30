@@ -105,6 +105,10 @@ class Free(methods.FixedPrice):
     code = 'free-shipping'
     name = _('Free shipping')
 
+    incl_tax = D('0.00')
+    excl_tax = D('0.00')
+    is_tax_known = True
+
     def calculate(self,basket):
         # If the charge is free then tax must be free (musn't it?) and so we
         # immediately set the tax to zero

@@ -95,6 +95,7 @@ class BasketView(ModelFormSetView):
         # estimated order total is beforehand.
         context['shipping_methods'] = self.get_shipping_methods(
             self.request.basket)
+            
         method = self.get_free_shipping_method(self.request.basket)
         context['shipping_method'] = method
         shipping_charge = method.calculate(self.request.basket)
@@ -104,7 +105,7 @@ class BasketView(ModelFormSetView):
             context['shipping_charge_excl_discount'] = excl_discount
 
         context['order_total'] = OrderTotalCalculator().calculate(
-            self.request.basket, shipping_charge)
+            self.request.basket, method)
         context['basket_warnings'] = self.get_basket_warnings(
             self.request.basket)
         context['upsell_messages'] = self.get_upsell_messages(
