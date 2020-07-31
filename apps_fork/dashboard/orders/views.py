@@ -344,7 +344,6 @@ class OrderListView(BulkEditMixin, ListView):
         ctx['order_statuses'] = Order.all_statuses()
         ctx['search_filters'] = self.get_search_filter_descriptions()
         ctx['is_staff'] = self.request.user.is_staff # TO UPDATE """""""""""""""""""""""""""""""""""""""""""""
-        print(ctx)
         return ctx
 
     def is_csv_download(self):
@@ -755,7 +754,6 @@ class LineDetailView(DetailView):
         order = get_order_for_user_or_404(self.request.user,
                                           self.kwargs['number'])
         try:
-            print("DEBUG : ", self.kwargs['line_id'])
             return order.lines.get(pk=self.kwargs['line_id'])
         except self.model.DoesNotExist:
             raise Http404()
@@ -763,8 +761,6 @@ class LineDetailView(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['order'] = self.object.order
-        for k, v in ctx.items():
-            print(k, v)
         return ctx
 
 

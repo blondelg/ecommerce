@@ -17,7 +17,6 @@ class OrderTotalCalculator(object):
 
         if basket.is_multi_partner:
             return_dict = {}
-            print("DEBUG : ", shipping_method)
             for partner_id in basket.partner_list:
 
                 excl_tax = basket.total_excl_tax[partner_id] #+ shipping_method.sub_method[partner_id].charge_excl_tax
