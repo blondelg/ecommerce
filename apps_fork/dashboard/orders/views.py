@@ -344,6 +344,7 @@ class OrderListView(BulkEditMixin, ListView):
         ctx['order_statuses'] = Order.all_statuses()
         ctx['search_filters'] = self.get_search_filter_descriptions()
         ctx['is_staff'] = self.request.user.is_staff # TO UPDATE """""""""""""""""""""""""""""""""""""""""""""
+        print(ctx)
         return ctx
 
     def is_csv_download(self):
