@@ -36,6 +36,7 @@
             <a id="create_new_shipping_method" href="{% url 'dashboard:shipping-method-create' %}" class="btn btn-primary btn-lg pull-right"><i class="icon-download"></i> {% trans "Download" %}</a>
             <thead>
                 <tr>
+                    <th><input type="checkbox" name="selected_all" class=""/></th>
                     <th>{% trans "Project" %}</th>
                     <th>{% trans "Association" %}</th>
                     <th>{% trans "Date" %}</th>
@@ -46,6 +47,7 @@
             <tbody>
                 {% for donation in donations %}
                     <tr>
+                        <td><input type="checkbox" name="selected_order" class="selected_order" value="{{ donation.id }}"/></td>
                         <td>{{ donation.project_name }}</td>
                         <td>{{ donation.asso_name }}</td>
                         <td>{{ donation.date }}</td>
@@ -58,4 +60,6 @@
             <tr><td>{% trans "No donations found." %}</td></tr>
         {% endif %}
     </table>
+    
+{% include "oscar/dashboard/partials/pagination.html" %}
 {% endblock %}

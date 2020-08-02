@@ -156,6 +156,7 @@
                     <div class="sub-header">
                         <h2>{% trans "Available shipping options" %}</h2>
                     </div>
+                    {% include "oscar/basket/partials/basket_shipping_methods.html" %}
                 </div>
             {% endif %}
         {% endblock vouchers %}

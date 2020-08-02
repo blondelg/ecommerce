@@ -1,0 +1,22 @@
+{% load currency_filters %}
+
+
+{% block shipping_methods %}
+    {% for partner, methods in shipping_methods.items %}
+        <h2>{{ partner }}</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+            <tbody>
+            {% for method in methods%}
+                <tr>
+                    <td>{{ method.name }}</td>
+                    <td><p class="text-right">{{ method.charge_incl_tax|currency }}</p></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+{% endblock %}
