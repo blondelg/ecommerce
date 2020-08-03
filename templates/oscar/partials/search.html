@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<form method="get" action="{% url 'search:search' %}" class="navbar-form">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-11 no-padding">
+                {{ search_form.q }}
+            </div>
+            <div class="col-sm-1 no-padding">
+                <button class="btn search-button" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

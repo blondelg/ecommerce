@@ -1,0 +1,27 @@
+{% load currency_filters %}
+{% load i18n %}
+
+<div class="basket-mini pull-right hidden-xs">
+    <span class="btn-group">
+            <a data-toggle="dropdown" href="{% url 'basket:summary' %}">
+                <p>
+                    <i class="fas fa-shopping-cart fa-2x"></i>
+                    <i class="fas fa-caret-down fa-2x"></i>
+                </p>
+            </a>
+            <p class="basket-total">
+                {% if request.basket.is_tax_known %}
+                    {% if request.basket.is_multi_partner %}
+                        {{ request.basket.total_incl_tax.parent|currency:request.basket.currency }}
+                    {% else %}
+                        {{ request.basket.total_incl_tax|currency:request.basket.currency }}
+                    {% endif %}
+                {% else %}
+                    {{ request.basket.total_excl_tax|currency:request.basket.currency }}
+                {% endif %}
+            </p>
+        <ul class="dropdown-menu pull-right">
+            <li>{% include "oscar/basket/partials/basket_quick.html" %}</li>
+        </ul>
+    </span>
+</div>

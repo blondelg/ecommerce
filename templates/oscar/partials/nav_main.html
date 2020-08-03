@@ -1,0 +1,75 @@
+{% load currency_filters %}
+{% load category_tags %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+<nav class="main-navbar navbar navbar-expand-lg">
+    <div class="col-sm-2">
+        <a href="/catalogue">
+            <img class="site-image" src="{% static 'tautoko/img/ui/logos/tautoko_cropped.png' %}" alt="Tautoko">
+        </a>
+    </div>
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-sm-9">
+                {% include "oscar/partials/search.html" %}
+            </div>
+            <div class="col-sm-3">
+                <div class="block-titre">
+                    <p class="titre">Donnez du sens à vos achats</p>
+                    <a href="url">
+                        <p class="sous-titre">Comment ça marche</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+            </div>
+            <div class="col-sm-3">
+                <div class="row row-align">
+                    <div class="col-sm-6">
+                        <div class="block-menus">
+                            {% if request.user.is_authenticated %}
+                                <p>Bonjour {{ user.username }}</p>
+                                <p><a href="/accounts/"><i class="fas fa-user"></i> Compte</a></p>
+                            {% else %}
+                                <a href="/accounts/"><i class="fas fa-user"></i> Se connecter</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="block-menus">
+                            {% block mini_basket %}{% include "oscar/partials/mini_basket_2.html" %}{% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+<nav class="sub-navbar navbar-expand-lg">
+    <div class="sub-bar-block">
+        {% for class in classes %}
+            <div class="sub-bar-elt">
+                {{ class.name|upper }}
+            </div>
+        {% endfor %}
+        <div class="sub-bar-elt">
+            ASSO
+        </div>
+        <div class="sub-bar-elt">
+            PROJETS
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+
