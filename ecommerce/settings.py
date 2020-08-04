@@ -15,7 +15,7 @@ location = lambda x: os.path.join(
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BLOG_DIR = os.path.join(BASE_DIR, 'apps_custom', 'blog')
+CONTENT_DIR = os.path.join(BASE_DIR, 'apps_custom', 'content')
 
 
 # Quick-start development settings - unsuitable for production
@@ -151,7 +151,7 @@ INSTALLED_APPS = [
 
     # Apps
     'apps_custom.datavisu',
-    'apps_custom.blog',
+    'apps_custom.content',
 
     # debug
     'debug_toolbar',
@@ -187,7 +187,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
-            os.path.join(BLOG_DIR, 'templates'),
+            os.path.join(CONTENT_DIR, 'templates'),
 
         ],
         'APP_DIRS': True,
@@ -294,8 +294,8 @@ CSV_MAX_SIZE = 1 # in Mo
 CSV_ROOT = location("public/csv")
 
 
-# Blog settings
-WAGTAIL_SITE_NAME = 'blog tautoko'
+# Content settings
+WAGTAIL_SITE_NAME = 'content tautoko'
 
 
 # Oscars settings
@@ -334,7 +334,7 @@ OSCAR_DASHBOARD_NAVIGATION = [
 {'label': 'Shipping', 'icon': 'fas fa-truck', 'url_name': 'dashboard:shipping-method-list', 'access_fn': partner_access},
 {'label': 'Low stock alerts', 'icon': 'fas fa-exclamation-circle', 'url_name': 'dashboard:stock-alert-list', 'access_fn': partner_access},
 {'label': 'Reviews', 'icon': 'fas fa-thumbs-up', 'url_name': 'dashboard:reviews-list', 'access_fn': partner_access},
-{'label': 'Blog Admin', 'icon': 'far fa-newspaper', 'url_name': 'wagtailadmin_home', 'access_fn': partner_access},
+{'label': 'Content Admin', 'icon': 'far fa-newspaper', 'url_name': 'wagtailadmin_home', 'access_fn': partner_access},
 {'label': 'Data',  'icon': 'fas fa-file-csv', 'url_name': 'dashboard:reports-index'},
 {'label': 'Analytics',  'icon': 'fas fa-chart-bar', 'staff': 'True', 'url_name': 'dashboard:reports-index'},
 

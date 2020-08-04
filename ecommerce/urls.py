@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps_custom.blog.urls import urlpatterns as blog_urlpatterns
+from apps_custom.content.urls import urlpatterns as content_url_patterns
 
 from apps_fork.dashboard import urls as stats_urls
 
@@ -32,4 +32,4 @@ urlpatterns = [
     # Wagtail's serving mechanism
     #re_path(r'', include(wagtail_urls)),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + blog_urlpatterns
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + content_url_patterns

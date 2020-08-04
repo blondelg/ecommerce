@@ -9,7 +9,7 @@ from oscar.views.generic import BulkEditMixin
 
 
 Donation = get_model('order', 'Donation')
-Project = get_model('blog', 'BlogProjet')
+Project = get_model('content', 'ContentProjet')
 
 
 class DonationListView(BulkEditMixin, generic.ListView):

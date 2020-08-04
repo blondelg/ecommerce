@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from oscar.core.loading import get_model
 
-projet = get_model('blog', 'BlogProjet')
+projet = get_model('content', 'ContentProjet')
 
 
 class Order(AbstractOrder):
@@ -56,7 +56,7 @@ class Donation(models.Model):
     """
     table that accounts for every donations done during orders
     """
-    project = models.ForeignKey('blog.BlogProjet', null=True, on_delete=models.SET_NULL)
+    project = models.ForeignKey('content.ContentProjet', null=True, on_delete=models.SET_NULL)
     project_name = models.CharField(max_length=250, null=True, blank=True)
     asso_name = models.CharField(max_length=250, null=True, blank=True)
     order = models.ForeignKey('order.Order', null=False, on_delete=models.CASCADE)

@@ -18,7 +18,7 @@ from wagtail.snippets.models import register_snippet
 import datetime
 
 
-class BlogIndexPage(Page):
+class ContentIndexPage(Page):
     intro = RichTextField(blank=True)
     image = models.ForeignKey(
     'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
@@ -32,10 +32,10 @@ class BlogIndexPage(Page):
     def get_context(self, request):
         # Update context to include only published posts, ordered by reverse-chron
         context = super().get_context(request)
-        blogpages = self.get_children().live().exclude(title='Tag').order_by('-first_published_at')
+        contentpages = self.get_children().live().exclude(title='Tag').order_by('-first_published_at')
 
 
-        context['blogpages'] = blogpages
+        context['contentpages'] = contentpages
         return context
 
     def get_tag(self):
@@ -43,35 +43,35 @@ class BlogIndexPage(Page):
         pass
 
     def __init__(self, *args, **kwargs):
-        super(BlogIndexPage, self).__init__(*args, **kwargs)
+        super(ContentIndexPage, self).__init__(*args, **kwargs)
         self._meta.get_field('title').verbose_name = 'Titre de l\'index'
 
     class Meta:
-        verbose_name = 'Blog - Index'
+        verbose_name = 'Content - Index'
         
         
-class BlogIndexCategoryPage(BlogIndexPage):
+class ContentIndexCategoryPage(ContentIndexPage):
 
-    category = models.ForeignKey('blog.BlogPageCategory', on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey('content.ContentPageCategory', on_delete=models.SET_NULL, null=True)
     
-    content_panels = BlogIndexPage.content_panels + [
+    content_panels = ContentIndexPage.content_panels + [
         FieldPanel('category'),
     ]
     
     def get_context(self, request):
         # Update context to include only published posts, by category ordered by reverse-chron
         context = super().get_context(request)
-        blogpages = BlogPage.objects.filter(category=self.category).order_by('-first_published_at')
-        context['blogpages'] = blogpages
+        contentpages = ContentPage.objects.filter(category=self.category).order_by('-first_published_at')
+        context['contentpages'] = contentpages
         return context
         
     class Meta:
-        verbose_name = 'Blog - Index par catégorie'
+        verbose_name = 'Content - Index par catégorie'
 
 
-class BlogPageTag(TaggedItemBase):
+class ContentPageTag(TaggedItemBase):
     content_object = ParentalKey(
-        'BlogPage',
+        'ContentPage',
         related_name='tagged_items',
         on_delete=models.CASCADE
     )
@@ -83,12 +83,12 @@ class Tag(TaggitTag):
         proxy = True
 
 
-class BlogPage(Page):
+class ContentPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
-    tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
-    category = models.ForeignKey('blog.BlogPageCategory', on_delete=models.SET_NULL, null=True)
+    tags = ClusterTaggableManager(through=ContentPageTag, blank=True)
+    category = models.ForeignKey('content.ContentPageCategory', on_delete=models.SET_NULL, null=True)
     couverture = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
@@ -120,12 +120,12 @@ class BlogPage(Page):
         verbose_name = 'Page standard'
 
     def __init__(self, *args, **kwargs):
-	    super(BlogPage, self).__init__(*args, **kwargs)
+	    super(ContentPage, self).__init__(*args, **kwargs)
 	    self._meta.get_field('title').verbose_name = 'Titre de la page'
 
 
-class BlogPageGalleryImage(Orderable):
-    page = ParentalKey(BlogPage, on_delete=models.CASCADE, related_name='gallery_images')
+class ContentPageGalleryImage(Orderable):
+    page = ParentalKey(ContentPage, on_delete=models.CASCADE, related_name='gallery_images')
     image = models.ForeignKey(
         'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
     )
@@ -136,22 +136,22 @@ class BlogPageGalleryImage(Orderable):
         FieldPanel('caption'),
     ]
 
-class BlogTagIndexPage(Page):
+class ContentTagIndexPage(Page):
 
     def get_context(self, request):
 
         # Filter by tag
         tag = request.GET.get('tag')
-        blogpages = BlogPage.objects.filter(tags__name=tag)
+        contentpages = ContentPage.objects.filter(tags__name=tag)
 
         # Update template context
         context = super().get_context(request)
-        context['blogpages'] = blogpages
+        context['contentpages'] = contentpages
         return context
 
 
 @register_snippet
-class BlogPageCategory(models.Model):
+class ContentPageCategory(models.Model):
     name = models.CharField(max_length=255)
     icon = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
@@ -192,7 +192,7 @@ class MarketplaceConfig(models.Model):
 
 
 
-class BlogAsso(BlogPage):
+class ContentAsso(ContentPage):
 
 	# additionnal fields
 	site = models.URLField(max_length = 200, blank=True, null=True)
@@ -202,7 +202,7 @@ class BlogAsso(BlogPage):
 	youtube = models.URLField(max_length = 200, blank=True, null=True)
 
     # hide category from panels
-	content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
+	content_panels = [e for e in ContentPage.content_panels if 'category' not in str(e.field_type)]
 	content_panels += [
 		MultiFieldPanel(
 		    [
@@ -219,8 +219,8 @@ class BlogAsso(BlogPage):
 
 
 	def __init__(self, *args, **kwargs):
-		super(BlogAsso, self).__init__(*args, **kwargs)
-		self.category = BlogPageCategory.objects.get(name='Association')
+		super(ContentAsso, self).__init__(*args, **kwargs)
+		self.category = ContentPageCategory.objects.get(name='Association')
 		self.date = datetime.date.today()
 		self._meta.get_field('title').verbose_name = 'Nom de l\'association'
 
@@ -229,7 +229,7 @@ class BlogAsso(BlogPage):
 		verbose_name = "Association - Page de présentation"
 
 
-class BlogPartner(BlogPage):
+class ContentPartner(ContentPage):
 
 	# additionnal fields
 	site = models.URLField(max_length = 200, blank=True, null=True)
@@ -239,7 +239,7 @@ class BlogPartner(BlogPage):
 	youtube = models.URLField(max_length = 200, blank=True, null=True)
 
     # hide category from panels
-	content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
+	content_panels = [e for e in ContentPage.content_panels if 'category' not in str(e.field_type)]
 	content_panels += [
 		MultiFieldPanel(
 		    [
@@ -254,8 +254,8 @@ class BlogPartner(BlogPage):
 	]
 
 	def __init__(self, *args, **kwargs):
-		super(BlogPartner, self).__init__(*args, **kwargs)
-		self.category = BlogPageCategory.objects.get(name='Partenaire')
+		super(ContentPartner, self).__init__(*args, **kwargs)
+		self.category = ContentPageCategory.objects.get(name='Partenaire')
 		self.date = datetime.date.today()
 		self._meta.get_field('title').verbose_name = 'Nom du partenaire'
 
@@ -263,20 +263,20 @@ class BlogPartner(BlogPage):
 		verbose_name = "Partenaire - Page de présentation"
 
 
-class BlogProjet(BlogPage):
+class ContentProjet(ContentPage):
 
 	# add project funding target
 	target = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Objectif de financement €')
 	# add asso
-	asso = models.ForeignKey('blog.BlogAsso', on_delete=models.SET_NULL, null=True)
+	asso = models.ForeignKey('content.ContentAsso', on_delete=models.SET_NULL, null=True)
 
 	# hide category from panels
-	content_panels = [e for e in BlogPage.content_panels if 'category' not in str(e.field_type)]
+	content_panels = [e for e in ContentPage.content_panels if 'category' not in str(e.field_type)]
 	content_panels += [FieldPanel('target'), FieldPanel('asso')]
 
 	def __init__(self, *args, **kwargs):
-		super(BlogProjet, self).__init__(*args, **kwargs)
-		self.category = BlogPageCategory.objects.get(name='Projet')
+		super(ContentProjet, self).__init__(*args, **kwargs)
+		self.category = ContentPageCategory.objects.get(name='Projet')
 		self.date = datetime.date.today()
 		self._meta.get_field('title').verbose_name = 'Nom du projet'
 	

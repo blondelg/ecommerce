@@ -5,7 +5,7 @@ from oscar.apps.basket.abstract_models import AbstractLine
 from oscar.core.loading import get_model
 
 partner = get_model('partner', 'Partner')
-projet = get_model('blog', 'BlogProjet')
+projet = get_model('content', 'ContentProjet')
 
 class Basket(AbstractBasket):
 

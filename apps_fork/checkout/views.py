@@ -17,7 +17,7 @@ from oscar.core.loading import get_model
 from oscar.apps.checkout import signals
 
 basket = get_model('basket', 'Basket')
-blogprojet = get_model('blog', 'BlogProjet')
+contentprojet = get_model('content', 'ContentProjet')
 donation = get_model('order', 'Donation')
 order = get_model('order', 'Order')
 
@@ -320,7 +320,7 @@ class ProjectChoiceView(CheckoutSessionMixin, generic.ListView):
     """
     view that allows customer to pick a project he wish to fund during checkout
     """
-    model = blogprojet
+    model = contentprojet
     template_name = 'oscar/checkout/project_choice.html'
     pre_conditions = ['check_basket_is_not_empty',
                   'check_basket_is_valid',
