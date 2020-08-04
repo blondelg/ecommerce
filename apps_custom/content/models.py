@@ -2,6 +2,7 @@ from django.db import models
 from django.db import connection
 from django import forms
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -16,6 +17,11 @@ from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
 import datetime
+
+from taggit.managers import TaggableManager
+from taggit.models import CommonGenericTaggedItemBase, TaggedItemBase
+
+
 
 
 class ContentIndexPage(Page):
@@ -74,6 +80,15 @@ class ContentPageTag(TaggedItemBase):
         'ContentPage',
         related_name='tagged_items',
         on_delete=models.CASCADE
+    )
+
+
+class ContentProductTag(TaggedItemBase):
+    content_object = models.ForeignKey(
+        'catalogue.Product',
+        related_name='tagged_items',
+        on_delete=models.CASCADE,
+        null=True
     )
 
 

@@ -1,9 +1,13 @@
 from django.db import models
 from oscar.apps.catalogue.abstract_models import AbstractProduct
 from django.utils.translation import gettext_lazy as _
+from modelcluster.contrib.taggit import ClusterTaggableManager
+
+from taggit.managers import TaggableManager
 
 
 class Product(AbstractProduct):
+    
 
     partner = models.ForeignKey(
         'partner.Partner',
@@ -12,6 +16,9 @@ class Product(AbstractProduct):
         verbose_name=_("Partner"),
         related_name='products')
 
+
+    tags = ClusterTaggableManager(through='content.ContentProductTag', blank=True)
+    
     @property
     def has_stockrecords(self):
         """

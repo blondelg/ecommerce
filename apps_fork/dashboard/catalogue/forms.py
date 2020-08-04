@@ -41,7 +41,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['title', 'upc',  'description', 'partner', 'is_public', 'is_discountable', 'structure']
+        fields = ['title', 'upc',  'description', 'partner', 'is_public', 'is_discountable', 'structure', 'tags']
         widgets = {'structure': forms.HiddenInput()}
 
     def __init__(self, product_class, data=None, parent=None, partner=None, *args, **kwargs):
@@ -143,4 +143,11 @@ class ProductForm(forms.ModelForm):
             if field_name in self.cleaned_data:
                 value = self.cleaned_data[field_name]
                 setattr(self.instance.attr, attribute.code, value)
+                
         super()._post_clean()
+        
+        
+        
+        
+        
+        
