@@ -168,6 +168,28 @@ class BlogPageCategory(models.Model):
     class Meta:
         verbose_name = 'Catégorie'
         verbose_name_plural = 'Catégories'
+        
+@register_snippet
+class MarketplaceConfig(models.Model):
+    name = models.CharField(max_length=255)
+    icon = models.ForeignKey(
+        'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+    )
+
+    panels = [
+        FieldPanel('name'),
+        ImageChooserPanel('icon'),
+    ]
+
+    def __str__(self):
+        return self.name
+        
+    def __init__(self):
+        pass
+
+    class Meta:
+        verbose_name = 'Marketplace Configuration'
+
 
 
 class BlogAsso(BlogPage):
