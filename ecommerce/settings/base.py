@@ -14,9 +14,8 @@ location = lambda x: os.path.join(
     os.path.dirname(os.path.realpath(__file__)), x)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CONTENT_DIR = os.path.join(BASE_DIR, 'apps_custom', 'content')
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -24,46 +23,15 @@ CONTENT_DIR = os.path.join(BASE_DIR, 'apps_custom', 'content')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '95)+qd1%!g#_g@!2op+nipk^3eu&c2-$l*v6i3z49bjy9rucd2'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['ec2-35-180-98-235.eu-west-3.compute.amazonaws.com', 'localhost', '127.0.0.1']
-#ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
-EMAIL_SUBJECT_PREFIX = '[Tautoko] '
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "@gmail.com"
-EMAIL_HOST_PASSWORD = ""
-# EMAIL_USE_SSL = True
-EMAIL_USE_TLS = True
 
-# Applicatio definition
+# Application definition
 
-INSTALLED_APPS = [
-
-    # Wagtail
-    'wagtail.contrib.forms',
-    'wagtail.contrib.redirects',
-    'wagtail.embeds',
-    'wagtail.sites',
-    'wagtail.users',
-    'wagtail.snippets',
-    'wagtail.documents',
-    'wagtail.images',
-    'wagtail.search',
-    'wagtail.admin',
-    'wagtail.core',
-    'wagtail.contrib.modeladmin',
-    
-    'taggit',
-    'modelcluster',
+DEFAULT_APPS = [
 
     # Django
     'django.contrib.admin',
@@ -74,57 +42,35 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+]
+
+THIRD_PARTY_APPS = [
+
+    # Wagtail
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.contrib.modeladmin',
+    'wagtail.contrib.settings',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail.core',
 
     # Oscar
     'oscar',
-
-    #'oscar.apps.analytics',
-    'apps_fork.analytics.apps.AnalyticsConfig',
-
-    #'oscar.apps.checkout',
-    'apps_fork.checkout.apps.CheckoutConfig',
-
     'oscar.apps.address',
-    #'oscar.apps.shipping',
-    'apps_fork.shipping.apps.ShippingConfig',
-
-    #'oscar.apps.catalogue',
-    'apps_fork.catalogue.apps.CatalogueConfig',
-
     'oscar.apps.catalogue.reviews',
-
-    #'oscar.apps.partner',
-    'apps_fork.partner.apps.PartnerConfig',
-
-    #'oscar.apps.basket',
-    'apps_fork.basket.apps.BasketConfig',
     'oscar.apps.payment',
     'oscar.apps.offer',
-
-    #'oscar.apps.order',
-    'apps_fork.order.apps.OrderConfig',
-
-    #'oscar.apps.customer',
-    'apps_fork.customer.apps.CustomerConfig',
-
     'oscar.apps.search',
     'oscar.apps.voucher',
     'oscar.apps.wishlists',
-
-    #'oscar.apps.dashboard',
-    'apps_fork.dashboard.apps.DashboardConfig',
-
-    #'oscar.apps.dashboard.reports',
-    'apps_fork.dashboard.reports.apps.ReportsDashboardConfig',
-
     'oscar.apps.dashboard.users',
-
-    # 'oscar.apps.dashboard.orders',
-    'apps_fork.dashboard.orders.apps.OrdersDashboardConfig',
-
-    #'oscar.apps.dashboard.catalogue',
-    'apps_fork.dashboard.catalogue.apps.CatalogueDashboardConfig',
-
     'oscar.apps.dashboard.offers',
     'oscar.apps.dashboard.partners',
     'oscar.apps.dashboard.pages',
@@ -133,36 +79,51 @@ INSTALLED_APPS = [
     'oscar.apps.dashboard.vouchers',
     'oscar.apps.dashboard.communications',
 
-    #'oscar.apps.dashboard.shipping',
-    'apps_fork.dashboard.shipping',
     
-    # Not a fork of existing app but make sense to have it in dashboard
-    'apps_fork.dashboard.donation.apps.DonationDashboardConfig',
-
     # 3rd-party apps that oscar depends on
     'widget_tweaks',
     'haystack',
     'treebeard',
     'sorl.thumbnail',
     'django_tables2',
-
-    # for jupyter
-    'django_extensions',
-
-    # Apps
-    'apps_custom.datavisu',
-    'apps_custom.content',
-
-    # debug
-    'debug_toolbar',
+    'taggit',
+    'modelcluster',
 
     # chartjs
     'chartjs',
+    
 ]
+
+LOCAL_APPS = [
+
+    # Oscar forked
+    'apps_fork.analytics.apps.AnalyticsConfig',
+    'apps_fork.checkout.apps.CheckoutConfig',
+    'apps_fork.shipping.apps.ShippingConfig',
+    'apps_fork.catalogue.apps.CatalogueConfig',
+    'apps_fork.partner.apps.PartnerConfig',
+    'apps_fork.basket.apps.BasketConfig',
+    'apps_fork.order.apps.OrderConfig',
+    'apps_fork.customer.apps.CustomerConfig',
+    'apps_fork.dashboard.apps.DashboardConfig',
+    'apps_fork.dashboard.reports.apps.ReportsDashboardConfig',
+    'apps_fork.dashboard.orders.apps.OrdersDashboardConfig',
+    'apps_fork.dashboard.catalogue.apps.CatalogueDashboardConfig',
+    'apps_fork.dashboard.shipping',
+    'apps_fork.dashboard.donation.apps.DonationDashboardConfig',
+
+    # Home made
+    'apps_custom.datavisu',
+    'apps_custom.content',
+    'apps_custom.settings',
+]
+
+INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 SITE_ID = 1
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -176,8 +137,6 @@ MIDDLEWARE = [
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 
-
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -201,9 +160,11 @@ TEMPLATES = [
                 'oscar.apps.checkout.context_processors.checkout',
                 'oscar.apps.customer.notifications.context_processors.notifications',
                 'oscar.core.context_processors.metadata',
+                'wagtail.contrib.settings.context_processors.settings',
             ],
         },
     },
+
 ]
 
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
@@ -213,16 +174,6 @@ AUTHENTICATION_BACKENDS = (
     'oscar.apps.customer.auth_backends.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation

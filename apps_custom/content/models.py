@@ -3,6 +3,7 @@ from django.db import connection
 from django import forms
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+from django.contrib.sites.models import Site
 
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -10,16 +11,17 @@ from taggit.models import TaggedItemBase, Tag as TaggitTag
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField,StreamField
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel,PageChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
-
 from wagtail.snippets.models import register_snippet
+
 
 import datetime
 
 from taggit.managers import TaggableManager
 from taggit.models import CommonGenericTaggedItemBase, TaggedItemBase
+
 
 
 
@@ -185,27 +187,6 @@ class ContentPageCategory(models.Model):
         verbose_name_plural = 'Catégories'
         
 
-class MarketplaceConfig(models.Model):
-    name = models.CharField(max_length=255)
-    icon = models.ForeignKey(
-        'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
-    )
-
-    panels = [
-        FieldPanel('name'),
-        ImageChooserPanel('icon'),
-    ]
-
-    def __str__(self):
-        return self.name
-        
-    def __init__(self):
-        pass
-
-    class Meta:
-        verbose_name = 'Marketplace Configuration'
-
-
 
 class ContentAsso(ContentPage):
 
@@ -297,5 +278,8 @@ class ContentProjet(ContentPage):
 	
 	class Meta:
 		verbose_name = "Projet - Page de présentation"
+
+
+
 
 

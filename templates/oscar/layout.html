@@ -1,5 +1,8 @@
 {% extends "oscar/base.html" %}
 {% load staticfiles %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
 
 {% block styles %}
     {% comment %}
@@ -21,16 +24,13 @@
         {% include "oscar/partials/nav_main.html" %}
     {% endblock %}
 
-    {# Site logo/title, mini-basket, browse dropdown and searchbox #}
-    <header class="header container-fluid">
-        <div class="page_inner">
-            <div class="row">
-                {% include "oscar/partials/brand.html" %}
-                {# Mini-basket wrapped in a block so some templates can now display it #}
-                {% block mini_basket %}{% include "oscar/partials/mini_basket.html" %}{% endblock %}
-            </div>
-        </div>
 
+    <!--<header class="header container-fluid">-->
+    {% image settings.settings.MarketplaceSettings.couverture_marketplace max-1500x500 as tmp_photo %}
+    <header class="masthead" style="background-image: url('{{ tmp_photo.file.url }}')">
+        <div class="couverture-marketplace">
+            <img 
+        </div>
     </header>
 
     {# Main content of page - other layout templates may override this block #}

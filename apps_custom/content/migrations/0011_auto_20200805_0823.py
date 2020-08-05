@@ -21,6 +21,8 @@ def drop_welcome_page(apps, schema_editor):
     welcome_page.delete()
     
 
+    
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -29,5 +31,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(set_default_categories),
-        migrations.RunPython(drop_welcome_page),
+        #migrations.RunPython(drop_welcome_page),
+
     ]
