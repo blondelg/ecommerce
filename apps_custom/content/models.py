@@ -184,7 +184,7 @@ class ContentPageCategory(models.Model):
         verbose_name = 'Catégorie'
         verbose_name_plural = 'Catégories'
         
-@register_snippet
+
 class MarketplaceConfig(models.Model):
     name = models.CharField(max_length=255)
     icon = models.ForeignKey(

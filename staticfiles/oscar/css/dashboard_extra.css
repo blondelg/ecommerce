@@ -13,7 +13,7 @@ p {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #999;
+    color: #e9723f;
 }
 
 a,
@@ -47,6 +47,11 @@ i {
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.bonjour {
+    font-size: 15px;
+    color: #e9723f;
+}
+
 .navbar-btn {
     box-shadow: none;
     outline: none !important;
@@ -58,6 +63,11 @@ i {
     height: 1px;
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
+}
+
+.nav-top {
+    background-color: #2a274b;
+    color: #e9723f;
 }
 
 /* ---------------------------------------------------
