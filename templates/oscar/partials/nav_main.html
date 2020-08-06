@@ -18,7 +18,7 @@
             <div class="col-sm-3">
                 <div class="block-titre">
                     <p class="titre">Donnez du sens à vos achats</p>
-                    <a href="url">
+                    <a href="/content/{{ settings.settings.MarketplaceSettings.comment_ca_marche.slug }}">
                         <p class="sous-titre">Comment ça marche</p>
                     </a>
                 </div>
@@ -54,17 +54,85 @@
 
 <nav class="sub-navbar navbar-expand-lg">
     <div class="sub-bar-block">
-        {% for class in classes %}
-            <div class="sub-bar-elt">
-                {{ class.name|upper }}
-            </div>
-        {% endfor %}
-        <div class="sub-bar-elt">
-            ASSO
-        </div>
-        <div class="sub-bar-elt">
-            PROJETS
-        </div>
+
+        {% with tag=settings.settings.MarketplaceSettings.menu_tag_1 %}
+            {% if tag %}
+                <div class="sub-bar-elt">
+                    <a href="/catalogue?tag={{ tag.slug }}">{{ tag }}</a>
+                </div>  
+            {% endif %}
+        {% endwith %}
+        
+        {% with tag=settings.settings.MarketplaceSettings.menu_tag_2 %}
+            {% if tag %}
+                <div class="sub-bar-elt">
+                    <a href="/catalogue?tag={{ tag.slug }}">{{ tag }}</a>
+                </div>  
+            {% endif %}
+        {% endwith %}
+        
+        {% with tag=settings.settings.MarketplaceSettings.menu_tag_3 %}
+            {% if tag %}
+                <div class="sub-bar-elt">
+                    <a href="/catalogue?tag={{ tag.slug }}">{{ tag }}</a>
+                </div>  
+            {% endif %}
+        {% endwith %}
+
+        {% with tag=settings.settings.MarketplaceSettings.menu_tag_4 %}
+            {% if tag %}
+                <div class="sub-bar-elt">
+                    <a href="/catalogue?tag={{ tag.slug }}">{{ tag }}</a>
+                </div>  
+            {% endif %}
+        {% endwith %}
+        
+        {% with tag=settings.settings.MarketplaceSettings.menu_tag_5 %}
+            {% if tag %}
+                <div class="sub-bar-elt">
+                    <a href="/catalogue?tag={{ tag.slug }}">{{ tag }}</a>
+                </div>  
+            {% endif %}
+        {% endwith %}
+        
+        {% with tag=settings.settings.MarketplaceSettings.menu_tag_6 %}
+            {% if tag %}
+                <div class="sub-bar-elt">
+                    <a href="/catalogue?tag={{ tag.slug }}">{{ tag }}</a>
+                </div>  
+            {% endif %}
+        {% endwith %}
+        
+        {% with label=settings.settings.MarketplaceSettings.menu_label_1 %}
+        {% with url=settings.settings.MarketplaceSettings.menu_url_1 %}
+            {% if label %}
+                <div class="sub-bar-elt">
+                    <a href="{{ url }}">{{ label }}</a>
+                </div>  
+            {% endif %}
+        {% endwith %}
+        {% endwith %}
+        
+        {% with label=settings.settings.MarketplaceSettings.menu_label_2 %}
+        {% with url=settings.settings.MarketplaceSettings.menu_url_2 %}
+            {% if label %}
+                <div class="sub-bar-elt">
+                    <a href="{{ url }}">{{ label }}</a>
+                </div>  
+            {% endif %}
+        {% endwith %}
+        {% endwith %}
+        
+        {% with label=settings.settings.MarketplaceSettings.menu_label_3 %}
+        {% with url=settings.settings.MarketplaceSettings.menu_url_3 %}
+            {% if label %}
+                <div class="sub-bar-elt">
+                    <a href="{{ url }}">{{ label }}</a>
+                </div>  
+            {% endif %}
+        {% endwith %}
+        {% endwith %}
+
     </div>
 </nav>
 

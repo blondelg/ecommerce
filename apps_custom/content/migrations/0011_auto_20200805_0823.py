@@ -8,7 +8,8 @@ def set_default_categories(apps, schema_editor):
     categories = [
         'Association',
         'Partenaire',
-        'Projet'
+        'Projet',
+        'Page',
     ]
     
     for c in categories:

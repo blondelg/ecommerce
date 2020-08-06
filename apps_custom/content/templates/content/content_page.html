@@ -1,6 +1,6 @@
 {% extends "base_content.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags wagtailmd %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-contentpage{% endblock %}
 
@@ -57,7 +57,7 @@
         {% endif %}
         <hr>
 
-        {{ page.body|markdown|safe }}
+        {{ page.body|safe }}
 
         {% for item in page.gallery_images.all %}
             <div style="float: left; margin: 10px">
