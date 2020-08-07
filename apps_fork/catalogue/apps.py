@@ -22,6 +22,7 @@ class CatalogueOnlyConfig(OscarConfig):
         self.catalogue_view = get_class('catalogue.views', 'CatalogueView')
         self.category_view = get_class('catalogue.views', 'ProductCategoryView')
         self.range_view = get_class('offer.views', 'RangeDetailView')
+        self.tag_view = get_class('catalogue.views', 'ProductTagView')
 
     def get_urls(self):
         urls = super().get_urls()
@@ -33,6 +34,8 @@ class CatalogueOnlyConfig(OscarConfig):
                 self.category_view.as_view(), name='category'),
             url(r'^ranges/(?P<slug>[\w-]+)/$',
                 self.range_view.as_view(), name='range'),
+            url(r'^tag/(?P<tag>[\w-]+)/$',
+                self.tag_view.as_view(), name='tag'),
         ]
         return self.post_process_urls(urls)
 
