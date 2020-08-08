@@ -55,7 +55,8 @@ class ProductTagView(TemplateView):
     def get_context_data(self, **kwargs):
         
         ctx = {}
-        ctx['summary'] = _(self.kwargs['tag'])
+        ctx['summary'] = _(Tag.objects.get(id=self.kwargs['tag']).name)
+        
         search_context = self.search_handler.get_search_context_data(
             self.context_object_name)
         ctx.update(search_context)
