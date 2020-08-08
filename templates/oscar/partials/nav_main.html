@@ -24,8 +24,12 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-9">
+        <div class="row full-height">
+            <div class="col-sm-9 col-catalogue">
+                <span class="catalogue" data-toggle="collapse" data-target="#categories" role="button" aria-expanded="false">
+                    Catalogue
+                    <i class="fas fa-caret-down"></i>
+                </span>
             </div>
             <div class="col-sm-3">
                 <div class="row row-align">
@@ -132,11 +136,33 @@
             {% endif %}
         {% endwith %}
         {% endwith %}
-
+        
     </div>
+
 </nav>
 
+<nav class="collapse" display="false" id="categories">
+    <div class="">
+            <ul class="category-bar nav">
+            {% category_tree as tree_categories %}
+                {% for tree_category in tree_categories %}
+                    <li>
+                        <a href="{{ tree_category.url }}" class="category-elt">
+                            {% if tree_category.pk == category.pk %}
+                                <strong>{{ tree_category.name }}</strong>
+                            {% else %}
+                                {{ tree_category.name }}
+                            {% endif %}
+                        </a>
 
+                        {% if tree_category.has_children %}<ul>{% else %}</li>{% endif %}
+                        {% for n in tree_category.num_to_close %}
+                            </ul></li>
+                        {% endfor %}
+                {% endfor %}
+            </ul>
+    </div>
+</nav>
 
 
 
