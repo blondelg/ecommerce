@@ -12,10 +12,10 @@
     </div>
     <div class="col-sm-10">
         <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-8">
                 {% include "oscar/partials/search.html" %}
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="block-titre">
                     <p class="titre">Donnez du sens à vos achats</p>
                     <a href="/content/{{ settings.settings.MarketplaceSettings.comment_ca_marche.slug }}">
@@ -25,15 +25,15 @@
             </div>
         </div>
         <div class="row full-height">
-            <div class="col-sm-9 col-catalogue">
+            <div class="col-sm-8 col-catalogue">
                 <span class="catalogue" data-toggle="collapse" data-target="#categories" role="button" aria-expanded="false">
                     Catalogue
                     <i class="fas fa-caret-down"></i>
                 </span>
             </div>
-            <div class="col-sm-3">
-                <div class="row row-align">
-                    <div class="col-sm-6">
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4">
                         <div class="block-menus">
                             {% if request.user.is_authenticated %}
                                 <p>Bonjour {{ user.username }}</p>
@@ -43,7 +43,21 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    
+                    <div class="col-sm-4">
+                        <div class="block-menus">
+                        
+                            {% if request.user.is_authenticated %}
+                                <p>Projets</p>
+                                <p><a href="/accounts/"><i class="fas fa-hand-holding-water"></i> Soutenu</a></p>
+                            {% else %}
+                                <p>Projets</p>
+                                <p><a href="/accounts/"><i class="fas fa-hand-holding-water"></i> A soutenir</a></p>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
                         <div class="block-menus">
                             {% block mini_basket %}{% include "oscar/partials/mini_basket_2.html" %}{% endblock %}
                         </div>

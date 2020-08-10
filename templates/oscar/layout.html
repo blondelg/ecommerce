@@ -25,13 +25,14 @@
     {% endblock %}
 
 
-    <!--<header class="header container-fluid">-->
+    {% block header-page %}
     {% image settings.settings.MarketplaceSettings.couverture_marketplace max-1500x500 as tmp_photo %}
     <header class="masthead" style="background-image: url('{{ tmp_photo.file.url }}')">
         <div class="couverture-marketplace">
             <img 
         </div>
     </header>
+    {% endblock %}
 
     {# Main content of page - other layout templates may override this block #}
     {% block content_wrapper %}

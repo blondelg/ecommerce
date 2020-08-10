@@ -1,14 +1,13 @@
-{% extends "base_content.html" %}
+{% extends "oscar/layout.html" %}
 
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-contentpage{% endblock %}
 
 {% block content %}
-<!-- Navigation -->
-{% include "content/nav.html" %}
 
 <!-- Page Header -->
+{% block header-page %}
 {% image page.couverture max-1000x500 as tmp_photo %}
 <header class="masthead" style="background-image: url('{{ tmp_photo.url }}')">
   <div class="overlay"></div>
@@ -24,6 +23,7 @@
     </div>
   </div>
 </header>
+{% endblock %}
 
 <!-- Post Content -->
 <article>
