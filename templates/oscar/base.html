@@ -11,7 +11,7 @@
         <meta name="viewport" content="{% block viewport %}width=device-width{% endblock %}" />
         <meta name="robots" content="NOARCHIVE,NOCACHE" />
         {% block favicon %}
-            <link rel="shortcut icon" href="{% static "oscar/kiwi-bird-solid.svg" %}" />
+            <link rel="shortcut icon" href="{{ settings.settings.MarketplaceSettings.favicon.file.url }}" />
         {% endblock %}
 
         {# Block where global CSS will go. #}

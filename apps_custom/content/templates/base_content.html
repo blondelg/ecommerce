@@ -8,6 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  
+    {% block favicon %}
+        <link rel="shortcut icon" href="{{ settings.settings.MarketplaceSettings.favicon.file.url }}" />
+    {% endblock %}
 
   <title>Tautoko - Content</title>
 
@@ -25,8 +29,24 @@
 
   <!-- themes for code view -->
   <link href="{% static 'pygments-css/monokai.css' %}" rel="stylesheet">
+  
+{% block styles %}
+    {% if use_less %}
+        <link rel="stylesheet/less" type="text/css" href="{% static 'oscar/less/styles.less' %}" />
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static 'oscar/css/styles.css' %}" />
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{% static 'oscar/css/marketplace_extra.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+{% endblock %}
 
 </head>
+
+<!-- Nav bar -->
+{% block navigation %}
+    {% include "oscar/partials/nav_main.html" %}
+{% endblock %}
+
 {% block content %}{% endblock %}
 
 <!-- Footer -->

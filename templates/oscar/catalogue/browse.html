@@ -4,6 +4,7 @@
 {% load category_tags %}
 {% load product_tags %}
 {% load i18n %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block title %}
     {% if summary %}{{ summary }} |{% endif %} {{ block.super }}

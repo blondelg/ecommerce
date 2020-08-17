@@ -34,13 +34,17 @@ class MarketplaceSettings(BaseSetting):
     
     
     menu_label_1 = models.CharField(verbose_name='Label 1', max_length=30, null=True, blank=True)
-    menu_url_1 = models.CharField(max_length = 200, blank=True, null=True)
+    menu_url_1 = models.CharField(max_length = 200, verbose_name='URL 1', null=True, blank=True)
     
     menu_label_2 = models.CharField(verbose_name='Label 2', max_length=30, null=True, blank=True)
     menu_url_2 = models.CharField(max_length = 200, verbose_name='URL 2', null=True, blank=True)
     
     menu_label_3 = models.CharField(verbose_name='Label 3', max_length=30, null=True, blank=True)
     menu_url_3 = models.CharField(max_length = 200, verbose_name='URL 3', null=True, blank=True)
+    
+    favicon = models.ForeignKey(
+        'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+', help_text='Favicon'
+    )
     
     
     
@@ -75,6 +79,8 @@ class MarketplaceSettings(BaseSetting):
             heading="Liens additionnels barre menu",
             classname="collapsible"
         ),
+        
+        ImageChooserPanel('favicon'),
         
 
     ]

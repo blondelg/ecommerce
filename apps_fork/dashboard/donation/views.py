@@ -25,8 +25,11 @@ class DonationListView(BulkEditMixin, generic.ListView):
             
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['df'] = self.get_project_progress().to_html(justify='left', index=False, classes='table table-striped table-bordered')
-        return data
+        try:
+            data['df'] = self.get_project_progress().to_html(justify='left', index=False, classes='table table-striped table-bordered')
+            return data
+        except:
+            pass
         
     def get_project_progress(self):
         """ for each project, calculates sum of donations """

@@ -55,7 +55,7 @@ class ContentIndexPage(Page):
         self._meta.get_field('title').verbose_name = 'Titre de l\'index'
 
     class Meta:
-        verbose_name = 'Content - Index'
+        verbose_name = 'Index - Standard'
         
         
 class ContentIndexCategoryPage(ContentIndexPage):
@@ -74,7 +74,7 @@ class ContentIndexCategoryPage(ContentIndexPage):
         return context
         
     class Meta:
-        verbose_name = 'Content - Index par catégorie'
+        verbose_name = 'Index - Catégories'
 
 
 class ContentPageTag(TaggedItemBase):
@@ -134,7 +134,7 @@ class ContentPage(Page):
     ]
     
     class Meta:
-        verbose_name = 'Page standard'
+        verbose_name = 'Page - Standard'
 
     def __init__(self, *args, **kwargs):
 	    super(ContentPage, self).__init__(*args, **kwargs)
@@ -165,6 +165,9 @@ class ContentTagIndexPage(Page):
         context = super().get_context(request)
         context['contentpages'] = contentpages
         return context
+        
+    class Meta:
+        verbose_name = 'Index - Tags'
 
 
 @register_snippet
@@ -222,7 +225,7 @@ class ContentAsso(ContentPage):
 
 
 	class Meta:
-		verbose_name = "Association - Page de présentation"
+		verbose_name = "Page - Association"
 
 
 class ContentPartner(ContentPage):
@@ -256,7 +259,7 @@ class ContentPartner(ContentPage):
 		self._meta.get_field('title').verbose_name = 'Nom du partenaire'
 
 	class Meta:
-		verbose_name = "Partenaire - Page de présentation"
+		verbose_name = "Page - Partenaire"
 
 
 class ContentProjet(ContentPage):
@@ -277,7 +280,7 @@ class ContentProjet(ContentPage):
 		self._meta.get_field('title').verbose_name = 'Nom du projet'
 	
 	class Meta:
-		verbose_name = "Projet - Page de présentation"
+		verbose_name = "Page - Projet"
 
 
 
