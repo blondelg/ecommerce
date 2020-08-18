@@ -82,8 +82,10 @@ class MarketplaceSettings(BaseSetting):
         
         ImageChooserPanel('favicon'),
         
-
     ]
-    
+
+
+    class Meta:
+        verbose_name = 'Parametres site'
     
 
