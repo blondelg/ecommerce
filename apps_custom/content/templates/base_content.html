@@ -37,6 +37,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'oscar/css/styles.css' %}" />
     {% endif %}
     <link rel="stylesheet" type="text/css" href="{% static 'oscar/css/marketplace_extra.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'oscar/css/content_extra.css' %}" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
 {% endblock %}
 
@@ -50,25 +51,9 @@
 {% block content %}{% endblock %}
 
 <!-- Footer -->
-<footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <ul class="list-inline text-center">
-          <li class="list-inline-item">
-            <a href="https://github.com/blondelg">
-              <span class="fa-stack fa-lg">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-        </ul>
-        <p class="copyright text-muted">Conçu par Geoffroy Blondel sur <a href="https://wagtail.io/">Wagtail</a></p>
-      </div>
-    </div>
-  </div>
-</footer>
+{% block footer %}
+    {% include "oscar/partials/footer.html" %}
+{% endblock %}
 
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'startbootstrap-clean-blog-gh-pages/vendor/jquery/jquery.min.js' %}"></script>

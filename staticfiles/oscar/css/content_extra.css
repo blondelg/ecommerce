@@ -1,0 +1,41 @@
+/* ASSO INDEX */
+
+.asso_box {
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+    margin-bottom: 0;
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+
+.asso_image {
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:200px;
+    height:200px;
+}
+
+.asso_title {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    width:200px;
+    height:200px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+}
+
+.asso_title p {
+    text-align: center;
+    width:200px;
+    font-weight: bold;
+}
+
+.asso_box img {
+    opacity: 1 ;
+}

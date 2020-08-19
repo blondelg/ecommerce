@@ -12,6 +12,7 @@ from taggit.models import TaggedItemBase, Tag as TaggitTag
 
 
 ContentPage = get_model('content', 'ContentPage')
+ContentIndexAsso = get_model('content', 'ContentIndexAsso')
 Tag = get_model('content', 'Tag')
 
 
@@ -21,8 +22,13 @@ class MarketplaceSettings(BaseSetting):
     couverture_marketplace = models.ForeignKey(
         'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+', help_text='Couverture de la marketplace'
     )
+    
     comment_ca_marche = models.ForeignKey(
         ContentPage, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', help_text='Lien vers la page de description du concept'
+    )
+    
+    index_asso = models.ForeignKey(
+        ContentIndexAsso, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', help_text='Lien vers l\'index des associations'
     )
 
     menu_tag_1 = models.ForeignKey(Tag, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', help_text="")
@@ -51,6 +57,7 @@ class MarketplaceSettings(BaseSetting):
     panels = [
         ImageChooserPanel('couverture_marketplace'),
         PageChooserPanel('comment_ca_marche'),
+        PageChooserPanel('index_asso'),
 
         
         MultiFieldPanel(
