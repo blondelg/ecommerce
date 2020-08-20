@@ -26,18 +26,76 @@
 
 
 <!-- Main Content -->
-<div class="container">
+<!--<div class="container">
     <div class="asso_box">
     {% for post in self.get_children.specific %}
         <!-- <a href="{% pageurl post %}"></a> -->
-        {% image post.couverture fill-200x200 %} 
-        <div class="overlay"></div>  
+        <!--{% image post.couverture fill-200x200 %} 
         <div class="asso_title">
             <p>{{ post.title }}</p>
         </div>
+        <div class="asso_descritpion">
+            {{ post.intro }}
+        </div>
+    {% endfor %}
+    </div>
+</div>-->
+
+<div class="container">
+    <div class="row row_asso">
+    {% for post in self.get_children.specific.live %}
+        {%  if forloop.counter|divisibleby:3 %}
+            <div class="col-md-4">
+                <div class="card">
+                {% image post.couverture fill-286x180 as tmp_photo %}
+                  <img class="card-img-top" src="{{ tmp_photo.url }}" alt="{{ tmp_photo.name }}">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.intro }}</p>
+                    <a href="{% pageurl post %}" class="btn btn-primary">Plus d'infos</a>
+                  </div>
+                </div>
+            </div>
+        </div>
+        {% if not forloop.last %}
+        <div class="row row_asso">
+        {% endif %}
+        {% else %}
+            <div class="col-md-4">
+                <div class="card">
+                {% image post.couverture fill-286x180 as tmp_photo %}
+                  <img class="card-img-top" src="{{ tmp_photo.url }}" alt="{{ tmp_photo.name }}">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.intro }}</p>
+                    <a href="{% pageurl post %}" class="btn btn-primary">Plus d'infos</a>
+                  </div>
+                </div>
+            </div>
+        {% endif %}
     {% endfor %}
     </div>
 </div>
+
+<!--<div class="container">
+{% for post in self.get_children.specific %}
+
+    <div class="card">
+    {% image post.couverture fill-286x180 as tmp_photo %}
+      <img class="card-img-top" src="{{ tmp_photo.url }}" alt="{{ tmp_photo.name }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}{{ forloop.counter }}</h5>
+        <p class="card-text">{{ post.intro }}</p>
+        <a href="{% pageurl post %}" class="btn btn-primary">Plus d'infos</a>
+      </div>
+    </div>
+    
+{% endfor %}
+</div>-->
+
+
+
+
 
 
 
