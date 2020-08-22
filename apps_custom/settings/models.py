@@ -13,6 +13,7 @@ from taggit.models import TaggedItemBase, Tag as TaggitTag
 
 ContentPage = get_model('content', 'ContentPage')
 ContentIndexAsso = get_model('content', 'ContentIndexAsso')
+ContentIndexProject = get_model('content', 'ContentIndexProject')
 Tag = get_model('content', 'Tag')
 
 
@@ -29,6 +30,10 @@ class MarketplaceSettings(BaseSetting):
     
     index_asso = models.ForeignKey(
         ContentIndexAsso, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', help_text='Lien vers l\'index des associations'
+    )
+    
+    index_project = models.ForeignKey(
+        ContentIndexProject, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', help_text='Lien vers l\'index des projets'
     )
 
     menu_tag_1 = models.ForeignKey(Tag, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', help_text="")
@@ -58,6 +63,7 @@ class MarketplaceSettings(BaseSetting):
         ImageChooserPanel('couverture_marketplace'),
         PageChooserPanel('comment_ca_marche'),
         PageChooserPanel('index_asso'),
+        PageChooserPanel('index_project'),
 
         
         MultiFieldPanel(

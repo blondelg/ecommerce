@@ -91,6 +91,40 @@ class ContentIndexAsso(Page):
         verbose_name = 'Index - Asso'
         
         
+        
+class ContentIndexProject(Page):
+    intro = RichTextField(blank=True)
+    image = models.ForeignKey(
+    'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
+    )
+
+
+    content_panels = Page.content_panels + [
+        ImageChooserPanel('image'),
+    ]
+
+    def get_context(self, request):
+        # Update context to include only published posts, ordered by reverse-chron
+        context = super().get_context(request)
+        contentpages = self.get_children().live().exclude(title='Tag').order_by('-first_published_at')
+
+
+        context['contentpages'] = contentpages
+        return context
+
+    def get_tag(self):
+        # Get weighted tag list
+        pass
+
+    def __init__(self, *args, **kwargs):
+        super(ContentIndexProject, self).__init__(*args, **kwargs)
+        self._meta.get_field('title').verbose_name = 'Titre de l\'index'
+
+    class Meta:
+        verbose_name = 'Index - Projets'
+
+        
+        
 class ContentIndexCategoryPage(ContentIndexPage):
 
     category = models.ForeignKey('content.ContentPageCategory', on_delete=models.SET_NULL, null=True)
