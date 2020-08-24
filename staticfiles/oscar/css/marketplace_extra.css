@@ -1,3 +1,5 @@
+
+
 /* NAVBAR */
 
 .main-navbar {
@@ -165,7 +167,7 @@ div .catalogue {
 
 .col-catalogue {
     position:relative;
-    text-align: left;
+    text-align: left;   
 }
 
 .catalogue {
@@ -187,5 +189,15 @@ div .catalogue {
 /* FOOTER */
 .footer {
     background-color: #2a274b;
+    margin:0;
+    display: block;
+    box-sizing: border-box;
+    height:150px;
 }
+
+
+.page {
+    min-height:80vh;  
+}
+
 
