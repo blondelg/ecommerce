@@ -1,3 +1,5 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
 <!-- Page Header -->
 {% image page.couverture max-1000x500 as tmp_photo %}
 <header class="masthead" style="background-image: url('{{ tmp_photo.url }}')">

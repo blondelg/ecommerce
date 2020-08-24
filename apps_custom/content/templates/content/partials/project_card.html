@@ -1,0 +1,10 @@
+{% load wagtailimages_tags %}
+
+<div class="card">
+{% image choosen_project.couverture fill-286x180 as tmp_photo %}
+  <img class="card-img-top" src="{{ tmp_photo.url }}" alt="{{ tmp_photo.name }}">
+  <div class="card-body">
+    <h5 class="card-title">{{ choosen_project.title }}</h5>
+    <p class="card-text"><small class="text-muted"><a href="{{ choosen_project.asso.url }}">{{choosen_project.asso}}</a> vous remercie d'avoir choisi ce projet.</small></p>
+  </div>
+</div>

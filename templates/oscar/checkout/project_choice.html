@@ -1,5 +1,6 @@
 {% extends "oscar/checkout/checkout.html" %}
 {% load i18n %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block title %}
     {% trans "Payment details" %} | {{ block.super }}
@@ -18,20 +19,45 @@
 
 {% block project_choice %}
 <p>Sur un total de {{ total_free_shipping }} € d'achats hors livraison, <b>{{ donation }} € seront reversé au projet de votre choix.</b><p>
-{% for projet in blogprojet_list %}
-<div class="card mb-3">
-  <a href="{{ projet.url }}">
-  <div>
-  <img src="{{ projet.couverture.file.url }}" class="img-responsive" alt="Responsive image" alt="...">
-  </div>
-  </a>
-  <div class="card-body">
-    <h5 class="card-title">{{projet}}</h5>
-    <p class="card-text">{{ projet.intro }}</p>
-    <a href="{% url 'checkout:payment-details' %}?pid={{projet.pk}}" class="btn btn-primary">Choisir ce projet</a>
-    <p class="card-text"><small class="text-muted">Un projet proposé par <a href="{{ projet.asso.url }}">{{projet.asso}}</a></small></p>
-  </div>
-</div>
+{% for projet in projet_list %}
+
+    <div class="row row_asso">
+    {% for post in projet_list %}
+        {%  if forloop.counter|divisibleby:3 %}
+            <div class="col-md-4">
+                <div class="card">
+                {% image post.couverture fill-286x180 as tmp_photo %}
+                  <img class="card-img-top" src="{{ tmp_photo.url }}" alt="{{ tmp_photo.name }}">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.intro }}</p>
+                    <p class="card-text"><small class="text-muted">Un projet proposé par <a href="{{ post.asso.url }}">{{projet.asso}}</a></small></p>
+                    <a href="{% url 'checkout:payment-details' %}?pid={{projet.pk}}" class="btn btn-primary">Choisir ce projet</a>
+                  </div>
+                </div>
+            </div>
+        </div>
+        {% if not forloop.last %}
+        <div class="row row_asso">
+        {% endif %}
+        {% else %}
+            <div class="col-md-4">
+                <div class="card">
+                {% image post.couverture fill-286x180 as tmp_photo %}
+                  <img class="card-img-top" src="{{ tmp_photo.url }}" alt="{{ tmp_photo.name }}">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.intro }}</p>
+                    <p class="card-text"><small class="text-muted">Un projet proposé par <a href="{{ post.asso.url }}">{{projet.asso}}</a></small></p>
+                    <a href="{% url 'checkout:payment-details' %}?pid={{projet.pk}}" class="btn btn-primary">Choisir ce projet</a>
+                  </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+
+
 
 {% endfor %}
 {% endblock project_choice %}

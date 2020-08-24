@@ -37,9 +37,9 @@
                         <div class="block-menus">
                             {% if request.user.is_authenticated %}
                                 <p>Bonjour {{ user.username }}</p>
-                                <p><a href="/accounts/"><i class="fas fa-user"></i> Compte</a></p>
+                                <p><a href="/accounts/"><i class="fas fa-user"></i> Compte </a><a href="/accounts/logout/"><i class="fas fa-sign-out-alt"></i></a></p>
                             {% else %}
-                                <a href="/accounts/"><i class="fas fa-user"></i> Se connecter</a>
+                                <p><a href="/accounts/"><i class="fas fa-user"></i> Se connecter</a></p>
                             {% endif %}
                         </div>
                     </div>

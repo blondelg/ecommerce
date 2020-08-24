@@ -1,6 +1,7 @@
 import logging
 
 from oscar.apps.checkout.views import PaymentDetailsView as CorePaymentDetailsView
+from oscar.apps.checkout.views import ThankYouView as CoreThankYouView
 from django.views import generic
 from oscar.core.loading import get_class
 from django.urls import reverse, reverse_lazy
@@ -331,8 +332,9 @@ class ProjectChoiceView(CheckoutSessionMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         context['donation'] = self.get_donation_amount(context)
         # store order total in a single variable
-        if context['basket'].is_multi_partner:
-            context['total_free_shipping'] = self.get_total_free_of_shipping(context)
+
+        context['total_free_shipping'] = self.get_total_free_of_shipping(context)
+        context['projet_list'] = self.get_project()
         
         return context
         
@@ -349,8 +351,37 @@ class ProjectChoiceView(CheckoutSessionMixin, generic.ListView):
             return context['order_total']['parent'].incl_tax - context['shipping_charge'].incl_tax
         else:
             return context['order_total'].incl_tax - context['shipping_charge'].incl_tax
+            
+    def get_project(self):
+        return contentprojet.objects.all().live()
 
     
     
-    
+class ThankYouView(CoreThankYouView):
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        order = ctx['order']
+        ctx['choosen_project'] = contentprojet.objects.get(order=order)
+        
+
+        #ctx['choosen_project'] = contentprojet.
+        #ctx['donation_amount'] = 
+        return ctx
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     

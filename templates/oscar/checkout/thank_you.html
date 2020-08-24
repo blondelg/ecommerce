@@ -21,6 +21,7 @@
 {% endblock %}
 
 {% block content %}
+
     <p class="lead">
         {% blocktrans with number=order.number %}
         Your order has been placed and a confirmation email has been sent - your order number is
@@ -162,9 +163,14 @@
             </div>
         {% endfor %}
 
-        {% block basket_totals %}
+        {% block basket_totals_and_project %}
             <div class="row">
-                <div class="col-sm-6">&nbsp;</div>
+                <div class="col-sm-6">
+                    <div class="sub-header">
+                        <h2>{% trans 'Projet choisi' %}</h2>
+                    </div>
+                    {% include 'content/partials/project_card.html' %}
+                </div>
                 <div class="col-sm-6">
                     <div class="sub-header">
                         <h2>{% trans 'Totals' %}</h2>
@@ -172,7 +178,7 @@
                     {% include 'oscar/order/partials/basket_totals.html' %}
                 </div>
             </div>
-        {% endblock basket_totals %}
+        {% endblock basket_totals_and_project %}
 
     {% endblock order_contents %}
 
