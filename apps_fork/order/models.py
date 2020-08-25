@@ -68,7 +68,21 @@ class Donation(models.Model):
         """ to keep a track of asso and project even if the will be deleted """
         self.project_name = self.project.title
         self.asso_name = self.project.asso.title
+        self.update_project_levels()
         super().save(*args, **kwargs)
+        
+    def update_project_levels(self):
+        """ update project levels """
+        self.project.achievement += self.amount
+        self.project.achievement_percent = round(self.project.achievement / self.project.target, 4)
+        if self.project.achievement > self.project.target:
+            self.project.achievement = self.project.target
+            self.project.achievement_percent = Decimal('1')
+            self.project.achieved = True
+        
+        self.project.save()
+            
+
     
 
 

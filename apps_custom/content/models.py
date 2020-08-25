@@ -1,5 +1,6 @@
 from django.db import models
 from django.db import connection
+from django.db.models import Sum
 from django import forms
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -22,6 +23,7 @@ import datetime
 from taggit.managers import TaggableManager
 from taggit.models import CommonGenericTaggedItemBase, TaggedItemBase
 
+from oscar.core.loading import get_model
 
 
 
@@ -137,7 +139,7 @@ class ContentIndexCategoryPage(ContentIndexPage):
         # Update context to include only published posts, by category ordered by reverse-chron
         context = super().get_context(request)
         contentpages = ContentPage.objects.filter(category=self.category).order_by('-first_published_at')
-        context['contentpages'] = contentpages
+        context['contentpages'] = contentpages.set_levels()
         return context
         
     class Meta:
@@ -185,27 +187,27 @@ class ContentPage(Page):
             return None
 
     search_fields = Page.search_fields + [
-	    index.SearchField('intro'),
-	    index.SearchField('body'),
+        index.SearchField('intro'),
+        index.SearchField('body'),
     ]
 
 
     content_panels = Page.content_panels + [
-	    FieldPanel('date'),
-	    FieldPanel('tags'),
-	    FieldPanel('category'),
-	    ImageChooserPanel('couverture'),
-	    FieldPanel('intro'),
-	    FieldPanel('body', classname="full"),
-	    InlinePanel('gallery_images', label="Gallery images"),
+        FieldPanel('date'),
+        FieldPanel('tags'),
+        FieldPanel('category'),
+        ImageChooserPanel('couverture'),
+        FieldPanel('intro'),
+        FieldPanel('body', classname="full"),
+        InlinePanel('gallery_images', label="Gallery images"),
     ]
     
     class Meta:
         verbose_name = 'Page - Standard'
 
     def __init__(self, *args, **kwargs):
-	    super(ContentPage, self).__init__(*args, **kwargs)
-	    self._meta.get_field('title').verbose_name = 'Titre de la page'
+        super(ContentPage, self).__init__(*args, **kwargs)
+        self._meta.get_field('title').verbose_name = 'Titre de la page'
 
 
 class ContentPageGalleryImage(Orderable):
@@ -260,96 +262,97 @@ class ContentPageCategory(models.Model):
 
 class ContentAsso(ContentPage):
 
-	# additionnal fields
-	site = models.URLField(max_length = 200, blank=True, null=True)
-	twitter = models.URLField(max_length = 200, blank=True, null=True)
-	facebook = models.URLField(max_length = 200, blank=True,  null=True)
-	instagram = models.URLField(max_length = 200, blank=True, null=True)
-	youtube = models.URLField(max_length = 200, blank=True, null=True)
+    # additionnal fields
+    site = models.URLField(max_length = 200, blank=True, null=True)
+    twitter = models.URLField(max_length = 200, blank=True, null=True)
+    facebook = models.URLField(max_length = 200, blank=True,  null=True)
+    instagram = models.URLField(max_length = 200, blank=True, null=True)
+    youtube = models.URLField(max_length = 200, blank=True, null=True)
 
     # hide category from panels
-	content_panels = [e for e in ContentPage.content_panels if 'category' not in str(e.field_type)]
-	content_panels += [
-		MultiFieldPanel(
-		    [
-		        FieldPanel('site'),
-		        FieldPanel('twitter'),
-		        FieldPanel('facebook'),
-				FieldPanel('instagram'),
-				FieldPanel('youtube'),
-		    ],
-		    heading="Visibilité"
-		),
-	]
+    content_panels = [e for e in ContentPage.content_panels if 'category' not in str(e.field_type)]
+    content_panels += [
+        MultiFieldPanel(
+            [
+                FieldPanel('site'),
+                FieldPanel('twitter'),
+                FieldPanel('facebook'),
+                FieldPanel('instagram'),
+                FieldPanel('youtube'),
+            ],
+            heading="Visibilité"
+        ),
+    ]
 
 
 
-	def __init__(self, *args, **kwargs):
-		super(ContentAsso, self).__init__(*args, **kwargs)
-		self.category = ContentPageCategory.objects.get(name='Association')
-		self.date = datetime.date.today()
-		self._meta.get_field('title').verbose_name = 'Nom de l\'association'
+    def __init__(self, *args, **kwargs):
+        super(ContentAsso, self).__init__(*args, **kwargs)
+        self.category = ContentPageCategory.objects.get(name='Association')
+        self.date = datetime.date.today()
+        self._meta.get_field('title').verbose_name = 'Nom de l\'association'
 
 
-	class Meta:
-		verbose_name = "Page - Association"
+    class Meta:
+        verbose_name = "Page - Association"
 
 
 class ContentPartner(ContentPage):
 
-	# additionnal fields
-	site = models.URLField(max_length = 200, blank=True, null=True)
-	twitter = models.URLField(max_length = 200, blank=True, null=True)
-	facebook = models.URLField(max_length = 200, blank=True,  null=True)
-	instagram = models.URLField(max_length = 200, blank=True, null=True)
-	youtube = models.URLField(max_length = 200, blank=True, null=True)
+    # additionnal fields
+    site = models.URLField(max_length = 200, blank=True, null=True)
+    twitter = models.URLField(max_length = 200, blank=True, null=True)
+    facebook = models.URLField(max_length = 200, blank=True,  null=True)
+    instagram = models.URLField(max_length = 200, blank=True, null=True)
+    youtube = models.URLField(max_length = 200, blank=True, null=True)
 
     # hide category from panels
-	content_panels = [e for e in ContentPage.content_panels if 'category' not in str(e.field_type)]
-	content_panels += [
-		MultiFieldPanel(
-		    [
-		        FieldPanel('site'),
-		        FieldPanel('twitter'),
-		        FieldPanel('facebook'),
-				FieldPanel('instagram'),
-				FieldPanel('youtube'),
-		    ],
-		    heading="Visibilité"
-		),
-	]
+    content_panels = [e for e in ContentPage.content_panels if 'category' not in str(e.field_type)]
+    content_panels += [
+        MultiFieldPanel(
+            [
+                FieldPanel('site'),
+                FieldPanel('twitter'),
+                FieldPanel('facebook'),
+                FieldPanel('instagram'),
+                FieldPanel('youtube'),
+            ],
+            heading="Visibilité"
+        ),
+    ]
 
-	def __init__(self, *args, **kwargs):
-		super(ContentPartner, self).__init__(*args, **kwargs)
-		self.category = ContentPageCategory.objects.get(name='Partenaire')
-		self.date = datetime.date.today()
-		self._meta.get_field('title').verbose_name = 'Nom du partenaire'
+    def __init__(self, *args, **kwargs):
+        super(ContentPartner, self).__init__(*args, **kwargs)
+        self.category = ContentPageCategory.objects.get(name='Partenaire')
+        self.date = datetime.date.today()
+        self._meta.get_field('title').verbose_name = 'Nom du partenaire'
 
-	class Meta:
-		verbose_name = "Page - Partenaire"
+    class Meta:
+        verbose_name = "Page - Partenaire"
 
 
 class ContentProjet(ContentPage):
 
-	# add project funding target
-	target = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Objectif de financement €')
-	# add asso
-	asso = models.ForeignKey('content.ContentAsso', on_delete=models.SET_NULL, null=True)
 
-	# hide category from panels
-	content_panels = [e for e in ContentPage.content_panels if 'category' not in str(e.field_type)]
-	content_panels += [FieldPanel('target'), FieldPanel('asso')]
+    # add project funding target
+    target = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Objectif de financement €')
+    # add asso
+    asso = models.ForeignKey('content.ContentAsso', on_delete=models.SET_NULL, null=True)
+    achievement = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    achievement_percent = models.DecimalField(max_digits=5, decimal_places=4, default=0.0000)
+    achieved = models.BooleanField(default=False)
 
-	def __init__(self, *args, **kwargs):
-		super(ContentProjet, self).__init__(*args, **kwargs)
-		self.category = ContentPageCategory.objects.get(name='Projet')
-		self.date = datetime.date.today()
-		self._meta.get_field('title').verbose_name = 'Nom du projet'
-	
-	class Meta:
-		verbose_name = "Page - Projet"
+    # hide category from panels
+    content_panels = [e for e in ContentPage.content_panels if 'category' not in str(e.field_type)]
+    content_panels += [FieldPanel('target'), FieldPanel('asso')]
 
-
-
-
-
+    def __init__(self, *args, **kwargs):
+        super(ContentProjet, self).__init__(*args, **kwargs)
+        self.category = ContentPageCategory.objects.get(name='Projet')
+        self.date = datetime.date.today()
+        self._meta.get_field('title').verbose_name = 'Nom du projet'
+        
+    
+    class Meta:
+        verbose_name = "Page - Projet"
+        
