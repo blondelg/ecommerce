@@ -20,10 +20,14 @@ class DonationDashboardConfig(OscarDashboardConfig):
     def ready(self):
         self.donation_list_view = get_class(
             'dashboard.donation.views', 'DonationListView')
+        self.donation_project_view = get_class(
+            'dashboard.donation.views', 'DonationProjectsView')
             
     def get_urls(self):
         urlpatterns = [
-            url(r'^donation/$', self.donation_list_view.as_view(),
+            url(r'^donation/list$', self.donation_list_view.as_view(),
                 name='donation-list'),
+            url(r'^donation/projects$', self.donation_project_view.as_view(),
+                name='donation-project'),
         ]
         return self.post_process_urls(urlpatterns)

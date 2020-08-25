@@ -280,7 +280,11 @@ OSCAR_DASHBOARD_NAVIGATION = [
 {'label': 'Dashboard', 'icon': 'fas fa-chart-line', 'url_name': 'dashboard:index'},
 {'label': 'Products', 'icon': 'fas fa-store', 'url_name': 'dashboard:catalogue-product-list'},
 {'label': 'Orders', 'icon': 'fas fa-shopping-cart', 'url_name': 'dashboard:order-list'},
-{'label': 'Donations', 'icon': 'fas fa-donate', 'url_name': 'dashboard:donation-list'},
+
+{'label': 'Donations', 'icon': 'fas fa-donate', 'staff': 'True', 'children': [
+{'label': 'List', 'url_name': 'dashboard:donation-list'},
+{'label': 'Projects', 'url_name': 'dashboard:donation-project'},]},
+
 {'label': 'Customers', 'icon': 'fas fa-users', 'url_name': 'dashboard:users-index', 'access_fn': partner_access},
 {'label': 'Shipping', 'icon': 'fas fa-truck', 'url_name': 'dashboard:shipping-method-list', 'access_fn': partner_access},
 {'label': 'Low stock alerts', 'icon': 'fas fa-exclamation-circle', 'url_name': 'dashboard:stock-alert-list', 'access_fn': partner_access},
