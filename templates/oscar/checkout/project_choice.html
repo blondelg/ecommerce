@@ -18,19 +18,21 @@
 {% block payment_method %}{% endblock %}
 
 {% block project_choice %}
+<div class="container">
 <p>Sur un total de {{ total_free_shipping }} € d'achats hors livraison, <b>{{ donation }} € seront reversé au projet de votre choix.</b><p>
 <div class="row row_asso">
-{% for post in projet_list %}   
+{% for project in projet_list %}   
     {%  if forloop.counter|divisibleby:3 %}
         <div class="col-md-4">
             <div class="card">
-            {% image post.couverture fill-286x180 as tmp_photo %}
+            {% image project.couverture fill-286x180 as tmp_photo %}
               <img class="card-img-top" src="{{ tmp_photo.url }}" alt="{{ tmp_photo.name }}">
+              {% include 'content/partials/project_progress.html' %}
               <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text">{{ post.intro }}</p>
-                <p class="card-text"><small class="text-muted">Un projet proposé par <a href="{{ post.asso.url }}">{{post.asso}}</a></small></p>
-                <a href="{% url 'checkout:payment-details' %}?pid={{post.pk}}" class="btn btn-primary">Choisir ce projet</a>
+                <h5 class="card-title">{{ project.title }}</h5>
+                <p class="card-text">{{ project.intro }}</p>
+                <p class="card-text"><small class="text-muted">Un projet proposé par <a href="{{ project.asso.url }}">{{project.asso}}</a></small></p>
+                <a href="{% url 'checkout:payment-details' %}?pid={{project.pk}}" class="btn btn-primary">Choisir ce projet</a>
               </div>
             </div>
         </div>
@@ -41,18 +43,20 @@
     {% else %}
         <div class="col-md-4">
             <div class="card">
-            {% image post.couverture fill-286x180 as tmp_photo %}
+            {% image project.couverture fill-286x180 as tmp_photo %}
               <img class="card-img-top" src="{{ tmp_photo.url }}" alt="{{ tmp_photo.name }}">
+              {% include 'content/partials/project_progress.html' %}
               <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text">{{ post.intro }}</p>
-                <p class="card-text"><small class="text-muted">Un projet proposé par <a href="{{ post.asso.url }}">{{post.asso}}</a></small></p>
-                <a href="{% url 'checkout:payment-details' %}?pid={{post.pk}}" class="btn btn-primary">Choisir ce projet</a>
+                <h5 class="card-title">{{ project.title }}</h5>
+                <p class="card-text">{{ project.intro }}</p>
+                <p class="card-text"><small class="text-muted">Un projet proposé par <a href="{{ project.asso.url }}">{{project.asso}}</a></small></p>
+                <a href="{% url 'checkout:payment-details' %}?pid={{project.pk}}" class="btn btn-primary">Choisir ce projet</a>
               </div>
             </div>
         </div>
     {% endif %}
 {% endfor %}
+</div>
 </div>
 {% endblock project_choice %}
 

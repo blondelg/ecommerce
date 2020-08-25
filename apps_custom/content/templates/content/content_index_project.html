@@ -65,28 +65,4 @@
         {% endfor %}
     </div>
 </div>
-
-<!--<div class="container">
-{% for post in self.get_children.specific %}
-
-    <div class="card">
-    {% image post.couverture fill-286x180 as tmp_photo %}
-      <img class="card-img-top" src="{{ tmp_photo.url }}" alt="{{ tmp_photo.name }}">
-      <div class="card-body">
-        <h5 class="card-title">{{ post.title }}{{ forloop.counter }}</h5>
-        <p class="card-text">{{ post.intro }}</p>
-        <a href="{% pageurl post %}" class="btn btn-primary">Plus d'infos</a>
-      </div>
-    </div>
-    
-{% endfor %}
-</div>-->
-
-
-
-
-
-
-
-
 {% endblock %}
