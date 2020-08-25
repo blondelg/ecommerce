@@ -1,6 +1,7 @@
 {% extends "base_content.html" %}
 
 {% load wagtailcore_tags wagtailimages_tags %}
+{% load dashboard_donation_filters %}
 
 {% block body_class %}template-contentpage{% endblock %}
 
@@ -15,30 +16,17 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
+        {% with project=page %}
+            {% include 'content/partials/project_progress.html' %}
+            {{ project.body|safe }}
 
-        <!-- CATEGORY -->
-        <h3>Catégorie : {{ page.category }}</h3>
-
-
-        <!-- TAGS -->
-        {% if page.tags.all.count %}
-            <div class="tags">
-                <h3>Tags</h3>
-                {% for tag in page.tags.all %}
-                    <a href="{% slugurl 'tags' %}?tag={{ tag }}"><button type="button" class="btn btn-outline-secondary btn-tag">{{ tag }}</button></a>
-                {% endfor %}
-            </div>
-        {% endif %}
-        <hr>
-
-        {{ page.body|safe }}
-
-        {% for item in page.gallery_images.all %}
-            <div style="float: left; margin: 10px">
-                {% image item.image fill-320x240 %}
-                <p>{{ item.caption }}</p>
-            </div>
-        {% endfor %}
+            {% for item in page.gallery_images.all %}
+                <div style="float: left; margin: 10px">
+                    {% image item.image fill-320x240 %}
+                    <p>{{ item.caption }}</p>
+                </div>
+            {% endfor %}
+        {% endwith %}
       </div>
     </div>
   </div>
