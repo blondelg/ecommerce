@@ -77,7 +77,7 @@ class Donation(models.Model):
         self.project.achievement_percent = round(self.project.achievement / self.project.target, 4)
         if self.project.achievement > self.project.target:
             self.project.achievement = self.project.target
-            self.project.achievement_percent = Decimal('1')
+            self.project.achievement_percent = 1
             self.project.achieved = True
         
         self.project.save()

@@ -1,6 +1,12 @@
 {% extends "oscar/layout.html" %}
 {% load i18n %}
 {% load category_tags %}
+{% load static %}
+
+{% block extrastyles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'oscar/css/content_extra.css' %}"/>
+
+{% endblock %}
 
 {% block layout %}
 
