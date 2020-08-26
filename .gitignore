@@ -5,6 +5,7 @@ ecommerce/public/
 **/*.ipynd
 RUN
 media/*
+**/*.ini
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

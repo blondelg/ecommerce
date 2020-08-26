@@ -3,34 +3,42 @@ Django settings for ecommerce project.
 """
 
 import os
-import environ
+import configparser
 from oscar.defaults import *
 from django.utils.translation import gettext_lazy as _
 
-env = environ.Env()
 
-# Path helper
-location = lambda x: os.path.join(
-    os.path.dirname(os.path.realpath(__file__)), x)
+# Load config
+config = configparser.ConfigParser()
+config.read('ecommerce/settings/config.ini')
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# Useful paths
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CONTENT_DIR = os.path.join(BASE_DIR, 'apps_custom', 'content')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+# Basic configs
+DEBUG = config['CONFIG']['DEBUG']
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '95)+qd1%!g#_g@!2op+nipk^3eu&c2-$l*v6i3z49bjy9rucd2'
+SECRET_KEY = config['CONFIG']['SECRET_KEY']
+
+INTERNAL_IPS = config['CONFIG']['INTERNAL_IPS'].split(",")
+
+ALLOWED_HOSTS = config['CONFIG']['ALLOWED_HOSTS'].split(",")
 
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
-
+# Database
+DATABASES = {
+    'default': {
+        'ENGINE': config['DATABASE']['ENGINE'],
+        'NAME': config['DATABASE']['NAME'],
+        'USER': config['DATABASE']['USER'],
+        'PASSWORD': config['DATABASE']['PASSWORD'],
+        'HOST': config['DATABASE']['HOST'],
+        'PORT': config['DATABASE']['PORT'],
+    }
+}
 
 # Application definition
-
 DEFAULT_APPS = [
 
     # Django
@@ -91,7 +99,6 @@ THIRD_PARTY_APPS = [
 
     # chartjs
     'chartjs',
-    
 ]
 
 LOCAL_APPS = [
@@ -123,7 +130,8 @@ INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 SITE_ID = 1
 
 MIDDLEWARE = [
-
+    
+    # Django
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,10 +141,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'oscar.apps.basket.middleware.BasketMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-
+    
+    # Wagtail
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
-
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -222,14 +230,12 @@ LANGUAGES = (
     ('pt', gettext_noop('Portuguese')),
 )
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-# setup directories
+# Media
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
+# Statics
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
@@ -240,14 +246,12 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-# in-house app settings
+# OTHER SETTINGS ########################################
 CSV_MAX_SIZE = 1 # in Mo
-CSV_ROOT = location("public/csv")
-
+CSV_ROOT = ''
 
 # Content settings
 WAGTAIL_SITE_NAME = 'content tautoko'
-
 
 # Oscars settings
 OSCAR_DEFAULT_CURRENCY = 'EUR'
@@ -276,6 +280,7 @@ def partner_access(user, y, z, a):
     #print(user.groups)
     return True
 
+# Dashboard navigation
 OSCAR_DASHBOARD_NAVIGATION = [
 {'label': 'Dashboard', 'icon': 'fas fa-chart-line', 'url_name': 'dashboard:index'},
 {'label': 'Products', 'icon': 'fas fa-store', 'url_name': 'dashboard:catalogue-product-list'},
@@ -310,9 +315,11 @@ OSCAR_DASHBOARD_NAVIGATION = [
 {'label': 'Statistics', 'url_name': 'dashboard:order-stats'},
 ]},]
 
+# Tax
 OSCAR_DEFAULT_TAX_RATE = 0.196
 OSCAR_OFFERS_INCL_TAX = True
 
+# Google analytics
 OSCAR_GOOGLE_ANALYTICS_ID = ''
 
 #Additional configs loaded to link urls which are outside of the dashboard scope

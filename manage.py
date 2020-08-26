@@ -2,10 +2,14 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+import configparser
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecommerce.settings.dev')
+    # load env from config file
+    config = configparser.ConfigParser()
+    config.read('ecommerce/settings/config.ini')
+    env = config['ENV']['ENV']
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', f'ecommerce.settings.{env}')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
