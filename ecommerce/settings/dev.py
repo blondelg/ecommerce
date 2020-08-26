@@ -10,7 +10,7 @@ from .base import *  # noqa
 
 # Email setup
 EMAIL_SUBJECT_PREFIX = '[Tautoko] '
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Applicatio definition
 INSTALLED_APPS += [

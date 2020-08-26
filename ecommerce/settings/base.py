@@ -258,7 +258,8 @@ OSCAR_DEFAULT_CURRENCY = 'EUR'
 
 OSCAR_SHOP_NAME = 'Tautoko'
 
-OSCAR_FROM_EMAIL = 'geoffroy.blondel@gmail.com'
+OSCAR_FROM_EMAIL = 'tautokoteam@gmail.com'
+OSCAR_SEND_REGISTRATION_EMAIL = True
 # order pipeline
 
 OSCAR_INITIAL_LINE_STATUS = 'Pending'
