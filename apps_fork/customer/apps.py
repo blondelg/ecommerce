@@ -7,6 +7,8 @@ from oscar.core.application import OscarConfig
 from oscar.core.loading import get_class
 
 
+
+
 class CustomerConfig(OscarConfig):
     label = 'customer'
     name = 'oscar.apps.customer'
@@ -17,6 +19,7 @@ class CustomerConfig(OscarConfig):
     def ready(self):
         from apps_fork.customer import receivers  # noqa
         from apps_fork.customer.alerts import receivers  # noqa
+        from apps_fork.customer.views import ProfileView
 
         self.summary_view = get_class('customer.views', 'AccountSummaryView')
         self.order_history_view = get_class('customer.views', 'OrderHistoryView')
@@ -37,7 +40,7 @@ class CustomerConfig(OscarConfig):
         self.login_view = get_class('customer.views', 'AccountAuthView')
         self.logout_view = get_class('customer.views', 'LogoutView')
         self.register_view = get_class('customer.views', 'AccountRegistrationView')
-        self.profile_view = get_class('customer.views', 'ProfileView')
+        self.profile_view = ProfileView
         self.profile_update_view = get_class('customer.views', 'ProfileUpdateView')
         self.profile_delete_view = get_class('customer.views', 'ProfileDeleteView')
         self.change_password_view = get_class('customer.views', 'ChangePasswordView')
