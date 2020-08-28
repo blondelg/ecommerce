@@ -17,7 +17,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 CONTENT_DIR = os.path.join(BASE_DIR, 'apps_custom', 'content')
 
 # Basic configs
-DEBUG = config['CONFIG']['DEBUG']
+DEBUG = True
+if config['CONFIG']['DEBUG'].strip() in ['False', 'false', 'FALSE']: DEBUG = False
 
 SECRET_KEY = config['CONFIG']['SECRET_KEY']
 

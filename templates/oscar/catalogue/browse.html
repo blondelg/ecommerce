@@ -1,4 +1,4 @@
-{% extends "oscar/layout_1_col.html" %}
+{% extends "oscar/layout_2_col.html" %}
 
 {% load basket_tags %}
 {% load category_tags %}
@@ -11,6 +11,42 @@
 {% endblock %}
 
 {% block headertext %}{{ summary }}{% endblock %}
+
+{% block column_left %}
+    {% category_tree as tree_categories %}
+    {% if tree_categories %}
+        <h4>{% trans "Show results for" %}</h4>
+        <div class="side_categories">
+            <ul class="nav nav-list">
+                {% for tree_category in tree_categories %}
+                    <li>
+                        <a href="{{ tree_category.url }}">
+                            {% if tree_category.pk == category.pk %}
+                                <strong>{{ tree_category.name }}</strong>
+                            {% else %}
+                                {{ tree_category.name }}
+                            {% endif %}
+                        </a>
+
+                        {% if tree_category.has_children %}<ul>{% else %}</li>{% endif %}
+                        {% for n in tree_category.num_to_close %}
+                            </ul></li>
+                        {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% if has_facets %}
+        <h4>{% trans "Refine by" %}</h4>
+        <div class="side_categories">
+            {% for field, data in facet_data.items %}
+                {% if data.results %}
+                    {% include 'oscar/search/partials/facet.html' with name=data.name items=data.results %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 
