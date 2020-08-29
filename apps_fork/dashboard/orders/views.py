@@ -211,10 +211,6 @@ class OrderListView(BulkEditMixin, ListView):
         if data['status']:
             queryset = queryset.filter(status=data['status'])
 
-        multi = Partner(id=0, code='multi',name='multi')
-        multi.save()
-        partners = Partner.objects.all()
-
         return queryset
 
     def get_search_filter_descriptions(self):  # noqa (too complex (19))

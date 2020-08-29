@@ -32,51 +32,12 @@
     {% block navbar %}
     <div class="wrapper">
         <!-- Sidebar  -->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <a class="navbar-brand" href="{{ homepage_url }}">
-                    <img src="/static/oscar/img/ui/dashboard/logo_tautoko.png" alt="">
-                </a>
-            </div>
-            <ul class="list-unstyled components">
-            {% dashboard_navigation user as nav_items %}
-            {% for item in nav_items %}
-              <li class="active">
-              {% if item.is_heading %}
-                <a href="#{{ item.label }}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-secondary">
-                  <h4>
-                    <i class="{{ item.icon }}"></i>
-                    {{ item.label }}
-                  </h4>
-                </a>
-                {% else %}
-                <a href="{{ item.url }}" class="text-secondary">
-                  <h4>
-                    <i class="{{ item.icon }}"></i>
-                    {{ item.label }}
-                  </h4>
-                </a>
-                {% endif %}
-                {% if item.has_children %}
-                <ul class="collapse list-unstyled" id="{{ item.label }}">
-                  {% for subitem in item.children %}
-                  <li>
-                    <a href="{{ subitem.url }}" class="text-secondary">
-                      <h4>{{ subitem.label }}</h4>
-                    </a>
-                  </li>
-                {% endfor %}
-                </ul>
-              {% endif %}
+        {% include 'oscar/dashboard/partials/nav-side.html' %}
 
-              </li>
-            {% endfor %}
-            </ul>
-        </nav>
 
         <!-- Page Content  -->
         <div id="content">
-            {% include 'oscar/dashboard/nav-top.html' %}
+            {% include 'oscar/dashboard/partials/nav-top.html' %}
             
             {% block figure_ribbon %}
             {% endblock %}

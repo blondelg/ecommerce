@@ -5,10 +5,14 @@ from django.conf.urls import url
 
 class CatalogueDashboardConfig(apps.CatalogueDashboardConfig):
     name = 'apps_fork.dashboard.catalogue'
+
     apps.CatalogueDashboardConfig.permissions_map['catalogue-product-upload'] = (['is_staff'], ['partner.dashboard_access'])
     apps.CatalogueDashboardConfig._map['catalogue-product-upload'] = apps.CatalogueDashboardConfig.permissions_map['catalogue-product-upload']
     apps.CatalogueDashboardConfig.permissions_map['catalogue-product-create-child'] = (['is_staff'], ['partner.dashboard_access'])
     apps.CatalogueDashboardConfig._map['catalogue-product-create-child'] = apps.CatalogueDashboardConfig.permissions_map['catalogue-product-create-child']
+
+    apps.CatalogueDashboardConfig.permissions_map['stock-alert-list'] = (['is_staff'], ['partner.dashboard_access'])
+    apps.CatalogueDashboardConfig._map['stock-alert-list'] = apps.CatalogueDashboardConfig.permissions_map['stock-alert-list']
 
 
     def ready(self):
