@@ -183,6 +183,23 @@ div .catalogue {
 /* MAIN PAGE */
 .couverture-marketplace {
     height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.titre-marketplace {
+    text-align: center;
+    color: white;
+    margin-bottom: 0;
+
+}
+
+.sous-titre-marketplace {
+    text-align: center;
+    color: white;
+
 }
 
 

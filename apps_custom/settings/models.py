@@ -24,6 +24,9 @@ class MarketplaceSettings(BaseSetting):
         'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+', help_text='Couverture de la marketplace'
     )
     
+    titre_marketplace = models.CharField(verbose_name='Titre de la marketplace', max_length=250, null=True, blank=True)
+    sous_titre_marketplace = models.CharField(verbose_name='Sous-titre de la marketplace', max_length=250, null=True, blank=True)
+    
     comment_ca_marche = models.ForeignKey(
         ContentPage, null=True, blank=True, on_delete=models.SET_NULL, related_name='+', help_text='Lien vers la page de description du concept'
     )
@@ -64,6 +67,8 @@ class MarketplaceSettings(BaseSetting):
         PageChooserPanel('comment_ca_marche'),
         PageChooserPanel('index_asso'),
         PageChooserPanel('index_project'),
+        FieldPanel('titre_marketplace'),
+        FieldPanel('sous_titre_marketplace'),
 
         
         MultiFieldPanel(
