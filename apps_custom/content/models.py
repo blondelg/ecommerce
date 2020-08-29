@@ -70,6 +70,7 @@ class ContentIndexAsso(Page):
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('image'),
+        FieldPanel('intro'),
     ]
 
     def get_context(self, request):
@@ -103,6 +104,7 @@ class ContentIndexProject(Page):
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('image'),
+        FieldPanel('intro'),
     ]
 
     def get_context(self, request):
