@@ -34,6 +34,7 @@
                 <th>{% trans "Target" %}</th>
                 <th>{% trans "Total" %}</th>
                 <th>{% trans "Progress" %}</th>
+                <th>{% trans "Count" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -44,6 +45,7 @@
                 <td>{{ project.target }} €</td>
                 <td>{{ project.achievement }} €</td>
                 <td>{{ project.achievement_percent|percent }} %</td>
+                <td>{{ project.donation_count }}</td>
             </tr>
             {% endfor %}
         </tbody>

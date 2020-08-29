@@ -341,6 +341,7 @@ class ContentProjet(ContentPage):
     achievement = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     achievement_percent = models.DecimalField(max_digits=5, decimal_places=4, default=0.0000)
     achieved = models.BooleanField(default=False)
+    donation_count = models.IntegerField(default=1)
 
     # hide category from panels
     content_panels = [e for e in ContentPage.content_panels if 'category' not in str(e.field_type)]

@@ -74,6 +74,7 @@ class Donation(models.Model):
     def update_project_levels(self):
         """ update project levels """
         self.project.achievement += self.amount
+        self.project.donation_count += 1
         self.project.achievement_percent = round(self.project.achievement / self.project.target, 4)
         if self.project.achievement > self.project.target:
             self.project.achievement = self.project.target
