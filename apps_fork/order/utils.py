@@ -6,6 +6,7 @@ from oscar.apps.order.signals import order_placed
 
 
 Order = get_model('order', 'Order')
+Partner = get_model('partner', 'Partner')
 
 class OrderCreator(CoreOrderCreator):
 
@@ -35,6 +36,7 @@ class OrderCreator(CoreOrderCreator):
             if basket.is_multi_partner:
                 # set order as parent
                 kwargs['structure'] = 'parent'
+                kwargs['partner'] = Partner.objects.get(code='multi')
                 order = self.create_order_model(
                     user, basket, shipping_address, shipping_method, shipping_charge,
                     billing_address, total['parent'], order_number, status, request, **kwargs)
