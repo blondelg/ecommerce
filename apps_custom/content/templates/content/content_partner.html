@@ -7,18 +7,22 @@
 {% block content %}
 
 <!-- Page Header -->
-{% include "content/partials/content_header.html" %}
+{% image page.couverture max-1000x500 as tmp_photo %}
+<header class="masthead" style="background-image: url('{{ tmp_photo.file.url }}')">
+    <div class="couverture-marketplace" style="height:{{ tmp_photo.height }}px">
+        <div>
+            <h1 class="titre-marketplace">{{ page.title }}</h1>
+            <h2 class="sous-titre-marketplace">{{ page.intro }}</h2>
+        </div>
+    </div>
+</header>
 
 <!-- Post Content -->
 <article>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-
-        <!-- CATEGORY -->
-        <h3>Catégorie : {{ page.category }}</h3>
-
-
+      
         <!-- TAGS -->
         {% if page.tags.all.count %}
             <div class="tags">
