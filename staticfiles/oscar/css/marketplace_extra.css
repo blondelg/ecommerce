@@ -183,12 +183,11 @@ div .catalogue {
 /* MAIN PAGE */
 .masthead {
     background-size: 100% auto;
-    height: auto;
+    background-repeat: no-repeat;
     position: relative;
 }
 
 .couverture-marketplace {
-
     display: flex;
     align-items: center;
     justify-content: center;
