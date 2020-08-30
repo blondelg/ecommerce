@@ -1,7 +1,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <!-- Page Header -->
-{% image page.couverture max-1000x500 as tmp_photo %}
+{% image page.image max-1000x500 as tmp_photo %}
 <header class="masthead" style="background-image: url('{{ tmp_photo.file.url }}')">
     <div class="couverture-marketplace" style="height:{{ tmp_photo.height }}px">
         <div>
