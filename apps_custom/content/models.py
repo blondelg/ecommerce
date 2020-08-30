@@ -226,6 +226,10 @@ class ContentPageGalleryImage(Orderable):
 
 class ContentTagIndexPage(Page):
 
+    panels = [
+        ImageChooserPanel('couverture'),
+    ]
+
     def get_context(self, request):
 
         # Filter by tag

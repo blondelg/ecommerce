@@ -1,6 +1,6 @@
 {% extends "base_content.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags wagtailmd %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-contentpage{% endblock %}
 
@@ -18,7 +18,7 @@
   </div>
 </header>
 
-
+{% block content %}
 <!-- Main Content -->
     <div class="container">
       <div class="row">
