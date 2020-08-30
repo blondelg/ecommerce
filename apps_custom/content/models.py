@@ -62,7 +62,7 @@ class ContentIndexPage(Page):
         
         
 class ContentIndexAsso(Page):
-    intro = RichTextField(blank=True)
+    intro = models.CharField(max_length=250, blank=True, default='')
     image = models.ForeignKey(
     'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )
@@ -96,7 +96,7 @@ class ContentIndexAsso(Page):
         
         
 class ContentIndexProject(Page):
-    intro = RichTextField(blank=True)
+    intro = models.CharField(max_length=250, blank=True, default='')
     image = models.ForeignKey(
     'wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+'
     )

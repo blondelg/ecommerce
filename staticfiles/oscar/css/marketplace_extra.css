@@ -181,8 +181,14 @@ div .catalogue {
 }
 
 /* MAIN PAGE */
+.masthead {
+    background-size: 100% auto;
+    height: auto;
+    position: relative;
+}
+
 .couverture-marketplace {
-    height: 50vh;
+
     display: flex;
     align-items: center;
     justify-content: center;

@@ -28,7 +28,7 @@
     {% block header-page %}
     {% image settings.settings.MarketplaceSettings.couverture_marketplace max-1500x500 as tmp_photo %}
     <header class="masthead" style="background-image: url('{{ tmp_photo.file.url }}')">
-        <div class="couverture-marketplace">
+        <div class="couverture-marketplace" style="height:{{ tmp_photo.height }}px">
             <div>
                 <h1 class="titre-marketplace">{{ settings.settings.MarketplaceSettings.titre_marketplace }}</h1>
                 <h2 class="sous-titre-marketplace">{{ settings.settings.MarketplaceSettings.sous_titre_marketplace }}</h2>
