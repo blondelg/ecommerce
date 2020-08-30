@@ -7,21 +7,7 @@
 {% block content %}
 
 <!-- Page Header -->
-{% image page.couverture max-1000x500 as tmp_photo %}
-<header class="masthead" style="background-image: url('{{ tmp_photo.url }}')">
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="post-heading">
-          <h1>{{ page.title }}</h1>
-          <h2 class="subheading">{{ page.intro }}</h2>
-          <span class="meta">Posté le {{ page.date }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
+{% include "content/partials/content_header.html" %}
 
 <!-- Post Content -->
 <article>
