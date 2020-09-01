@@ -247,6 +247,12 @@ div .catalogue {
     margin-bottom: 0;
 }
 
+/* Product view */
+.thumbnail {
+border: none;
+border-radius: 0;
+}
+
 
 /* FOOTER */
 .footer {
