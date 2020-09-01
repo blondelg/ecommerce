@@ -15,7 +15,6 @@
 {% block column_left %}
     {% category_tree as tree_categories %}
     {% if tree_categories %}
-        <h4>{% trans "Show results for" %}</h4>
         <div class="side_categories">
             <ul class="nav nav-list">
                 {% for tree_category in tree_categories %}

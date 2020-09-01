@@ -1,4 +1,30 @@
+/* Main settings */
+body {
+    background-color: white;
+}
 
+.page .page_inner {
+    border-radius: 0;
+    box-shadow: none;
+    width:100%;
+
+}
+
+.page {
+    margin: 0;
+    padding: 0;
+    width:100%;
+    max-width: none;
+}
+
+.page_inner {
+    padding: 0;
+    width:100%;
+}
+
+.page_inner .row {
+    width: 100%;
+}
 
 /* NAVBAR */
 
@@ -182,15 +208,16 @@ div .catalogue {
 
 /* MAIN PAGE */
 .masthead {
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    position: relative;
+    width: 100%;
+}
+
+.index-cover {
+    width:100%;
+    height:auto;
 }
 
 .couverture-marketplace {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
 }
 
 
@@ -205,6 +232,19 @@ div .catalogue {
     text-align: center;
     color: white;
 
+}
+
+/* Side categories */
+.sidebar {
+    border: none;
+    border-radius: none;
+}
+
+
+.side_categories {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
 }
 
 
