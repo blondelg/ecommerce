@@ -17,17 +17,7 @@
             </div>
         {% endblock %}
 
-        {% block product_review %}
-            {% iffeature "reviews" %}
-                <p class="star-rating {{ product.rating|as_stars }}">
-                    <i class="icon-star"></i>
-                    <i class="icon-star"></i>
-                    <i class="icon-star"></i>
-                    <i class="icon-star"></i>
-                    <i class="icon-star"></i>
-                </p>
-            {% endiffeature %}
-        {% endblock %}
+        {% block product_review %}{% endblock %}
 
         {% block product_title %}
             <h3><a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}">{{ product.get_title|truncatewords:4 }}</a></h3>
