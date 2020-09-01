@@ -3,6 +3,11 @@ body {
     background-color: white;
 }
 
+.btn-add-to-basket {
+    background-color:#2a274b;
+    color: #e9723f;
+}
+
 .page .page_inner {
     border-radius: 0;
     box-shadow: none;
@@ -238,6 +243,8 @@ div .catalogue {
 .sidebar {
     border: none;
     border-radius: none;
+    min-height: 100vh;
+    
 }
 
 
@@ -245,13 +252,16 @@ div .catalogue {
     border: none;
     border-radius: 0;
     margin-bottom: 0;
+    min-width: 100%;
 }
 
 /* Product view */
 .thumbnail {
-border: none;
-border-radius: 0;
+    border: none;
+    border-radius: 0;
+    max-height: 200px;
 }
+
 
 
 /* FOOTER */
