@@ -23,7 +23,7 @@
 {% block content %}
 
 <article class="product_page"><!-- Start of product page -->
-
+    <div class="container product_container">
     <div class="row">
 
         {% block product_gallery %}
@@ -140,7 +140,7 @@
     {% endwith %}
 
     {% recently_viewed_products current_product=product %}
-
+    </div>
 </article><!-- End of product page -->
 {% endblock content %}
 
