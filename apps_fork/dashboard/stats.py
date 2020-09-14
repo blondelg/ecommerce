@@ -166,13 +166,18 @@ class chart_new_client_histo(BaseLineChartView):
         # remove columns
         self.df = self.df[['date', 'user_id']]
 
-        #self.df = self.df.groupby(['user_id'], as_index=False).min()
-        self.df = self.df.groupby(['date'], as_index=False).count()
-        self.df = self.df.groupby(['date'], as_index=False).sum()
+        #self.df = self.df.groupby(['user_id'], as_index=False).count()
+        #self.df = self.df.groupby(['date'], as_index=False)
+        #self.df = self.df.groupby(['date'], as_index=False).sum()
 
         # convert date to str
         self.df['str_date'] = self.df['date'].apply(lambda x: x.strftime('%Y-%m-%d'))
         self.df = self.df[['str_date', 'user_id']]
+        
+        # remove columns
+        self.df = self.df[['str_date', 'user_id']]
+
+        self.df = self.df.groupby(['str_date'], as_index=False).count()
 
 
     def get_dataset_options(self, index, color):
