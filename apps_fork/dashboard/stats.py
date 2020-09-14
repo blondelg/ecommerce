@@ -167,7 +167,7 @@ class chart_new_client_histo(BaseLineChartView):
         self.df = self.df[['date', 'user_id']]
 
         #self.df = self.df.groupby(['user_id'], as_index=False).min()
-        #self.df = self.df.groupby(['date'], as_index=False).count()
+        self.df = self.df.groupby(['date'], as_index=False).count()
         self.df = self.df.groupby(['date'], as_index=False).sum()
 
         # convert date to str
