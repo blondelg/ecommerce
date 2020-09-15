@@ -4,6 +4,7 @@
 {% load purchase_info_tags %}
 {% load widget_tweaks %}
 
+<div class="container">
 {% if basket_warnings %}
     <h5>{% trans "Important messages about items in your basket" %}</h5>
     {% for warning in basket_warnings %}
@@ -240,3 +241,4 @@
         </div>
     {% endif %}
 {% endblock %}
+</div>
