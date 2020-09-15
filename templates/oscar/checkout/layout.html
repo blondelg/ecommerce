@@ -19,7 +19,9 @@
         {% block checkout_nav %}{% endblock %}
     </header><!-- /header -->
 
+
     <div class="container-fluid page">
+    <div class="container">
        <div class="page_inner">
             {% include 'oscar/partials/alert_messages.html' %}
 
@@ -50,6 +52,9 @@
 
         </div><!-- /page_inner -->
     </div>
-
+    </div>
+    
+    <div class="container-fluid">
     {% include "oscar/partials/footer_checkout.html" %}
+    </div>
 {% endblock %}
